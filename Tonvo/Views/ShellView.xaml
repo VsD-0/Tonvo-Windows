@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tonvo.Views"
+        DataContext="{Binding ShellViewModel,
+                    Source={StaticResource ViewModelLocator}}"
         mc:Ignorable="d"
         Title="ShellView" Height="450" Width="800">
     <Grid>
-        
+        <TextBlock Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="24" Foreground="White" Background="Black"/>
     </Grid>
 </Window>

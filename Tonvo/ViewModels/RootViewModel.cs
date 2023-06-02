@@ -1,6 +1,9 @@
 ﻿namespace Tonvo.ViewModels
 {
-    internal class RootViewModel
+    public class RootViewModel : ViewModelBase
     {
+        public RootViewModel()
+        {
+        }
     }
 }

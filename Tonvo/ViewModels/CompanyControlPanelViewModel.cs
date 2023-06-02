@@ -1,6 +1,6 @@
 ﻿namespace Tonvo.ViewModels
 {
-    internal class CompanyControlPanelViewModel : ViewModelBase
+    public class CompanyControlPanelViewModel : ViewModelBase
     {
     }
 }

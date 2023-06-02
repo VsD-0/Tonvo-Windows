@@ -1,4 +1,4 @@
 ﻿namespace Tonvo.ViewModels
 {
-    internal class ViewModelBase : ReactiveObject { }
+    public class ViewModelBase : ReactiveObject { }
 }

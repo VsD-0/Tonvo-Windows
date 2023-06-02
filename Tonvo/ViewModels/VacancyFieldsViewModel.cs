@@ -1,6 +1,6 @@
 ﻿namespace Tonvo.ViewModels
 {
-    internal class VacancyFieldsViewModel : ViewModelBase
+    public class VacancyFieldsViewModel : ViewModelBase
     {
         public VacancyFieldsViewModel()
         {

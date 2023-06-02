@@ -11,8 +11,6 @@
             XamlDisplay.Init();
             Bootstrapper.Init();
             ViewModelLocator.Init();
-            ShellView shellview = new();
-            shellview.Show();
         }
     }
 }

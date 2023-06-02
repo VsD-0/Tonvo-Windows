@@ -1,6 +1,6 @@
 ﻿namespace Tonvo.ViewModels
 {
-    internal class BrowseListViewModel : ViewModelBase
+    public class BrowseListViewModel : ViewModelBase
     {
         public BrowseListViewModel()
         {

@@ -1,6 +1,6 @@
 ﻿namespace Tonvo.ViewModels
 {
-    internal class SignUpViewModel : ViewModelBase
+    public class SignUpViewModel : ViewModelBase
     {
         public SignUpViewModel()
         {

@@ -1,6 +1,6 @@
 ﻿namespace Tonvo.ViewModels
 {
-    internal class ViewModelLocator
+    public class ViewModelLocator
     {
         private static ServiceProvider? _provider;
         public static void Init()
@@ -8,14 +8,17 @@
             var services = new ServiceCollection();
 
             // Получаем список всех типов в пространстве имен Tonvo.ViewModels, которые оканчиваются на "ViewModel"
-            var viewModelTypes = typeof(ViewModelLocator).Assembly.GetTypes()
-                .Where(type => type.IsClass && !type.IsAbstract && type.Name.EndsWith("ViewModel"));
-
-            // Регистрируем все найденные типы ViewModel в контейнере зависимостей
-            foreach (var viewModelType in viewModelTypes)
-            {
-                services.AddTransient(viewModelType);
-            }
+            services.AddTransient<ApplicantControlPanelViewModel>();
+            services.AddTransient<ApplicantFieldsViewModel>();
+            services.AddTransient<CompanyControlPanelViewModel>();
+            services.AddTransient<CompanyFieldsViewModel>();
+            services.AddTransient<BrowseListViewModel>();
+            services.AddTransient<PersonalAccountViewModel>();
+            services.AddTransient<RootViewModel>();
+            services.AddTransient<ShellViewModel>();
+            services.AddTransient<SignInViewModel>();
+            services.AddTransient<SignUpViewModel>();
+            services.AddTransient<VacancyFieldsViewModel>();
 
             _provider = services.BuildServiceProvider();
             foreach (var service in services)

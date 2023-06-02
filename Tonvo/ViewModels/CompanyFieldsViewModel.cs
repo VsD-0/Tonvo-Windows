@@ -1,6 +1,6 @@
 ﻿namespace Tonvo.ViewModels
 {
-    internal class CompanyFieldsViewModel : ViewModelBase
+    public class CompanyFieldsViewModel : ViewModelBase
     {
         public CompanyFieldsViewModel()
         {
