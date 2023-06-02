@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tonvo.ViewModels
+﻿namespace Tonvo.ViewModels
 {
-    internal class ApplicantFieldsViewModel
+    internal class ApplicantFieldsViewModel : ViewModelBase
     {
+        public ApplicantFieldsViewModel()
+        {
+        }
     }
 }

@@ -1,0 +1,39 @@
+﻿namespace Tonvo.ViewModels
+{
+    internal class ViewModelLocator
+    {
+        private static ServiceProvider? _provider;
+        public static void Init()
+        {
+            var services = new ServiceCollection();
+
+            // Получаем список всех типов в пространстве имен Tonvo.ViewModels, которые оканчиваются на "ViewModel"
+            var viewModelTypes = typeof(ViewModelLocator).Assembly.GetTypes()
+                .Where(type => type.IsClass && !type.IsAbstract && type.Name.EndsWith("ViewModel"));
+
+            // Регистрируем все найденные типы ViewModel в контейнере зависимостей
+            foreach (var viewModelType in viewModelTypes)
+            {
+                services.AddTransient(viewModelType);
+            }
+
+            _provider = services.BuildServiceProvider();
+            foreach (var service in services)
+            {
+                _provider.GetRequiredService(service.ServiceType);
+            }
+        }
+
+        public static ApplicantControlPanelViewModel? ApplicantControlPanelViewModel => _provider?.GetRequiredService<ApplicantControlPanelViewModel>();
+        public static ApplicantFieldsViewModel? ApplicantFieldsViewModel => _provider?.GetRequiredService<ApplicantFieldsViewModel>();
+        public static CompanyControlPanelViewModel? CompanyControlPanelViewModel => _provider?.GetRequiredService<CompanyControlPanelViewModel>();
+        public static CompanyFieldsViewModel? CompanyFieldsViewModel => _provider?.GetRequiredService<CompanyFieldsViewModel>();
+        public static BrowseListViewModel? BrowseListViewModel => _provider?.GetRequiredService<BrowseListViewModel>();
+        public static PersonalAccountViewModel? PersonalAccountViewModel => _provider?.GetRequiredService<PersonalAccountViewModel>();
+        public static RootViewModel? RootViewModel => _provider?.GetRequiredService<RootViewModel>();
+        public static ShellViewModel? ShellViewModel => _provider?.GetRequiredService<ShellViewModel>();
+        public static SignInViewModel? SignInViewModel => _provider?.GetRequiredService<SignInViewModel>();
+        public static SignUpViewModel? SignUpViewModel => _provider?.GetRequiredService<SignUpViewModel>();
+        public static VacancyFieldsViewModel? VacancyFieldsViewModel => _provider?.GetRequiredService<VacancyFieldsViewModel>();
+    }
+}
