@@ -1,0 +1,25 @@
+﻿global using DevExpress.Mvvm;
+global using DevExpress.Mvvm.POCO;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using System;
+global using System.Collections.Generic;
+global using System.Diagnostics;
+global using System.IO;
+global using System.Linq;
+global using System.Threading.Tasks;
+global using System.Windows.Controls;
+global using Write_Erase.MVVM.Models;
+global using Write_Erase.MVVM.Models.Data;
+global using Write_Erase.MVVM.Models.Data.Tables;
+global using Write_Erase.MVVM.ViewModels;
+global using Write_Erase.MVVM.Views.Pages;
+global using Write_Erase.Services;
+
+global using DevExpress.Mvvm.Native;
+global using System.Collections.ObjectModel;
+global using System.Globalization;
+global using System.Windows;
+global using System.Windows.Data;
+global using System.Windows.Media;
