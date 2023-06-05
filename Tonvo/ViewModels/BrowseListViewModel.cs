@@ -1,9 +1,9 @@
-﻿namespace Tonvo.ViewModels
+﻿using ReactiveUI;
+using System.Reactive;
+
+namespace Tonvo.ViewModels
 {
-    public class BrowseListViewModel : ViewModelBase
+    public class BrowseListViewModel : ReactiveObject
     {
-        public BrowseListViewModel()
-        {
-        }
     }
 }

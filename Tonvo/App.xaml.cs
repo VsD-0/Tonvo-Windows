@@ -7,6 +7,9 @@
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            ShellView shellView = new();
+            shellView.Show();
+
             base.OnStartup(e);
             XamlDisplay.Init();
             Bootstrapper.Init();

@@ -1,6 +1,6 @@
 ﻿namespace Tonvo.ViewModels
 {
-    public class ViewModelLocator
+    internal class ViewModelLocator
     {
         private static ServiceProvider? _provider;
         public static void Init()

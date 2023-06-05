@@ -42,7 +42,7 @@
             services.AddSingleton<CompanyService>();
             services.AddSingleton<VacancyService>();
             services.AddSingleton<FavoriteService>();
-            services.AddSingleton<NavigationService>();
+            services.AddSingleton<INavigationService, NavigationService>();
 
             _provider = services.BuildServiceProvider();
         }

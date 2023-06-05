@@ -1,7 +1,7 @@
 ﻿namespace Tonvo.Services
 {
     /// <summary>
-    /// Интерфейс сервиса для навигации.
+    /// Интерфейс сервиса для навигации по страницам.
     /// </summary>
     public interface INavigationService
     {

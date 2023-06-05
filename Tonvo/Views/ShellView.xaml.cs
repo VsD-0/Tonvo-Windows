@@ -8,6 +8,7 @@
         public ShellView()
         {
             InitializeComponent();
+            DataContext = new ShellViewModel();
         }
     }
 }

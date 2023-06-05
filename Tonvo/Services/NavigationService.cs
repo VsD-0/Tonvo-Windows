@@ -3,7 +3,7 @@
     /// <summary>
     /// Сервис навигации по страницам.
     /// </summary>
-    internal class NavigationService : INavigationService
+    public class NavigationService : INavigationService
     {
         #region Fields
         /// <summary>
@@ -18,7 +18,7 @@
         #endregion Fields
 
         /// <summary>
-        /// Создает новый экземпляр класса <see cref="NavigationService"/>.
+        /// Создает новый экземпляр класса <see cref="PageService"/>.
         /// </summary>
         public NavigationService()
         {
@@ -47,8 +47,7 @@
         public async Task NavigateToPage(Frame frame, string key)
         {
             _frame = frame;
-            await Task.Run(() =>
-            {
+            await Task.Run(() => {
                 Application.Current.Dispatcher.Invoke(() => _frame?.Navigate((UserControl?)Activator.CreateInstance(_pages[key])));
             });
         }
