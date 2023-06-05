@@ -7,13 +7,15 @@
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            ShellView shellView = new();
-            shellView.Show();
-
             base.OnStartup(e);
             XamlDisplay.Init();
             Bootstrapper.Init();
-            ViewModelLocator.Init();
+            ViewModelLocator.Init(Bootstrapper.Provider, Bootstrapper.Services);
+
+            this.MainWindow = new ShellView();
+            // Приложение не перекрывает панель задач
+            MainWindow.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+            MainWindow.Show();
         }
     }
 }

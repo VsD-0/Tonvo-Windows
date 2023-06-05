@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign = "http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:local="clr-namespace:Tonvo.Views"
+        xmlns:local="clr-namespace:Tonvo.Views" xmlns:viewmodels="clr-namespace:Tonvo.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ShellViewModel}"
         DataContext="{Binding ShellViewModel, Source={StaticResource ViewModelLocator}}"
         mc:Ignorable="d"
         Title="ShellView"
@@ -16,7 +16,7 @@
         WindowStyle="SingleBorderWindow"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14">
-    
+
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0"
                       CornerRadius="20"
@@ -95,8 +95,9 @@
         </Border>
 
         <!--Основное содержимое-->
-        <ContentControl Grid.Row="1" Content="{Binding CurrentView}"/>
-
-    </Grid>
+            <Frame Grid.Row="2"
+                   Content="{Binding MainFrame}" 
+                   NavigationUIVisibility="Hidden"/>
+        </Grid>
     </Border>
 </Window>

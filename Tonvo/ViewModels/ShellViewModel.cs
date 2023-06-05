@@ -1,10 +1,4 @@
 ﻿using ReactiveUI.Fody.Helpers;
-using System.Diagnostics;
-using System.Reactive;
-using System.Windows.Interop;
-using Tonvo;
-using System.Runtime.InteropServices;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Tonvo.ViewModels
 {
@@ -12,28 +6,27 @@ namespace Tonvo.ViewModels
 
     internal partial class ShellViewModel : ReactiveObject
     {
-        public ViewModelBase Global { get; } = ViewModelBase.Instance;
+        private readonly INavigationService _navigationService;
+        private Frame _mainFrame;
 
         #region Properties
+        public Frame MainFrame
+        {
+            get { return _mainFrame; }
+        }
+
         public ReactiveCommand<Unit, Unit> MoveWindowCommand { get; }
         public ReactiveCommand<Unit, Unit> ShutdownWindowCommand { get; }
         public ReactiveCommand<Unit, Unit> MaximizeWindowCommand { get; }
         public ReactiveCommand<Unit, Unit> MinimizeWindowCommand { get; }
         public ReactiveCommand<Unit, Unit> ControlBarMouseEnter { get; }
-
-        public RootViewModel RootVM { get; set; }
-        [Reactive]
-        public object CurrentView { get; set; }
         #endregion Properties
 
-        public ShellViewModel()
+        public ShellViewModel(INavigationService navigationService, Frame mainFrame)
         {
-            RootVM = new RootViewModel();
-            ViewModelBase.CurrentView = RootVM;
-            CurrentView = ViewModelBase.CurrentView;
-
-            // Приложение не перекрывает панель задач
-            Application.Current.MainWindow.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+            _navigationService = navigationService;
+            _mainFrame = mainFrame;
+            _navigationService.NavigateToPage(_mainFrame, "RootView");
 
             // Перемещение окна
             MoveWindowCommand = ReactiveCommand.Create(() =>
@@ -68,13 +61,6 @@ namespace Tonvo.ViewModels
             {
                 Application.Current.MainWindow.WindowState = WindowState.Minimized;
             });
-
-            ViewModelBase.onViewUpdate.Add(OnUpdate);
-        }
-
-        void OnUpdate()
-        {
-            CurrentView = ViewModelBase.CurrentView;
         }
     }
 }

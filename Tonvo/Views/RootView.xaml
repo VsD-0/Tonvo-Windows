@@ -7,8 +7,9 @@
              DataContext="{Binding RootViewModel,
                     Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="Yellow">
     <Grid>
-            
+        <Button>ToBrowse</Button>
     </Grid>
 </UserControl>

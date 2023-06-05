@@ -1,12 +1,17 @@
-﻿namespace Tonvo
+﻿using MySqlConnector;
+using System.Diagnostics;
+
+namespace Tonvo
 {
     public class Bootstrapper
     {
-        private static ServiceProvider? _provider;
+        public static ServiceProvider? Provider { get; private set; }
+        public static ServiceCollection? Services { get; private set; }
         public static IConfiguration? Configuration { get; private set; }
 
         public static void Init()
         {
+            Services = new ServiceCollection();
             ConfigureConfiguration();
             ConfigureDatabase();
             RegisterServices();
@@ -22,29 +27,28 @@
 
         private static void ConfigureDatabase()
         {
-            var services = new ServiceCollection();
-
-            services.AddDbContext<DbTonvoContext>(options =>
+            Services.AddDbContext<DbTonvoContext>(options =>
             {
                 var conn = Configuration.GetConnectionString("DefaultConnection");
-                options.UseMySql(conn, ServerVersion.AutoDetect(conn));
+                try { options.UseMySql(conn, ServerVersion.AutoDetect(conn)); }
+                catch (MySqlException ex) { Debug.WriteLine($"\n------------------------------------------------------------------------------------------\n" +
+                                                            $"Ошибка подключения к серверу MySQL: {ex.Message}" +
+                                                            $"\n------------------------------------------------------------------------------------------\n"); }
             }, ServiceLifetime.Transient);
 
-            _provider = services.BuildServiceProvider();
+            Provider = Services.BuildServiceProvider();
         }
 
         private static void RegisterServices()
         {
-            var services = new ServiceCollection();
+            Services.AddSingleton(Configuration);
+            Services.AddSingleton<ApplicantService>();
+            Services.AddSingleton<CompanyService>();
+            Services.AddSingleton<VacancyService>();
+            Services.AddSingleton<FavoriteService>();
+            Services.AddSingleton<INavigationService, NavigationService>();
 
-            services.AddSingleton(Configuration);
-            services.AddSingleton<ApplicantService>();
-            services.AddSingleton<CompanyService>();
-            services.AddSingleton<VacancyService>();
-            services.AddSingleton<FavoriteService>();
-            services.AddSingleton<INavigationService, NavigationService>();
-
-            _provider = services.BuildServiceProvider();
+            Provider = Services.BuildServiceProvider();
         }
     }
 }

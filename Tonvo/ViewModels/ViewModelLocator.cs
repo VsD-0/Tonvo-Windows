@@ -3,11 +3,15 @@
     internal class ViewModelLocator
     {
         private static ServiceProvider? _provider;
-        public static void Init()
+        private static ServiceCollection _services;
+        public static void Init(ServiceProvider provider, ServiceCollection services)
         {
-            var services = new ServiceCollection();
+            _provider = provider;
+
+            _services = services;
 
             // Получаем список всех типов в пространстве имен Tonvo.ViewModels, которые оканчиваются на "ViewModel"
+            services.AddSingleton<Frame>();
             services.AddTransient<ApplicantControlPanelViewModel>();
             services.AddTransient<ApplicantFieldsViewModel>();
             services.AddTransient<CompanyControlPanelViewModel>();
