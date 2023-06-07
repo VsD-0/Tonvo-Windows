@@ -15,6 +15,11 @@ namespace Tonvo.ViewModels
             get { return _mainFrame; }
         }
 
+        /// <summary>
+        /// Путь к иконке изменения состояния окна
+        /// </summary>
+        [Reactive] public string ChangeWindowStateIcon { get; set; } = @"\Resources\Icons\increase_window.png";
+
         public ReactiveCommand<Unit, Unit> MoveWindowCommand { get; }
         public ReactiveCommand<Unit, Unit> ShutdownWindowCommand { get; }
         public ReactiveCommand<Unit, Unit> MaximizeWindowCommand { get; }
@@ -51,9 +56,15 @@ namespace Tonvo.ViewModels
             MaximizeWindowCommand = ReactiveCommand.Create(() =>
             {
                 if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
+                {
                     Application.Current.MainWindow.WindowState = WindowState.Normal;
+                    ChangeWindowStateIcon = @"\Resources\Icons\increase_window.png";
+                }
                 else
+                {
                     Application.Current.MainWindow.WindowState = WindowState.Maximized;
+                    ChangeWindowStateIcon = @"\Resources\Icons\decrease_window.png";
+                }
             });
 
             // Свернуть приложение в панель задач

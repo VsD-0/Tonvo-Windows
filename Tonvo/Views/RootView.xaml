@@ -8,7 +8,7 @@
                     Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Background="Yellow">
+             Background="{StaticResource Background}">
     <Grid>
         <Button>ToBrowse</Button>
     </Grid>

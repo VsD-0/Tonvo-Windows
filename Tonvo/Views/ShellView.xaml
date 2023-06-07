@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign = "http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:local="clr-namespace:Tonvo.Views" xmlns:viewmodels="clr-namespace:Tonvo.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:ShellViewModel}"
+        xmlns:local="clr-namespace:Tonvo.Views" 
+        xmlns:viewmodels="clr-namespace:Tonvo.ViewModels" 
         DataContext="{Binding ShellViewModel, Source={StaticResource ViewModelLocator}}"
         mc:Ignorable="d"
         Title="ShellView"
+        Icon="/Resources/Icons/Logo transparency1.ico"
         Height="760" Width="1350"
         MinHeight="500" MinWidth="1000"
         Background="Transparent"
@@ -26,7 +28,7 @@
     </WindowChrome.WindowChrome>
     
     <Border Background="{StaticResource Background}"
-            BorderThickness="2" CornerRadius="10">
+            BorderThickness="1.8" CornerRadius="10">
 
     <Border.BorderBrush>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -56,40 +58,53 @@
 
             <Grid>
                 <!--Иконка и название-->
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Margin="5,0,0,0">
-                    <Image Width="30" Height="30" Margin="5" Source="/Resources/Pictures/Logo transparency2.png"/>
+                <StackPanel HorizontalAlignment="Left" 
+                            Orientation="Horizontal">
+                    <Image Width="28"
+                           Margin="10 4" 
+                           VerticalAlignment="Center"
+                           RenderOptions.BitmapScalingMode="Fant"
+                           RenderOptions.EdgeMode="Aliased"
+                           RenderOptions.ClearTypeHint="Enabled"
+                           Source="/Resources/Pictures/Logo transparency2.png"/>
                     <TextBlock Style="{StaticResource TextBoxBaseStyle}"
-                                   Margin="5,0,0,0"
-                                   Text="Tonvo"
-                                   VerticalAlignment="Center"
-                                   FontSize="25"
-                                   FontWeight="Bold"
-                                   Foreground="{StaticResource OnPrimary}"/>
+                               Margin="5,0,0,0"
+                               Text="Tonvo"
+                               VerticalAlignment="Center"
+                               FontSize="25"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource OnPrimary}"/>
                 </StackPanel>
 
                 <!--Элементы управления окна-->
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,0,5,0">
 
                     <!--Свернуть окно-->
-                    <Button Style="{StaticResource btnControlBarStyle}"
-                                Command="{Binding MinimizeWindowCommand}">
-                        <materialDesign:PackIcon Kind="WindowMinimize" Width="30" Height="30"
-                                                     Foreground="{StaticResource PrimaryDark}"/>
-                    </Button>
+                        <Button Name="winRoll" Style="{StaticResource btnControlBarStyle}"
+                            Command="{Binding MinimizeWindowCommand}"
+                                Width="70">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="\Resources\Icons\roll_window.png" />
+                            </StackPanel>
+                        </Button>
 
                     <!--Окно на весь экран-->
-                    <Button Style="{StaticResource btnControlBarStyle}"
-                                Command="{Binding MaximizeWindowCommand}">
-                        <materialDesign:PackIcon Kind="WindowMaximize" Width="30" Height="30" 
-                                                             Foreground="{StaticResource PrimaryDark}"/>
-                    </Button>
+                        <Button Name="winExpand" Style="{StaticResource btnControlBarStyle}" 
+                                Command="{Binding MaximizeWindowCommand}"
+                                Width="70">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding ChangeWindowStateIcon}"/>
+                            </StackPanel>
+                        </Button>
 
-                    <!--Закрыть окно-->
-                    <Button Style="{StaticResource btnControlBarStyle}"
-                                Command="{Binding ShutdownWindowCommand}">
-                        <materialDesign:PackIcon Kind="WindowClose" Width="30" Height="30" 
-                                                             Foreground="{StaticResource PrimaryDark}"/>
-                    </Button>
+                        <!--Закрыть окно-->
+                        <Button Name="winClose" Style="{StaticResource btnControlBarStyle}"
+                            Command="{Binding ShutdownWindowCommand}"
+                                Width="70">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="\Resources\Icons\close_window.png"/>
+                            </StackPanel>
+                        </Button>
                 </StackPanel>
             </Grid>
         </Border>

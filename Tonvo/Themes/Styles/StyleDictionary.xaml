@@ -19,7 +19,7 @@
     </Style>
 
     <!--Стиль кнопок управления приложением-->
-    <Style x:Key="btnControlBarStyle" TargetType="Button"
+    <!--<Style x:Key="btnControlBarStyle" TargetType="Button"
            BasedOn="{StaticResource MaterialDesignIconButton}">
         <Setter Property="Width"
                 Value="30"/>
@@ -29,6 +29,37 @@
                 Value="3,0,3,0"/>
         <Setter Property="Cursor"
                 Value="Hand"/>
+    </Style>-->
+    
+    <Style x:Key="btnControlBarStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="PART_Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ContentPresenter x:Name="PART_ContentPresenter"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Border" Property="Background" Value="LightGray"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!--ComboBox в панели меню-->

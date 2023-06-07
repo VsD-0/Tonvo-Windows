@@ -34,7 +34,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Resources\Icons\Logo transparency1.ico" />
+    <None Remove="Resources\Fonts\Montserrat.ttf" />
+    <None Remove="Resources\Icons\close_window.png" />
+    <None Remove="Resources\Icons\decrease_window.png" />
+    <None Remove="Resources\Icons\home.png" />
+    <None Remove="Resources\Icons\increase_window.png" />
+    <None Remove="Resources\Icons\roll_window.png" />
+    <None Remove="Resources\Icons\settings.png" />
+    <None Remove="Resources\Icons\sign_out.png" />
+    <None Remove="Resources\Pictures\FullLogo transparency1.png" />
+    <None Remove="Resources\Pictures\FullLogo transparency2.png" />
+    <None Remove="Resources\Pictures\FullLogo.jpg" />
+    <None Remove="Resources\Pictures\Logo transparency1.png" />
+    <None Remove="Resources\Pictures\Logo transparency2.png" />
+    <None Remove="Resources\Pictures\Logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Icons\close_window.png" />
+    <Resource Include="Resources\Icons\decrease_window.png" />
+    <Resource Include="Resources\Icons\home.png" />
+    <Resource Include="Resources\Icons\increase_window.png" />
+    <Resource Include="Resources\Icons\Logo transparency1.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,6 +94,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Fonts\Montserrat.ttf" />
+    <Resource Include="Resources\Icons\roll_window.png" />
+    <Resource Include="Resources\Icons\settings.png" />
+    <Resource Include="Resources\Icons\sign_out.png" />
+    <Resource Include="Resources\Pictures\FullLogo transparency1.png" />
+    <Resource Include="Resources\Pictures\FullLogo transparency2.png" />
+    <Resource Include="Resources\Pictures\FullLogo.jpg" />
+    <Resource Include="Resources\Pictures\Logo transparency1.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </Resource>
+    <Resource Include="Resources\Pictures\Logo transparency2.png" />
+    <Resource Include="Resources\Pictures\Logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -96,10 +133,6 @@
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Update="Resources\Pictures\Logo transparency1.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 

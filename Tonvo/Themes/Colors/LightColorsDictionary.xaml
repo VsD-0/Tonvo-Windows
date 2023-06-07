@@ -2,16 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Color x:Key="BackgroundColor">#FFFEF9</Color>
     <Color x:Key="PrimaryColor">#FFC547</Color>
-    <Color x:Key="PrimaryLightColor">#fff879</Color>
-    <Color x:Key="PrimaryDarkColor">#c89508</Color>
-    <Color x:Key="SecondaryColor">#eff2c9</Color>
-    <Color x:Key="SecondaryLightColor">#fffffc</Color>
-    <Color x:Key="SecondaryDarkColor">#bcbf98</Color>
-    <Color x:Key="OnColor">#0f0d16</Color>
+    <Color x:Key="PrimaryLightColor">#FFF879</Color>
+    <Color x:Key="PrimaryDarkColor">#C89508</Color>
+    <Color x:Key="SecondaryColor">#EFF2C9</Color>
+    <Color x:Key="SecondaryLightColor">#FFFFFC</Color>
+    <Color x:Key="SecondaryDarkColor">#BCBF98</Color>
+    <Color x:Key="OnColor">#0F0D16</Color>
 
-    <Color x:Key="winBorderColor1">#6d2fff</Color>
-    <Color x:Key="winBorderColor2">#fb539b</Color>
-    <Color x:Key="winBorderColor3">#836efb</Color>
+    <Color x:Key="winBorderColor1">#FFC547</Color>
+    <Color x:Key="winBorderColor2">#FFA82E</Color>
+    <Color x:Key="winBorderColor3">#FF8215</Color>
 
     <SolidColorBrush x:Key="Background" Color="{StaticResource BackgroundColor}"/>
     <SolidColorBrush x:Key="Primary" Color="{StaticResource PrimaryColor}"/>
