@@ -10,8 +10,6 @@
 
             _services = services;
 
-            // Получаем список всех типов в пространстве имен Tonvo.ViewModels, которые оканчиваются на "ViewModel"
-            services.AddSingleton<Frame>();
             services.AddTransient<ApplicantControlPanelViewModel>();
             services.AddTransient<ApplicantFieldsViewModel>();
             services.AddTransient<CompanyControlPanelViewModel>();

@@ -1,4 +1,4 @@
-﻿using ReactiveUI.Fody.Helpers;
+﻿using System.Windows.Controls;
 
 namespace Tonvo.ViewModels
 {
@@ -6,72 +6,79 @@ namespace Tonvo.ViewModels
 
     internal partial class ShellViewModel : ReactiveObject
     {
+        #region Fields
         private readonly INavigationService _navigationService;
-        private Frame _mainFrame;
+        private readonly IMessageBus _messageBus;
+        #endregion Fields
 
         #region Properties
-        public Frame MainFrame
-        {
-            get { return _mainFrame; }
-        }
+        public UserControl? RootViewSource { get; set; }
+        [Reactive] public WindowState winState { get;  set; } = WindowState.Normal;
 
         /// <summary>
         /// Путь к иконке изменения состояния окна
         /// </summary>
         [Reactive] public string ChangeWindowStateIcon { get; set; } = @"\Resources\Icons\increase_window.png";
 
+        /// <summary>
+        /// Метод для перетаскивания окна
+        /// </summary>
         public ReactiveCommand<Unit, Unit> MoveWindowCommand { get; }
+        /// <summary>
+        /// Метод для завершение работы приложения
+        /// </summary>
         public ReactiveCommand<Unit, Unit> ShutdownWindowCommand { get; }
+        /// <summary>
+        /// Метод для изменение состояния окна
+        /// </summary>
         public ReactiveCommand<Unit, Unit> MaximizeWindowCommand { get; }
+        /// <summary>
+        /// Метод для сворачивания окна в панель задач
+        /// </summary>
         public ReactiveCommand<Unit, Unit> MinimizeWindowCommand { get; }
+        /// <summary>
+        /// Метод для нормальной работы на компьютерах с несколькими мониторами
+        /// </summary>
         public ReactiveCommand<Unit, Unit> ControlBarMouseEnter { get; }
         #endregion Properties
 
-        public ShellViewModel(INavigationService navigationService, Frame mainFrame)
+
+        public ShellViewModel(INavigationService navigationService, IMessageBus messageBus)
         {
             _navigationService = navigationService;
-            _mainFrame = mainFrame;
-            _navigationService.NavigateToPage(_mainFrame, "RootView");
+            _navigationService.onUserControlChanged += (usercontrol) => RootViewSource = usercontrol;
+            _navigationService.ChangePage(new RootView());
 
-            // Перемещение окна
+            this.WhenAnyValue(x => x.winState)
+                .Subscribe(winState =>
+                {
+                    if (winState == WindowState.Maximized) ChangeWindowStateIcon = @"\Resources\Icons\decrease_window.png";
+                    else ChangeWindowStateIcon = @"\Resources\Icons\increase_window.png";
+                });
+
+            #region Commands
             MoveWindowCommand = ReactiveCommand.Create(() =>
             {
                 WindowInteropHelper helper = new(Application.Current.MainWindow);
                 UnsafeNativeMethods.SendMessage(helper.Handle, 161, new IntPtr(2), IntPtr.Zero);
             });
-
-            // Для нормальной работы на компьютерах с несколькими мониторами
-            ControlBarMouseEnter = ReactiveCommand.Create(() =>
-            {
-                Application.Current.MainWindow.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
-            });
-
-            // Завершение работы приложения
-            ShutdownWindowCommand = ReactiveCommand.Create(() =>
-            {
-                Application.Current.Shutdown();
-            });
-
-            // Приложение на весь экран
+            ControlBarMouseEnter = ReactiveCommand.Create(() => { Application.Current.MainWindow.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight; });
+            ShutdownWindowCommand = ReactiveCommand.Create(() => { Application.Current.Shutdown(); });
+            MinimizeWindowCommand = ReactiveCommand.Create(() => { Application.Current.MainWindow.WindowState = WindowState.Minimized; });
             MaximizeWindowCommand = ReactiveCommand.Create(() =>
             {
                 if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
                 {
                     Application.Current.MainWindow.WindowState = WindowState.Normal;
-                    ChangeWindowStateIcon = @"\Resources\Icons\increase_window.png";
+                    //ChangeWindowStateIcon = @"\Resources\Icons\increase_window.png";
                 }
                 else
                 {
                     Application.Current.MainWindow.WindowState = WindowState.Maximized;
-                    ChangeWindowStateIcon = @"\Resources\Icons\decrease_window.png";
+                    //ChangeWindowStateIcon = @"\Resources\Icons\decrease_window.png";
                 }
             });
-
-            // Свернуть приложение в панель задач
-            MinimizeWindowCommand = ReactiveCommand.Create(() =>
-            {
-                Application.Current.MainWindow.WindowState = WindowState.Minimized;
-            });
+            #endregion Commands
         }
     }
 }

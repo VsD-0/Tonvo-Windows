@@ -4,11 +4,87 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Tonvo.Views"
+             xmlns:materialDesign = "http://materialdesigninxaml.net/winfx/xaml/themes"
              DataContext="{Binding ApplicantControlPanelViewModel,
                     Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <Border CornerRadius="10" 
+            Background="{StaticResource Secondary}"
+            Margin="10,0,10,0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <ScrollViewer>
+                <StackPanel DataContext="{Binding SelectedApplicant}"
+                            Margin="10,0,10,0">
+                    <TextBlock Text="Резюме"
+                               Foreground="{StaticResource OnPrimary}"
+                               FontSize="25"
+                               HorizontalAlignment="Center"
+                               Margin="0,10,0,10"/>
+                    <TextBlock Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged, TargetNullValue=null}"
+                               Foreground="{StaticResource OnPrimary}"
+                               HorizontalAlignment="Center"
+                               FontSize="20"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,5"/>
+                    <TextBlock Text="{Binding ProfessionName, UpdateSourceTrigger=PropertyChanged}"
+                               Foreground="{StaticResource OnPrimary}"
+                               HorizontalAlignment="Center"
+                               FontSize="20"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding StringFormat=Желаемая доход от: {0}, Path=ApplicantSalary, UpdateSourceTrigger=PropertyChanged}"
+                               Foreground="{StaticResource OnPrimary}"
+                               FontSize="20"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding StringFormat=Опыт работы: {0}, Path=WorkExperience, UpdateSourceTrigger=PropertyChanged}"
+                               Foreground="{StaticResource OnPrimary}"
+                               FontSize="20"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding StringFormat=Дата рождения: {0}, Path=Birthday, UpdateSourceTrigger=PropertyChanged}"
+                               Foreground="{StaticResource OnPrimary}"
+                               FontSize="20"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding StringFormat=Электронная почта: {0}, Path=Email, UpdateSourceTrigger=PropertyChanged}"
+                               Foreground="{StaticResource OnPrimary}"
+                               FontSize="20"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding StringFormat=Подробная информация: {0}, Path=ApplicantDescription, TargetNullValue=Подробная информация: Отсутствует, UpdateSourceTrigger=PropertyChanged}"
+                               Foreground="{StaticResource OnPrimary}"
+                               FontSize="20"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </ScrollViewer>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Margin="5" 
+                        HorizontalAlignment="Stretch"
+                        Content="Печать" 
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        materialDesign:ButtonAssist.CornerRadius="16"
+                        Background="{StaticResource Primary}"
+                        Foreground="{StaticResource OnSecondary}"
+                        BorderThickness="0"
+                        materialDesign:ElevationAssist.Elevation="Dp4"
+                        Command="{Binding PrintApplicant}"/>
+                <Button Margin="5" 
+                        HorizontalAlignment="Stretch"
+                        Content="Откликнуться" 
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        materialDesign:ButtonAssist.CornerRadius="16"
+                        Background="{StaticResource Primary}"
+                        Foreground="{StaticResource OnSecondary}"
+                        BorderThickness="0"
+                        materialDesign:ElevationAssist.Elevation="Dp4"
+                        Command="{Binding RespondApplicant}"/>
+            </StackPanel>
+        </Grid>
+    </Border>
 </UserControl>

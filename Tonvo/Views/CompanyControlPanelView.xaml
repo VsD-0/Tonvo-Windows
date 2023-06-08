@@ -6,9 +6,10 @@
              xmlns:local="clr-namespace:Tonvo.Views"
              DataContext="{Binding CompanyControlPanelViewModel,
                     Source={StaticResource ViewModelLocator}}"
+             Background="Blue"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <TextBlock>CompanyControlPanelView</TextBlock>
     </Grid>
 </UserControl>

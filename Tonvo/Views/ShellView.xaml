@@ -3,19 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign = "http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:local="clr-namespace:Tonvo.Views" 
-        xmlns:viewmodels="clr-namespace:Tonvo.ViewModels" 
         DataContext="{Binding ShellViewModel, Source={StaticResource ViewModelLocator}}"
         mc:Ignorable="d"
         Title="ShellView"
         Icon="/Resources/Icons/Logo transparency1.ico"
         Height="760" Width="1350"
-        MinHeight="500" MinWidth="1000"
+        MinHeight="500" MinWidth="800"
         Background="Transparent"
         WindowStartupLocation="CenterScreen" 
         WindowStyle="SingleBorderWindow"
+        WindowState="{Binding winState}"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14">
 
@@ -30,68 +28,70 @@
     <Border Background="{StaticResource Background}"
             BorderThickness="1.8" CornerRadius="10">
 
-    <Border.BorderBrush>
-        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Color="{StaticResource winBorderColor1}" Offset="0"/>
-            <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
-            <GradientStop Color="{StaticResource winBorderColor3}" Offset="1"/>
-        </LinearGradientBrush>
-    </Border.BorderBrush>
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="{StaticResource winBorderColor1}" Offset="0"/>
+                <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
+                <GradientStop Color="{StaticResource winBorderColor3}" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
 
-        <!--ControlBar-->
-        <Border Background="{StaticResource PrimaryLight}" CornerRadius="10,10,0,0"
-                    Padding="2">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDown">
-                    <i:InvokeCommandAction Command="{Binding MoveWindowCommand}"/>
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseEnter">
-                    <i:InvokeCommandAction Command="{Binding MoveWindowCommand}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+            <!--ControlBar-->
+            <Border Background="{StaticResource PrimaryLight}" CornerRadius="10,10,0,0" Padding="2">
+                <Border.InputBindings>
+                    <MouseBinding MouseAction="LeftDoubleClick"
+                                    Command="{Binding MaximizeWindowCommand}"/>
+                </Border.InputBindings>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDown">
+                        <i:InvokeCommandAction Command="{Binding MoveWindowCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
 
-            <Grid>
-                <!--Иконка и название-->
-                <StackPanel HorizontalAlignment="Left" 
-                            Orientation="Horizontal">
-                    <Image Width="28"
-                           Margin="10 4" 
-                           VerticalAlignment="Center"
-                           RenderOptions.BitmapScalingMode="Fant"
-                           RenderOptions.EdgeMode="Aliased"
-                           RenderOptions.ClearTypeHint="Enabled"
-                           Source="/Resources/Pictures/Logo transparency2.png"/>
-                    <TextBlock Style="{StaticResource TextBoxBaseStyle}"
-                               Margin="5,0,0,0"
-                               Text="Tonvo"
+                <Grid>
+                    <!--Логотип и название-->
+                    <StackPanel HorizontalAlignment="Left" 
+                                Orientation="Horizontal">
+                    
+                        <!--Логотип-->
+                        <Image Width="25"
+                               Margin="10 4" 
                                VerticalAlignment="Center"
-                               FontSize="25"
-                               FontWeight="Bold"
-                               Foreground="{StaticResource OnPrimary}"/>
-                </StackPanel>
+                               RenderOptions.BitmapScalingMode="Fant"
+                               RenderOptions.EdgeMode="Aliased"
+                               RenderOptions.ClearTypeHint="Enabled"
+                               Source="/Resources/Pictures/Logo transparency2.png"/>
+                    
+                        <!--Название приложения-->
+                        <TextBlock Style="{StaticResource TextBoxBaseStyle}"
+                                   Margin="5,0,0,0"
+                                   Text="Tonvo"
+                                   VerticalAlignment="Center"
+                                   FontSize="25"
+                                   FontWeight="Bold"
+                                   Foreground="{StaticResource OnPrimary}"/>
+                    </StackPanel>
 
-                <!--Элементы управления окна-->
-                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,0,5,0">
+                    <!--Элементы управления окна-->
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,0,5,0">
 
-                    <!--Свернуть окно-->
-                        <Button Name="winRoll" Style="{StaticResource btnControlBarStyle}"
-                            Command="{Binding MinimizeWindowCommand}"
-                                Width="70">
+                        <!--Свернуть окно-->
+                        <Button Style="{StaticResource btnControlBarStyle}"
+                                Command="{Binding MinimizeWindowCommand}">
                             <StackPanel Orientation="Horizontal">
-                                <Image Source="\Resources\Icons\roll_window.png" />
+                                <Image Source="\Resources\Icons\roll_window.png"/>
                             </StackPanel>
                         </Button>
 
-                    <!--Окно на весь экран-->
-                        <Button Name="winExpand" Style="{StaticResource btnControlBarStyle}" 
-                                Command="{Binding MaximizeWindowCommand}"
-                                Width="70">
+                        <!--Окно на весь экран-->
+                        <Button Style="{StaticResource btnControlBarStyle}" 
+                                Command="{Binding MaximizeWindowCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="{Binding ChangeWindowStateIcon}"/>
                             </StackPanel>
@@ -99,20 +99,17 @@
 
                         <!--Закрыть окно-->
                         <Button Name="winClose" Style="{StaticResource btnControlBarStyle}"
-                            Command="{Binding ShutdownWindowCommand}"
-                                Width="70">
+                                Command="{Binding ShutdownWindowCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="\Resources\Icons\close_window.png"/>
                             </StackPanel>
                         </Button>
-                </StackPanel>
-            </Grid>
-        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
 
-        <!--Основное содержимое-->
-            <Frame Grid.Row="2"
-                   Content="{Binding MainFrame}" 
-                   NavigationUIVisibility="Hidden"/>
+            <!--Основное содержимое-->
+            <ContentPresenter Grid.Row="1" Content="{Binding RootViewSource}"/>
         </Grid>
     </Border>
 </Window>
