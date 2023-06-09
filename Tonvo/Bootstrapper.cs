@@ -47,8 +47,6 @@ namespace Tonvo
             Services.AddSingleton<VacancyService>();
             Services.AddSingleton<FavoriteService>();
             Services.AddSingleton<INavigationService, NavigationService>();
-            Services.AddSingleton<INavigationServiceForBrowse, NavigationService>();
-            Services.AddSingleton<INavigationServiceForControl, NavigationService>();
             Services.AddSingleton<IMessageBus, MessageBus>();
 
             Provider = Services.BuildServiceProvider();

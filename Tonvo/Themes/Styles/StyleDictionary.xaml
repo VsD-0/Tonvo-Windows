@@ -5,6 +5,63 @@
         <ResourceDictionary Source="/Themes/Colors/LightColorsDictionary.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <!--Стиль TextBlock для 1 текстового поля в элементах ListView-->
+    <Style x:Key="tbFirst" TargetType="TextBlock">
+        <Setter Property="Text" 
+                Value="{Binding Path=VacancyName}"/>
+        <Setter Property="Margin"
+                Value="16,16,16,4"/>
+        <Setter Property="Foreground"
+                Value="{StaticResource OnSecondary}"/>
+        <Setter Property="FontSize"
+                Value="30"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=cbiVacancy, Path=IsSelected}" 
+                         Value="False">
+                <Setter Property="Text" 
+                        Value="{Binding Path=DesiredProfession.Profession1}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--Стиль TextBlock для 2 текстового поля в элементах ListView-->
+    <Style x:Key="tbSecond" TargetType="TextBlock">
+        <Setter Property="Text" 
+                Value="{Binding Path=VacancySalary}"/>
+        <Setter Property="Margin"
+                Value="16,0,16,4"/>
+        <Setter Property="Foreground"
+                Value="{StaticResource OnSecondary}"/>
+        <Setter Property="FontSize"
+                Value="20"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=cbiVacancy, Path=IsSelected}" 
+                         Value="False">
+                <Setter Property="Text" 
+                        Value="{Binding Path=DesiredSalary}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--Стиль TextBlock для 3 текстового поля в элементах ListView-->
+    <Style x:Key="tbThird" TargetType="TextBlock">
+        <Setter Property="Text" 
+                Value="{Binding Path=CompanyName}"/>
+        <Setter Property="Margin"
+                Value="16,0,16,16"/>
+        <Setter Property="Foreground"
+                Value="{StaticResource OnSecondary}"/>
+        <Setter Property="FontSize"
+                Value="20"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=cbiVacancy, Path=IsSelected}"
+                         Value="False">
+                <Setter Property="Text"
+                        Value="{Binding Path=Status.Status}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
     <!--Кнопка регистрации на панели меню-->
     <Style x:Key="btnSignUpMenu" TargetType="Button"
            BasedOn="{StaticResource MaterialDesignRaisedDarkButton}">
@@ -34,13 +91,19 @@
                 <ControlTemplate TargetType="Button">
                     <Grid>
                         <Border x:Name="PART_Border"
-                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="5">
                             <ContentPresenter x:Name="PART_ContentPresenter"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Center"/>
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
+                                    <GradientStop Color="{StaticResource winBorderColor1}" Offset="0"/>
+                                    <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
+                                    <GradientStop Color="{StaticResource winBorderColor3}" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -198,63 +261,6 @@
                          Value="False">
                 <Setter Property="Text" 
                         Value="Резюме"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-
-    <!--Стиль TextBlock для 1 текстового поля в элементах ListView-->
-    <Style x:Key="tbFirst" TargetType="TextBlock">
-        <Setter Property="Text" 
-                Value="{Binding Path=VacancyName}"/>
-        <Setter Property="Margin"
-                Value="16,16,16,4"/>
-        <Setter Property="Foreground"
-                Value="{StaticResource OnSecondary}"/>
-        <Setter Property="FontSize"
-                Value="30"/>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding ElementName=cbiVacancy, Path=IsSelected}" 
-                         Value="False">
-                <Setter Property="Text" 
-                        Value="{Binding Path=ProfessionName}"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-
-    <!--Стиль TextBlock для 2 текстового поля в элементах ListView-->
-    <Style x:Key="tbSecond" TargetType="TextBlock">
-        <Setter Property="Text" 
-                Value="{Binding Path=VacancySalary}"/>
-        <Setter Property="Margin"
-                Value="16,0,16,4"/>
-        <Setter Property="Foreground"
-                Value="{StaticResource OnSecondary}"/>
-        <Setter Property="FontSize"
-                Value="20"/>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding ElementName=cbiVacancy, Path=IsSelected}" 
-                         Value="False">
-                <Setter Property="Text" 
-                        Value="{Binding Path=ApplicantSalary}"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-
-    <!--Стиль TextBlock для 3 текстового поля в элементах ListView-->
-    <Style x:Key="tbThird" TargetType="TextBlock">
-        <Setter Property="Text" 
-                Value="{Binding Path=CompanyName}"/>
-        <Setter Property="Margin"
-                Value="16,0,16,16"/>
-        <Setter Property="Foreground"
-                Value="{StaticResource OnSecondary}"/>
-        <Setter Property="FontSize"
-                Value="20"/>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding ElementName=cbiVacancy, Path=IsSelected}"
-                         Value="False">
-                <Setter Property="Text"
-                        Value="{Binding Path=WorkExperience}"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>

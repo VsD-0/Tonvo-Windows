@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         DataContext="{Binding ShellViewModel, Source={StaticResource ViewModelLocator}}"
         mc:Ignorable="d"
         Title="ShellView"
         Icon="/Resources/Icons/Logo transparency1.ico"
         Height="760" Width="1350"
-        MinHeight="500" MinWidth="800"
+        MinHeight="450" MinWidth="400"
         Background="Transparent"
         WindowStartupLocation="CenterScreen" 
         WindowStyle="SingleBorderWindow"
@@ -25,91 +26,169 @@
                       ResizeBorderThickness="8"/>
     </WindowChrome.WindowChrome>
     
+    
     <Border Background="{StaticResource Background}"
             BorderThickness="1.8" CornerRadius="10">
 
         <Border.BorderBrush>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="{StaticResource winBorderColor1}" Offset="0"/>
-                <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
-                <GradientStop Color="{StaticResource winBorderColor3}" Offset="1"/>
+                <GradientStop Color="{StaticResource winBorderColor3}" Offset="0.5"/>
+                <GradientStop Color="{StaticResource winBorderColor2}" Offset="1"/>
             </LinearGradientBrush>
         </Border.BorderBrush>
 
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <!--Navigation menu-->
+                <ColumnDefinition Width="auto"/>
+                <!--Content section-->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-            <!--ControlBar-->
-            <Border Background="{StaticResource PrimaryLight}" CornerRadius="10,10,0,0" Padding="2">
-                <Border.InputBindings>
-                    <MouseBinding MouseAction="LeftDoubleClick"
-                                    Command="{Binding MaximizeWindowCommand}"/>
-                </Border.InputBindings>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDown">
-                        <i:InvokeCommandAction Command="{Binding MoveWindowCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+            <Border CornerRadius="10,0,0,10"
+                    Width="52"
+                    HorizontalAlignment="Left">
+                <Border.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="Border.MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="(Border.Width)"
+                                                             To="250"
+                                                             Duration="0:0:1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
 
-                <Grid>
-                    <!--Логотип и название-->
-                    <StackPanel HorizontalAlignment="Left" 
-                                Orientation="Horizontal">
-                    
-                        <!--Логотип-->
-                        <Image Width="25"
-                               Margin="10 4" 
+                            <EventTrigger RoutedEvent="Border.MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="(Border.Width)"
+                                                             To="52"
+                                                             Duration="0:0:1"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
+                        <GradientStop Color="{StaticResource winBorderColor1}" Offset="0"/>
+                        <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
+                        <GradientStop Color="{StaticResource winBorderColor3}" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel>
+
+                    <!--Логотип-->
+                    <StackPanel Orientation="Horizontal"
+                                Height="45"
+                                Margin="5,5,0,40">
+
+                        <Image Height="40"
+                               Margin="0 4" 
                                VerticalAlignment="Center"
                                RenderOptions.BitmapScalingMode="Fant"
                                RenderOptions.EdgeMode="Aliased"
                                RenderOptions.ClearTypeHint="Enabled"
                                Source="/Resources/Pictures/Logo transparency2.png"/>
-                    
-                        <!--Название приложения-->
-                        <TextBlock Style="{StaticResource TextBoxBaseStyle}"
-                                   Margin="5,0,0,0"
-                                   Text="Tonvo"
-                                   VerticalAlignment="Center"
-                                   FontSize="25"
+                        <TextBlock Text="Tonvo"
+                                   FontSize="35"
+                                   Foreground="{StaticResource Secondary}"
+                                   FontFamily="Montserrat"
                                    FontWeight="Bold"
-                                   Foreground="{StaticResource OnPrimary}"/>
+                                   VerticalAlignment="Center"
+                                   Margin="25,0,0,0"/>
                     </StackPanel>
 
-                    <!--Элементы управления окна-->
-                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,0,5,0">
-
-                        <!--Свернуть окно-->
-                        <Button Style="{StaticResource btnControlBarStyle}"
-                                Command="{Binding MinimizeWindowCommand}">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="\Resources\Icons\roll_window.png"/>
-                            </StackPanel>
-                        </Button>
-
-                        <!--Окно на весь экран-->
-                        <Button Style="{StaticResource btnControlBarStyle}" 
-                                Command="{Binding MaximizeWindowCommand}">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding ChangeWindowStateIcon}"/>
-                            </StackPanel>
-                        </Button>
-
-                        <!--Закрыть окно-->
-                        <Button Name="winClose" Style="{StaticResource btnControlBarStyle}"
-                                Command="{Binding ShutdownWindowCommand}">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="\Resources\Icons\close_window.png"/>
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                </Grid>
+                    <!--Кнопки меню-->
+                    <RadioButton Style="{StaticResource menuButton}"
+                                 Tag="{StaticResource Secondary}"
+                                 IsChecked="True"
+                                 Command="{Binding ShowHomeViewCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="Home" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Домой" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource menuButton}"
+                                 Tag="{StaticResource Secondary}"
+                                 Command="{Binding ShowPersonalAccountViewCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="UserAlt"  Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Личный кабинет" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource menuButton}"
+                                 Tag="{StaticResource Secondary}"
+                                 Command="{Binding ShowSettingsViewCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <fa:IconImage Icon="Gear" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Настройки" Style="{StaticResource menuButtonText}"/>
+                        </StackPanel>
+                    </RadioButton>
+                </StackPanel>
             </Border>
 
-            <!--Основное содержимое-->
-            <ContentPresenter Grid.Row="1" Content="{Binding RootViewSource}"/>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <!--ControlBar-->
+                <Border Background="{StaticResource PrimaryLight}" CornerRadius="0,10,0,0" Padding="2">
+                    <Border.InputBindings>
+                        <MouseBinding MouseAction="LeftDoubleClick"
+                                    Command="{Binding MaximizeWindowCommand}"/>
+                    </Border.InputBindings>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDown">
+                            <i:InvokeCommandAction Command="{Binding MoveWindowCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                    <Grid>
+                        <!--Элементы управления окна-->
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="5 2">
+
+                            <!--Свернуть окно-->
+                            <Button Style="{StaticResource btnControlBarStyle}"
+                                Command="{Binding MinimizeWindowCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="\Resources\Icons\roll_window.png"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!--Окно на весь экран-->
+                            <Button Style="{StaticResource btnControlBarStyle}" 
+                                Command="{Binding MaximizeWindowCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding ChangeWindowStateIcon}"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!--Закрыть окно-->
+                            <Button Name="winClose" Style="{StaticResource btnControlBarStyle}"
+                                Command="{Binding ShutdownWindowCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="\Resources\Icons\close_window.png"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!--Основное содержимое-->
+                <ContentPresenter Grid.Row="1" Content="{Binding BrowseListSource}"/>
+            </Grid>
         </Grid>
     </Border>
 </Window>

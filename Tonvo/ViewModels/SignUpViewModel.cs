@@ -1,4 +1,6 @@
-﻿namespace Tonvo.ViewModels
+﻿using Tonvo.Core;
+
+namespace Tonvo.ViewModels
 {
     public class SignUpViewModel : ViewModelBase
     {

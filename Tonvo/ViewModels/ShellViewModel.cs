@@ -12,7 +12,7 @@ namespace Tonvo.ViewModels
         #endregion Fields
 
         #region Properties
-        public UserControl? RootViewSource { get; set; }
+        public UserControl? BrowseListSource { get; set; }
         [Reactive] public WindowState winState { get;  set; } = WindowState.Normal;
 
         /// <summary>
@@ -40,14 +40,27 @@ namespace Tonvo.ViewModels
         /// Метод для нормальной работы на компьютерах с несколькими мониторами
         /// </summary>
         public ReactiveCommand<Unit, Unit> ControlBarMouseEnter { get; }
+        public ReactiveCommand<Unit, Unit> ShowPersonalAccountViewCommand { get; }
         #endregion Properties
 
 
         public ShellViewModel(INavigationService navigationService, IMessageBus messageBus)
         {
             _navigationService = navigationService;
-            _navigationService.onUserControlChanged += (usercontrol) => RootViewSource = usercontrol;
-            _navigationService.ChangePage(new RootView());
+            _messageBus = messageBus;
+
+            _navigationService.onUserControlChanged += (usercontrol) => BrowseListSource = usercontrol;
+            _navigationService.ChangePage(new BrowseListView());
+
+            _messageBus.Listen<Messages>()
+                       .DistinctUntilChanged()
+                       .Where(message => message != null)
+                       .Subscribe(message =>
+                       {
+                           if (message.SelectedList == 0) _navigationService.ChangePage(new CompanyControlPanelView());
+                           else if (message.SelectedList == 1) _navigationService.ChangePage(new ApplicantControlPanelView());
+                           else throw new Exception("ListNotFound");
+                       });
 
             this.WhenAnyValue(x => x.winState)
                 .Subscribe(winState =>
@@ -57,6 +70,10 @@ namespace Tonvo.ViewModels
                 });
 
             #region Commands
+            ShowPersonalAccountViewCommand = ReactiveCommand.Create(() => 
+            { 
+                _navigationService.ChangePage(new PersonalAccountView()); 
+            });
             MoveWindowCommand = ReactiveCommand.Create(() =>
             {
                 WindowInteropHelper helper = new(Application.Current.MainWindow);
