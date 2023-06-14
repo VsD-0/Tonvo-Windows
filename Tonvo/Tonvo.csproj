@@ -71,7 +71,10 @@
 		<PackageReference Include="ReactiveUI.WPF" Version="18.4.44" />
 		<PackageReference Include="ShowMeTheXAML" Version="2.0.0" />
 		<PackageReference Include="ShowMeTheXAML.MSBuild" Version="2.0.0" />
-		<PackageReference Include="WPF-UI" Version="2.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\wpfui\src\Wpf.Ui\Wpf.Ui.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
