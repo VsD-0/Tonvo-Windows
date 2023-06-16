@@ -2,6 +2,7 @@
 {
     internal class Messages
     {
-        public int SelectedList { get; set; }
+        public Applicant SelectedApplicant { get; set; }
+        public Vacancy SelectedVacancy { get; set; }
     }
 }

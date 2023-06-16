@@ -8,7 +8,7 @@ public partial class Vacancy
 
     public int CompanyId { get; set; }
 
-    public string Salary { get; set; } = null!;
+    public decimal Salary { get; set; }
 
     public string PhoneNumber { get; set; } = null!;
 

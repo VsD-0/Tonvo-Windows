@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using ReactiveUI.Fody.Helpers;
+using System.Collections.ObjectModel;
+using System.Configuration;
+using System.Windows.Controls;
 
 namespace Tonvo.ViewModels
 {
@@ -9,6 +12,14 @@ namespace Tonvo.ViewModels
         #region Fields
         private readonly INavigationService _navigationService;
         private readonly IMessageBus _messageBus;
+        [Reactive]
+        public ObservableCollection<MenuItem> TrayMenuItems { get; set; } = new() {
+                new MenuItem
+                {
+                    Header = "Home",
+                    Tag = "tray_home"
+                }
+            };
         #endregion Fields
 
         #region Properties
@@ -46,21 +57,33 @@ namespace Tonvo.ViewModels
 
         public ShellViewModel(INavigationService navigationService, IMessageBus messageBus)
         {
-            _navigationService = navigationService;
-            _messageBus = messageBus;
+            //_navigationService = navigationService;
+            //_messageBus = messageBus;
 
-            _navigationService.onUserControlChanged += (usercontrol) => BrowseListSource = usercontrol;
-            _navigationService.ChangePage(new BrowseListView());
+            //_navigationService.onUserControlChanged += (usercontrol) => BrowseListSource = usercontrol;
+            //_navigationService.ChangePage(new BrowseListView());
 
-            _messageBus.Listen<Messages>()
-                       .DistinctUntilChanged()
-                       .Where(message => message != null)
-                       .Subscribe(message =>
-                       {
-                           if (message.SelectedList == 0) _navigationService.ChangePage(new CompanyControlPanelView());
-                           else if (message.SelectedList == 1) _navigationService.ChangePage(new ApplicantControlPanelView());
-                           else throw new Exception("ListNotFound");
-                       });
+            //_messageBus.Listen<Messages>()
+            //           .DistinctUntilChanged()
+            //           .Where(message => message != null)
+            //           .Subscribe(message =>
+            //           {
+            //               if (message.SelectedList == 0) _navigationService.ChangePage(new CompanyControlPanelView());
+            //               else if (message.SelectedList == 1) _navigationService.ChangePage(new ApplicantControlPanelView());
+            //               else throw new Exception("ListNotFound");
+            //           });
+
+            //// Сохранение данных пользователя в app.config
+            //Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            //config.AppSettings.Settings["UserID"].Value = "Иван";
+            //config.AppSettings.Settings["UserName"].Value = "Ivan";
+            //config.AppSettings.Settings["Email"].Value = "ivan@mail.com";
+            //// Другие свойства пользователя здесь
+            //config.Save(ConfigurationSaveMode.Modified);
+            //System.Configuration.ConfigurationManager.RefreshSection("appSettings");
+            //string userID = System.Configuration.ConfigurationManager.AppSettings["UserID"];
+            //string userName = System.Configuration.ConfigurationManager.AppSettings["UserName"];
+            //string email = System.Configuration.ConfigurationManager.AppSettings["Email"];
 
             this.WhenAnyValue(x => x.winState)
                 .Subscribe(winState =>
@@ -68,6 +91,7 @@ namespace Tonvo.ViewModels
                     if (winState == WindowState.Maximized) ChangeWindowStateIcon = @"\Resources\Icons\decrease_window.png";
                     else ChangeWindowStateIcon = @"\Resources\Icons\increase_window.png";
                 });
+
 
             #region Commands
             ShowPersonalAccountViewCommand = ReactiveCommand.Create(() => 

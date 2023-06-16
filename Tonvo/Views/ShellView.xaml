@@ -12,7 +12,7 @@
         Title="ShellView"
         Icon="/Resources/Icons/Logo transparency1.ico"
         Height="760" Width="1350"
-        MinHeight="250" MinWidth="430"
+        MinHeight="250" MinWidth="800"
         ExtendsContentIntoTitleBar="True"
         WindowBackdropType="Mica"
         WindowCornerPreference="Round"
@@ -23,92 +23,37 @@
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14">
 
-    <ui:FluentWindow.BorderBrush>
-        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Color="{StaticResource winBorderColor1}" Offset="0"/>
-            <GradientStop Color="{StaticResource winBorderColor3}" Offset="0.5"/>
-            <GradientStop Color="{StaticResource winBorderColor2}" Offset="1"/>
-        </LinearGradientBrush>
-    </ui:FluentWindow.BorderBrush>
-    <ui:FluentWindow.BorderThickness>
-        <Thickness>2</Thickness>
-    </ui:FluentWindow.BorderThickness>
-    <Border BorderThickness="0">
-        
-        
-        
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <ui:NavigationView Grid.Row="1"
-                    Margin="0"
-                    IsBackButtonVisible="Auto"
-                    IsPaneToggleVisible="True"
-                    PaneDisplayMode="Left"
-                    PaneTitle="Pane Title">
-                <ui:NavigationView.AutoSuggestBox>
-                    <ui:AutoSuggestBox Margin="8,0,8,8" PlaceholderText="Search" />
-                </ui:NavigationView.AutoSuggestBox>
-                <ui:NavigationView.MenuItems>
-                    <ui:NavigationViewItem
-                            Content="Домой"
-                            Icon="{ui:SymbolIcon Home24}"
+    <ui:FluentWindow.InputBindings>
+        <KeyBinding
+            Key="S"
+            Command="{Binding ElementName=navSettings, Path=}"
+            Modifiers="Control" />
+    </ui:FluentWindow.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ui:NavigationView Grid.Row="1"
+                           IsBackButtonVisible="Collapsed"
+                           IsPaneToggleVisible="False"
+                           PaneDisplayMode="LeftFluent">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem x:Name="navHome"
+                            Icon="{ui:SymbolIcon Home24, FontSize=28}"
                             TargetPageType="{x:Type view:BrowseListView}" />
-                    <ui:NavigationViewItem
-                            Content="Личный кабинет"
-                            Icon="{ui:SymbolIcon Library24}"
-                            TargetPageType="{x:Type view:PersonalAccountView}" />
-                </ui:NavigationView.MenuItems>
-                <ui:NavigationView.FooterMenuItems>
-                    <ui:NavigationViewItem
-                            Content="Settings"
-                            Icon="{ui:SymbolIcon Settings24}"
+            </ui:NavigationView.MenuItems>
+            <ui:NavigationView.FooterMenuItems>
+                <ui:NavigationViewItem x:Name="navSettings"
+                            Icon="{ui:SymbolIcon Settings24, FontSize=28}"
                             TargetPageType="{x:Type view:SignInView}" />
-                </ui:NavigationView.FooterMenuItems>
-                <ui:NavigationView.Header>
-                    <Border
-                            Margin="8"
-                            Background="{DynamicResource StripedBackgroundBrush}"
-                            CornerRadius="4">
-                        <TextBlock
-                                Margin="24"
-                                VerticalAlignment="Center"
-                                FontWeight="Medium"
-                                Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
-                                Text="NavigationView Header" />
-                    </Border>
-                </ui:NavigationView.Header>
-                <ui:NavigationView.PaneHeader>
-                    <Border
-                            Margin="0,0,0,8"
-                            Background="{DynamicResource StripedBackgroundBrush}"
-                            CornerRadius="4">
-                        <TextBlock
-                                Margin="24"
-                                VerticalAlignment="Center"
-                                FontWeight="Medium"
-                                Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
-                                Text="Pane Header" />
-                    </Border>
-                </ui:NavigationView.PaneHeader>
-                <ui:NavigationView.PaneFooter>
-                    <Border
-                            Margin="0,8,0,0"
-                            Background="{DynamicResource StripedBackgroundBrush}"
-                            CornerRadius="4">
-                        <TextBlock
-                                Margin="24"
-                                VerticalAlignment="Center"
-                                FontWeight="Medium"
-                                Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
-                                Text="Pane Footer" />
-                    </Border>
-                </ui:NavigationView.PaneFooter>
-            </ui:NavigationView>
-            <!--<Border CornerRadius="10,0,0,10"
+                <ui:NavigationViewItem x:Name="navPersonalAccount"
+                            Icon="{ui:SymbolIcon PersonCircle24, FontSize=28}"
+                            TargetPageType="{x:Type view:PersonalAccountView}" />
+            </ui:NavigationView.FooterMenuItems>
+        </ui:NavigationView>
+
+        <!--<Border CornerRadius="10,0,0,10"
                     Width="52"
                     HorizontalAlignment="Left">
                 <Border.Style>
@@ -149,7 +94,9 @@
                 </Border.Background>
                 <StackPanel>
 
-                    --><!--Логотип--><!--
+                    -->
+        <!--Логотип-->
+        <!--
                     <StackPanel Orientation="Horizontal"
                                 Height="45"
                                 Margin="5,5,0,40">
@@ -170,7 +117,9 @@
                                    Margin="25,0,0,0"/>
                     </StackPanel>
 
-                    --><!--Кнопки меню--><!--
+                    -->
+        <!--Кнопки меню-->
+        <!--
                     <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource Secondary}"
                                  IsChecked="True"
@@ -199,13 +148,9 @@
                 </StackPanel>
             </Border>-->
 
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-
-                <!--ControlBar-->
+        <!--<Grid Grid.Column="1">-->
+        <!--ControlBar-->
+        <!--
                 <Border Background="{StaticResource PrimaryLight}" CornerRadius="0,10,0,0" Padding="2">
                     <Border.InputBindings>
                         <MouseBinding MouseAction="LeftDoubleClick"
@@ -215,13 +160,31 @@
                         <i:EventTrigger EventName="MouseDown">
                             <i:InvokeCommandAction Command="{Binding MoveWindowCommand}"/>
                         </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    </i:Interaction.Triggers>-->
 
-                    <Grid>
-                        <!--Элементы управления окна-->
-                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="5 2">
+        <!--<Grid>-->
+        <ui:TitleBar Grid.Column="1" Title="Tonvo">
+            <ui:TitleBar.Icon>
+                <ui:ImageIcon Source="pack://application:,,,/Resources/Pictures/Logo transparency2.png"/>
+            </ui:TitleBar.Icon>
+            <ui:TitleBar.Tray>
+                <ui:NotifyIcon FocusOnLeftClick="True"
+                                   Icon="pack://application:,,,/Resources/Pictures/Logo transparency2.png"
+                                   MenuOnRightClick="True"
+                                   TooltipText="Tonvo">
+                    <ui:NotifyIcon.Menu>
+                        <ContextMenu ItemsSource="{Binding TrayMenuItems}" />
+                    </ui:NotifyIcon.Menu>
+                </ui:NotifyIcon>
+            </ui:TitleBar.Tray>
+        </ui:TitleBar>
+        <!--Элементы управления окна-->
+        <!--
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="5 2">
 
-                            <!--Свернуть окно-->
+                            -->
+        <!--Свернуть окно-->
+        <!--
                             <Button Style="{StaticResource btnControlBarStyle}"
                                 Command="{Binding MinimizeWindowCommand}">
                                 <StackPanel Orientation="Horizontal">
@@ -229,7 +192,9 @@
                                 </StackPanel>
                             </Button>
 
-                            <!--Окно на весь экран-->
+                            -->
+        <!--Окно на весь экран-->
+        <!--
                             <Button Style="{StaticResource btnControlBarStyle}" 
                                 Command="{Binding MaximizeWindowCommand}">
                                 <StackPanel Orientation="Horizontal">
@@ -237,17 +202,18 @@
                                 </StackPanel>
                             </Button>
 
-                            <!--Закрыть окно-->
+                            -->
+        <!--Закрыть окно-->
+        <!--
                             <Button Name="winClose" Style="{StaticResource btnControlBarStyle}"
                                 Command="{Binding ShutdownWindowCommand}">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="\Resources\Icons\close_window.png"/>
                                 </StackPanel>
                             </Button>
-                        </StackPanel>
-                    </Grid>
+                        </StackPanel>-->
+        <!--</Grid>
                 </Border>
-            </Grid>
-        </Grid>
-    </Border>
+            </Grid>-->
+    </Grid>
 </ui:FluentWindow>
