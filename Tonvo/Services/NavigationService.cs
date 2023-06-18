@@ -3,7 +3,7 @@
     /// <summary>
     /// Сервис навигации по страницам.
     /// </summary>
-    public class NavigationService  :INavigationService
+    public class NavigationService2  :INavigationService2
     {
         public event Action<UserControl>? onUserControlChanged;
 

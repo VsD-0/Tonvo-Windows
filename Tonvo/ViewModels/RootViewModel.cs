@@ -5,7 +5,7 @@ namespace Tonvo.ViewModels
     public class RootViewModel : ViewModelBase
     {
         #region Fields
-        private readonly INavigationService _navigationService;
+        
         private readonly IMessageBus _messageBus;
         #endregion Fields
 
@@ -15,7 +15,7 @@ namespace Tonvo.ViewModels
         #endregion Properties
         
 
-        public RootViewModel(INavigationService navigationService, IMessageBus messageBus)
+        public RootViewModel(IMessageBus messageBus)
         {
             // TODO: Сделать отдельную страницу для вакансии/резюме
             

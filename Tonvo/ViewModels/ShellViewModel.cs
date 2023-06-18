@@ -10,7 +10,6 @@ namespace Tonvo.ViewModels
     internal partial class ShellViewModel : ReactiveObject
     {
         #region Fields
-        private readonly INavigationService _navigationService;
         private readonly IMessageBus _messageBus;
         [Reactive]
         public ObservableCollection<MenuItem> TrayMenuItems { get; set; } = new() {
@@ -55,7 +54,7 @@ namespace Tonvo.ViewModels
         #endregion Properties
 
 
-        public ShellViewModel(INavigationService navigationService, IMessageBus messageBus)
+        public ShellViewModel(IMessageBus messageBus)
         {
             //_navigationService = navigationService;
             //_messageBus = messageBus;
@@ -96,7 +95,7 @@ namespace Tonvo.ViewModels
             #region Commands
             ShowPersonalAccountViewCommand = ReactiveCommand.Create(() => 
             { 
-                _navigationService.ChangePage(new PersonalAccountView()); 
+                
             });
             MoveWindowCommand = ReactiveCommand.Create(() =>
             {

@@ -23,25 +23,33 @@
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14">
 
-    <ui:FluentWindow.InputBindings>
-        <KeyBinding
-            Key="S"
-            Command="{Binding ElementName=navSettings, Path=}"
-            Modifiers="Control" />
-    </ui:FluentWindow.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <ui:NavigationView Grid.Row="1"
+        <ui:NavigationView Grid.Row="1" 
+                           BreadcrumbBar="{Binding ElementName=BreadcrumbBar}"
                            IsBackButtonVisible="Collapsed"
                            IsPaneToggleVisible="False"
                            PaneDisplayMode="LeftFluent">
+            <ui:NavigationView.Header>
+                <StackPanel Margin="42,32,0,0">
+                    <ui:BreadcrumbBar x:Name="BreadcrumbBar" />
+                </StackPanel>
+            </ui:NavigationView.Header>
+            <ui:NavigationView.ContentOverlay>
+                <Grid>
+                    <ui:SnackbarPresenter x:Name="SnackbarPresenter" />
+                </Grid>
+            </ui:NavigationView.ContentOverlay>
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem x:Name="navHome"
+                <ui:NavigationViewItem x:Name="navHome" 
                             Icon="{ui:SymbolIcon Home24, FontSize=28}"
-                            TargetPageType="{x:Type view:BrowseListView}" />
+                            TargetPageType="{x:Type view:ApplicantControlPanelView}" />
+                <ui:NavigationViewItem
+                            Icon="{ui:SymbolIcon Home24, FontSize=28}"
+                            TargetPageType="{x:Type view:CompanyControlPanelView}" />
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.FooterMenuItems>
                 <ui:NavigationViewItem x:Name="navSettings"
@@ -163,7 +171,7 @@
                     </i:Interaction.Triggers>-->
 
         <!--<Grid>-->
-        <ui:TitleBar Grid.Column="1" Title="Tonvo">
+        <ui:TitleBar Title="Tonvo" Padding="8,0,0,0">
             <ui:TitleBar.Icon>
                 <ui:ImageIcon Source="pack://application:,,,/Resources/Pictures/Logo transparency2.png"/>
             </ui:TitleBar.Icon>

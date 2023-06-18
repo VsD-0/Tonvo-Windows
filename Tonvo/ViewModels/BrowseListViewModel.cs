@@ -9,7 +9,6 @@ namespace Tonvo.ViewModels
     public class BrowseListViewModel : ReactiveObject
     {
         private readonly IMessageBus _messageBus;
-        private readonly INavigationService _navigationService;
 
         [Reactive] public ObservableCollection<Applicant>  Applicants { get; set; }
         [Reactive] public ObservableCollection<Vacancy> Vacancies { get; set; } = new();
@@ -17,13 +16,10 @@ namespace Tonvo.ViewModels
         [Reactive] public int SelectedList { get; set; }
         [Reactive] public Applicant SelectedApplicant { get; set; }
         [Reactive] public Vacancy SelectedVacancy { get; set; }
-        public BrowseListViewModel(IMessageBus messageBus, INavigationService navigationService)
+        public BrowseListViewModel(IMessageBus messageBus)
         {
-            _navigationService = navigationService;
             _messageBus = messageBus;
 
-            _navigationService.onUserControlChanged += (usercontrol) => ControlPanelView = usercontrol;
-            _navigationService.ChangePage(new ApplicantControlPanelView());
 
             this.WhenAnyValue(x => x.SelectedApplicant)
                 .Subscribe(selectedApplicant =>
@@ -38,13 +34,6 @@ namespace Tonvo.ViewModels
                     _messageBus.SendMessage(message);
                 });
             Applicants = new ObservableCollection<Applicant>();
-            this.WhenAnyValue(x => x.SelectedList)
-                .Subscribe(selectedList =>
-                {
-                    if (selectedList == 0) _navigationService.ChangePage(new ApplicantControlPanelView());
-                    else if (selectedList == 1) _navigationService.ChangePage(new CompanyControlPanelView());
-                    else throw new Exception("ListNotFound");
-                });
 
             Applicants.Add(new Applicant
             {
