@@ -90,19 +90,16 @@
                     </Border.Background>
                     <Grid>
                         <!--Кнопки меню-->
-                        <StackPanel>
-                            <RadioButton Style="{StaticResource menuButton}"
+                        <RadioButton Style="{StaticResource menuButton}"
                                      Tag="{StaticResource Secondary}"
                                      IsChecked="True"
                                      Command="{Binding ShowHomeViewCommand}">
-                                <StackPanel Orientation="Horizontal">
-                                    <fa:IconImage Icon="Home" Style="{StaticResource menuButtonIcon}"/>
-                                    <TextBlock Text="Домой" Style="{StaticResource menuButtonText}"/>
-                                </StackPanel>
-                            </RadioButton>
-                        </StackPanel>
-                        <StackPanel VerticalAlignment="Bottom">
-                            <RadioButton Style="{StaticResource menuButton}"
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Home" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Домой" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
+                        <RadioButton Style="{StaticResource menuButton}"
                                      Tag="{StaticResource Secondary}"
                                      Command="{Binding ShowPersonalAccountViewCommand}">
                                 <StackPanel Orientation="Horizontal">
@@ -110,16 +107,15 @@
                                     <TextBlock Text="Личный кабинет" Style="{StaticResource menuButtonText}"/>
                                 </StackPanel>
                             </RadioButton>
-                            <RadioButton Style="{StaticResource menuButton}"
+                        <RadioButton Style="{StaticResource menuButton}"
                                      Tag="{StaticResource Secondary}"
                                      Command="{Binding ShowSettingsViewCommand}"
                                      VerticalAlignment="Bottom">
-                                <StackPanel Orientation="Horizontal">
-                                    <fa:IconImage Icon="Gear" Style="{StaticResource menuButtonIcon}"/>
-                                    <TextBlock Text="Настройки" Style="{StaticResource menuButtonText}"/>
-                                </StackPanel>
-                            </RadioButton>
-                        </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <fa:IconImage Icon="Gear" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Настройки" Style="{StaticResource menuButtonText}"/>
+                            </StackPanel>
+                        </RadioButton>
                     </Grid>
                 </Border>
                 <!--Основное содержимое-->

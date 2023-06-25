@@ -21,6 +21,8 @@ public partial class DbTonvoContext : DbContext
 
     public virtual DbSet<Company> Companies { get; set; }
 
+    public virtual DbSet<Favorite> Favorites { get; set; }
+
     public virtual DbSet<LevelEducation> LevelEducations { get; set; }
 
     public virtual DbSet<Profession> Professions { get; set; }
@@ -110,28 +112,6 @@ public partial class DbTonvoContext : DbContext
                 .HasForeignKey(d => d.StatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_status_id");
-
-            entity.HasMany(d => d.Vacancies).WithMany(p => p.Applicants)
-                .UsingEntity<Dictionary<string, object>>(
-                    "Favorite",
-                    r => r.HasOne<Vacancy>().WithMany()
-                        .HasForeignKey("VacancyId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("fk_favorite_vacancy_id"),
-                    l => l.HasOne<Applicant>().WithMany()
-                        .HasForeignKey("ApplicantId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("fk_favorite_applicant_id"),
-                    j =>
-                    {
-                        j.HasKey("ApplicantId", "VacancyId")
-                            .HasName("PRIMARY")
-                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
-                        j.ToTable("favorites");
-                        j.HasIndex(new[] { "VacancyId" }, "fk_favorite_vacancy_id_idx");
-                        j.IndexerProperty<int>("ApplicantId").HasColumnName("applicant_id");
-                        j.IndexerProperty<int>("VacancyId").HasColumnName("vacancy_id");
-                    });
         });
 
         modelBuilder.Entity<City>(entity =>
@@ -190,6 +170,24 @@ public partial class DbTonvoContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name).HasMaxLength(120);
+        });
+
+        modelBuilder.Entity<Favorite>(entity =>
+        {
+            entity.HasKey(e => new { e.ApplicantId, e.VacancyId })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+            entity.ToTable("favorites");
+
+            entity.HasIndex(e => e.VacancyId, "fk_vacancy_id");
+
+            entity.Property(e => e.ApplicantId).HasColumnName("applicant_id");
+            entity.Property(e => e.VacancyId).HasColumnName("vacancy_id");
+
+            entity.HasOne(d => d.Applicant).WithMany(p => p.Favorites)
+                .HasForeignKey(d => d.ApplicantId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_applicant_id");
         });
 
         modelBuilder.Entity<Responder>(entity =>
