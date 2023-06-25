@@ -1,6 +1,4 @@
-﻿using Tonvo.Core;
-
-namespace Tonvo.ViewModels
+﻿namespace Tonvo.ViewModels
 {
     public class CompanyControlPanelViewModel : ViewModelBase
     {

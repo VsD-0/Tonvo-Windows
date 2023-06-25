@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Tonvo.Core
+namespace Tonvo.ViewModels
 {
-    public class ViewModelBase : ReactiveObject
+    public class ViewModelBase : ReactiveObject 
     {
         public static ViewModelBase Instance { get; } = new ViewModelBase();
 
