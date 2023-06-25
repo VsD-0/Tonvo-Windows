@@ -1,4 +1,7 @@
-﻿namespace Tonvo.DataBase.Entity;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Tonvo.DataBase.Entity;
 
 public partial class LevelEducation
 {

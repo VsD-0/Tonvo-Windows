@@ -1,10 +1,13 @@
-﻿namespace Tonvo.DataBase.Entity;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Tonvo.DataBase.Entity;
 
 public partial class Profession
 {
     public int Id { get; set; }
 
-    public string Profession1 { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
     public virtual ICollection<Applicant> Applicants { get; set; } = new List<Applicant>();
 

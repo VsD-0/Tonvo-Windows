@@ -1,20 +1,18 @@
-﻿namespace Tonvo.DataBase.Context;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+
+namespace Tonvo.DataBase.Context;
 
 public partial class DbTonvoContext : DbContext
 {
-    private readonly IConfiguration Configuration;
     public DbTonvoContext()
     {
-        IConfigurationBuilder builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-        Configuration = builder.Build();
     }
 
-    public DbTonvoContext(DbContextOptions<DbTonvoContext> options, IConfiguration configuration)
+    public DbTonvoContext(DbContextOptions<DbTonvoContext> options)
         : base(options)
     {
-        Configuration = configuration;
     }
 
     public virtual DbSet<Applicant> Applicants { get; set; }
@@ -34,10 +32,8 @@ public partial class DbTonvoContext : DbContext
     public virtual DbSet<Vacancy> Vacancies { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        var conn = Configuration.GetConnectionString("DefaultConnection");
-        optionsBuilder.UseMySql(conn, ServerVersion.Parse("8.0.32-mysql"));
-    }
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySql("server=localhost;user=root;password=2,can&trA1xE;database=db_tonvo", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.32-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -72,6 +68,9 @@ public partial class DbTonvoContext : DbContext
             entity.Property(e => e.Email)
                 .HasMaxLength(257)
                 .HasColumnName("email");
+            entity.Property(e => e.Experience)
+                .HasDefaultValueSql("'0'")
+                .HasColumnName("experience");
             entity.Property(e => e.Information)
                 .HasColumnType("text")
                 .HasColumnName("information");
@@ -143,7 +142,7 @@ public partial class DbTonvoContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.City1)
-                .HasMaxLength(120)
+                .HasMaxLength(45)
                 .HasColumnName("city");
         });
 
@@ -160,9 +159,6 @@ public partial class DbTonvoContext : DbContext
             entity.Property(e => e.Information)
                 .HasColumnType("text")
                 .HasColumnName("information");
-            entity.Property(e => e.InitialsOfDirector)
-                .HasMaxLength(50)
-                .HasColumnName("initials_of_director");
             entity.Property(e => e.NameCompany)
                 .HasMaxLength(50)
                 .HasColumnName("name_company");
@@ -193,9 +189,7 @@ public partial class DbTonvoContext : DbContext
             entity.ToTable("professions");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Profession1)
-                .HasMaxLength(120)
-                .HasColumnName("profession");
+            entity.Property(e => e.Name).HasMaxLength(120);
         });
 
         modelBuilder.Entity<Responder>(entity =>
@@ -235,9 +229,7 @@ public partial class DbTonvoContext : DbContext
             entity.ToTable("status_applicant");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Status)
-                .HasMaxLength(80)
-                .HasColumnName("status");
+            entity.Property(e => e.Name).HasMaxLength(80);
         });
 
         modelBuilder.Entity<Vacancy>(entity =>
@@ -255,6 +247,9 @@ public partial class DbTonvoContext : DbContext
                 .HasMaxLength(200)
                 .HasColumnName("address");
             entity.Property(e => e.CompanyId).HasColumnName("company_id");
+            entity.Property(e => e.DesiredExperience)
+                .HasDefaultValueSql("'0'")
+                .HasColumnName("desired_experience");
             entity.Property(e => e.Information)
                 .HasColumnType("text")
                 .HasColumnName("information");

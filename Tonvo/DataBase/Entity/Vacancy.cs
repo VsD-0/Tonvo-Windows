@@ -1,4 +1,7 @@
-﻿namespace Tonvo.DataBase.Entity;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Tonvo.DataBase.Entity;
 
 public partial class Vacancy
 {
@@ -17,6 +20,8 @@ public partial class Vacancy
     public string Information { get; set; } = null!;
 
     public DateTime СreationDate { get; set; }
+
+    public int? DesiredExperience { get; set; }
 
     public virtual Company Company { get; set; } = null!;
 

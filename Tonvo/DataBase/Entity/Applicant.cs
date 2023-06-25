@@ -1,4 +1,7 @@
-﻿namespace Tonvo.DataBase.Entity;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Tonvo.DataBase.Entity;
 
 public partial class Applicant
 {
@@ -29,6 +32,8 @@ public partial class Applicant
     public string Information { get; set; } = null!;
 
     public int StatusId { get; set; }
+
+    public int? Experience { get; set; }
 
     public virtual City City { get; set; } = null!;
 

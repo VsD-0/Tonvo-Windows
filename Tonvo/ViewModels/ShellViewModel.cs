@@ -8,7 +8,6 @@ namespace Tonvo.ViewModels
     {
         #region Fields
         private readonly INavigationService _navigationService;
-        private readonly IMessageBus _messageBus;
         #endregion Fields
 
         #region Properties
@@ -43,11 +42,11 @@ namespace Tonvo.ViewModels
         #endregion Properties
 
 
-        public ShellViewModel(INavigationService navigationService, IMessageBus messageBus)
+        public ShellViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
             _navigationService.onUserControlChanged += (usercontrol) => RootViewSource = usercontrol;
-            _navigationService.ChangePage(new RootView());
+            _navigationService.ChangePage(new ApplicantControlPanelView());
 
             this.WhenAnyValue(x => x.winState)
                 .Subscribe(winState =>
@@ -55,6 +54,18 @@ namespace Tonvo.ViewModels
                     if (winState == WindowState.Maximized) ChangeWindowStateIcon = @"\Resources\Icons\decrease_window.png";
                     else ChangeWindowStateIcon = @"\Resources\Icons\increase_window.png";
                 });
+
+            //// Сохранение данных пользователя в app.config
+            //Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            //config.AppSettings.Settings["UserID"].Value = "Иван";
+            //config.AppSettings.Settings["UserName"].Value = "Ivan";
+            //config.AppSettings.Settings["Email"].Value = "ivan@mail.com";
+            //// Другие свойства пользователя здесь
+            //config.Save(ConfigurationSaveMode.Modified);
+            //System.Configuration.ConfigurationManager.RefreshSection("appSettings");
+            //string userID = System.Configuration.ConfigurationManager.AppSettings["UserID"];
+            //string userName = System.Configuration.ConfigurationManager.AppSettings["UserName"];
+            //string email = System.Configuration.ConfigurationManager.AppSettings["Email"];
 
             #region Commands
             MoveWindowCommand = ReactiveCommand.Create(() =>

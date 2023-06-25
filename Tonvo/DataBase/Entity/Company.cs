@@ -1,12 +1,13 @@
-﻿namespace Tonvo.DataBase.Entity;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Tonvo.DataBase.Entity;
 
 public partial class Company
 {
     public int Id { get; set; }
 
     public string NameCompany { get; set; } = null!;
-
-    public string InitialsOfDirector { get; set; } = null!;
 
     public string PhoneNumber { get; set; } = null!;
 

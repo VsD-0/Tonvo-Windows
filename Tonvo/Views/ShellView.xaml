@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         DataContext="{Binding ShellViewModel, Source={StaticResource ViewModelLocator}}"
         mc:Ignorable="d"
         Title="ShellView"
@@ -41,9 +42,99 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+            
+                <Border CornerRadius="0,0,0,10"
+                        Width="52"
+                        Margin="0 -1 0 0"
+                        HorizontalAlignment="Left">
+                    <Border.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <EventTrigger RoutedEvent="Border.MouseEnter">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="(Border.Width)"
+                                                                 To="250"
+                                                                 Duration="0:0:0.5"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
 
+                                <EventTrigger RoutedEvent="Border.MouseLeave">
+                                    <EventTrigger.Actions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="(Border.Width)"
+                                                                 To="52"
+                                                                 Duration="0:0:0.5"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger.Actions>
+                                </EventTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
+                            <GradientStop Color="{StaticResource winBorderColor1}" Offset="0"/>
+                            <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
+                            <GradientStop Color="{StaticResource winBorderColor3}" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Grid>
+                        <!--Кнопки меню-->
+                        <StackPanel>
+                            <RadioButton Style="{StaticResource menuButton}"
+                                     Tag="{StaticResource Secondary}"
+                                     IsChecked="True"
+                                     Command="{Binding ShowHomeViewCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:IconImage Icon="Home" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Домой" Style="{StaticResource menuButtonText}"/>
+                                </StackPanel>
+                            </RadioButton>
+                        </StackPanel>
+                        <StackPanel VerticalAlignment="Bottom">
+                            <RadioButton Style="{StaticResource menuButton}"
+                                     Tag="{StaticResource Secondary}"
+                                     Command="{Binding ShowPersonalAccountViewCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:IconImage Icon="UserAlt"  Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Личный кабинет" Style="{StaticResource menuButtonText}"/>
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton Style="{StaticResource menuButton}"
+                                     Tag="{StaticResource Secondary}"
+                                     Command="{Binding ShowSettingsViewCommand}"
+                                     VerticalAlignment="Bottom">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:IconImage Icon="Gear" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Настройки" Style="{StaticResource menuButtonText}"/>
+                                </StackPanel>
+                            </RadioButton>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <!--Основное содержимое-->
+                <ContentPresenter Grid.Row="1" Grid.Column="1" Content="{Binding RootViewSource}"/>
+            </Grid>
+            
             <!--ControlBar-->
-            <Border Background="{StaticResource PrimaryLight}" CornerRadius="10,10,0,0" Padding="2">
+            <Border CornerRadius="10,10,0,0" Padding="2">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
+                        <GradientStop Color="{StaticResource winBorderColor1}" Offset="0"/>
+                        <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
+                        <GradientStop Color="{StaticResource winBorderColor3}" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
                 <Border.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
                                     Command="{Binding MaximizeWindowCommand}"/>
@@ -58,7 +149,7 @@
                     <!--Логотип и название-->
                     <StackPanel HorizontalAlignment="Left" 
                                 Orientation="Horizontal">
-                    
+
                         <!--Логотип-->
                         <Image Width="25"
                                Margin="10 4" 
@@ -67,7 +158,7 @@
                                RenderOptions.EdgeMode="Aliased"
                                RenderOptions.ClearTypeHint="Enabled"
                                Source="/Resources/Pictures/Logo transparency2.png"/>
-                    
+
                         <!--Название приложения-->
                         <TextBlock Style="{StaticResource TextBoxBaseStyle}"
                                    Margin="5,0,0,0"
@@ -107,9 +198,6 @@
                     </StackPanel>
                 </Grid>
             </Border>
-
-            <!--Основное содержимое-->
-            <ContentPresenter Grid.Row="1" Content="{Binding RootViewSource}"/>
         </Grid>
     </Border>
 </Window>
