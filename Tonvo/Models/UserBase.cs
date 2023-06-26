@@ -6,7 +6,7 @@ using EventManager = Tonvo.Core.EventManager;
 
 namespace Tonvo.Models
 {
-    internal abstract class UserBase : IUser, INotifyDataErrorInfo
+    internal abstract class UserBase : INotifyDataErrorInfo
     {
         protected readonly Dictionary<string, List<string>> _errorsByPropertyName = new Dictionary<string, List<string>>();
 

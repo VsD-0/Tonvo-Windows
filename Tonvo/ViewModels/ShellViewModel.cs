@@ -9,6 +9,7 @@ namespace Tonvo.ViewModels
         #region Fields
         private readonly INavigationService _navigationService;
         private Frame _mainFrame;
+        private readonly UserService _userService;
         #endregion Fields
 
         #region Properties
@@ -23,6 +24,10 @@ namespace Tonvo.ViewModels
         /// Путь к иконке изменения состояния окна
         /// </summary>
         [Reactive] public string ChangeWindowStateIcon { get; set; } = @"\Resources\Icons\increase_window.png";
+
+        [Reactive] public string Email { get; set; }
+        [Reactive] public string Password { get; set; }
+        [Reactive] public string ErrorMessage { get; set; }
 
         /// <summary>
         /// Метод для перетаскивания окна
@@ -49,13 +54,15 @@ namespace Tonvo.ViewModels
         public ReactiveCommand<Unit, Unit> ShowApplicantsCommand { get; }
         public ReactiveCommand<Unit, Unit> ShowPersonalAccountViewCommand { get; }
         public ReactiveCommand<Unit, Unit> ShowSettingsViewCommand { get; }
+        public ReactiveCommand<Unit, Unit> SignInCommand { get; }
         #endregion Properties
 
 
-        public ShellViewModel(INavigationService navigationService, Frame mainFrame)
+        public ShellViewModel(INavigationService navigationService, Frame mainFrame, UserService userService)
         {
             _navigationService = navigationService;
             _mainFrame = mainFrame;
+            _userService = userService;
             Task.Run(() => _navigationService.NavigateToPage(_mainFrame, "ApplicantControlPanelView"));
 
             this.WhenAnyValue(x => x.winState)
@@ -80,8 +87,25 @@ namespace Tonvo.ViewModels
             #region Commands
             ShowVacanciesCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "ApplicantControlPanelView"); });
             ShowApplicantsCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "CompanyControlPanelView"); });
-            ShowPersonalAccountViewCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "PersonalAccountView"); });
+            ShowPersonalAccountViewCommand = ReactiveCommand.Create(() => {
+                if (false)
+                    _navigationService.NavigateToPage(_mainFrame, "PersonalAccountView"); 
+            });
             ShowSettingsViewCommand = ReactiveCommand.Create(() => { int a = 1; });
+
+            SignInCommand = ReactiveCommand.Create(() =>
+            {
+                ErrorMessage = "";
+                Task.Run(async () =>
+                {
+                    if (await _userService.AuthorizationAsync(Email, Password))
+                    {
+                        _navigationService.NavigateToPage(_mainFrame, "PersonalAccountView");
+                    }
+                    else
+                        ErrorMessage = "Неверный логин или пароль";
+                });
+            });
 
             MoveWindowCommand = ReactiveCommand.Create(() =>
             {
