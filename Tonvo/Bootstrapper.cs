@@ -30,10 +30,16 @@ namespace Tonvo
             Services.AddDbContext<DbTonvoContext>(options =>
             {
                 var conn = Configuration.GetConnectionString("DefaultConnection");
-                try { options.UseMySql(conn, ServerVersion.AutoDetect(conn)); }
-                catch (MySqlException ex) { Debug.WriteLine($"\n------------------------------------------------------------------------------------------\n" +
-                                                            $"Ошибка подключения к серверу MySQL: {ex.Message}" +
-                                                            $"\n------------------------------------------------------------------------------------------\n"); }
+                try
+                {
+                    options.UseMySql(conn, ServerVersion.AutoDetect(conn));
+                }
+                catch (MySqlException ex)
+                {
+                    Debug.WriteLine($"\n------------------------------------------------------------------------------------------\n" +
+                        $"Ошибка подключения к серверу MySQL: {ex.Message}" +
+                        $"\n------------------------------------------------------------------------------------------\n");
+                }
             }, ServiceLifetime.Transient);
 
             Provider = Services.BuildServiceProvider();
@@ -42,13 +48,12 @@ namespace Tonvo
         private static void RegisterServices()
         {
             Services.AddSingleton(Configuration);
+            Services.AddSingleton<Frame>();
             Services.AddSingleton<ApplicantService>();
             Services.AddSingleton<CompanyService>();
             Services.AddSingleton<VacancyService>();
             Services.AddSingleton<FavoriteService>();
             Services.AddSingleton<INavigationService, NavigationService>();
-            Services.AddSingleton<INavigationServiceForBrowse, NavigationService>();
-            Services.AddSingleton<INavigationServiceForControl, NavigationService>();
             Services.AddSingleton<IMessageBus, MessageBus>();
 
             Provider = Services.BuildServiceProvider();

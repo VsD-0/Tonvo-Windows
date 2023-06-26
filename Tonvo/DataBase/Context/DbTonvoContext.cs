@@ -258,6 +258,9 @@ public partial class DbTonvoContext : DbContext
             entity.Property(e => e.Salary)
                 .HasMaxLength(50)
                 .HasColumnName("salary");
+            entity.Property(e => e.Status)
+                .HasDefaultValueSql("'1'")
+                .HasColumnName("status");
             entity.Property(e => e.СreationDate)
                 .HasColumnType("datetime")
                 .HasColumnName("сreation_date");

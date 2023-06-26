@@ -1,9 +1,12 @@
-﻿namespace Tonvo.ViewModels
+﻿using MySqlConnector;
+
+namespace Tonvo.ViewModels
 {
     internal class ViewModelLocator
     {
         private static ServiceProvider? _provider;
         private static ServiceCollection _services;
+
         public static void Init(ServiceProvider provider, ServiceCollection services)
         {
             _provider = provider;

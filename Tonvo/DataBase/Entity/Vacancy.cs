@@ -23,6 +23,8 @@ public partial class Vacancy
 
     public int? DesiredExperience { get; set; }
 
+    public int Status { get; set; }
+
     public virtual Company Company { get; set; } = null!;
 
     public virtual Profession Profession { get; set; } = null!;

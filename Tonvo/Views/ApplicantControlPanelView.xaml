@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Tonvo.Views"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              xmlns:materialDesign = "http://materialdesigninxaml.net/winfx/xaml/themes"
              DataContext="{Binding ApplicantControlPanelViewModel,
                     Source={StaticResource ViewModelLocator}}"
@@ -12,132 +13,164 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.3*" 
-                              MinWidth="350"
-                              MaxWidth="450"/>
+                                  MinWidth="350"
+                                  MaxWidth="450"/>
             <ColumnDefinition Width="0.7*"/>
         </Grid.ColumnDefinitions>
-        <Border CornerRadius="0 10 10 0">
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
-                    <GradientStop Color="{StaticResource winBorderColor1}" Offset="0"/>
-                    <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
-                    <GradientStop Color="{StaticResource winBorderColor3}" Offset="1"/>
-                </LinearGradientBrush>
-            </Border.Background>
+        <Border CornerRadius="0 10 10 0"
+                Background="{StaticResource PrimaryGradient}">
             <Border CornerRadius="10" 
-                Background="{StaticResource Secondary}">
+                    Background="{StaticResource Secondary}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="5*"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <ScrollViewer>
-                        <StackPanel DataContext="{Binding SelectedApplicant}"
-                                Margin="10,0,10,0">
+                        <StackPanel DataContext="{Binding SelectedVacancy}"
+                                    Margin="10,0,10,0">
                             <TextBlock Text="Вакансия"
-                                   Foreground="{StaticResource OnPrimary}"
-                                   FontSize="25"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,10,0,10"/>
-                            <TextBlock Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged, TargetNullValue=null}"
-                                   Foreground="{StaticResource OnPrimary}"
-                                   HorizontalAlignment="Center"
-                                   FontSize="20"
-                                   TextWrapping="Wrap"
-                                   Margin="0,0,0,5"/>
-                            <TextBlock Text="{Binding ProfessionName, UpdateSourceTrigger=PropertyChanged}"
-                                   Foreground="{StaticResource OnPrimary}"
-                                   HorizontalAlignment="Center"
-                                   FontSize="20"
-                                   TextWrapping="Wrap"
-                                   Margin="0,0,0,10"/>
-                            <TextBlock Text="{Binding StringFormat=Желаемая доход от: {0}, Path=ApplicantSalary, UpdateSourceTrigger=PropertyChanged}"
-                                   Foreground="{StaticResource OnPrimary}"
-                                   FontSize="20"
-                                   TextWrapping="Wrap"
-                                   Margin="0,0,0,10"/>
-                            <TextBlock Text="{Binding StringFormat=Опыт работы: {0}, Path=WorkExperience, UpdateSourceTrigger=PropertyChanged}"
-                                   Foreground="{StaticResource OnPrimary}"
-                                   FontSize="20"
-                                   TextWrapping="Wrap"
-                                   Margin="0,0,0,10"/>
-                            <TextBlock Text="{Binding StringFormat=Дата рождения: {0}, Path=Birthday, UpdateSourceTrigger=PropertyChanged}"
-                                   Foreground="{StaticResource OnPrimary}"
-                                   FontSize="20"
-                                   TextWrapping="Wrap"
-                                   Margin="0,0,0,10"/>
-                            <TextBlock Text="{Binding StringFormat=Электронная почта: {0}, Path=Email, UpdateSourceTrigger=PropertyChanged}"
-                                   Foreground="{StaticResource OnPrimary}"
-                                   FontSize="20"
-                                   TextWrapping="Wrap"
-                                   Margin="0,0,0,10"/>
-                            <TextBlock Text="{Binding StringFormat=Подробная информация: {0}, Path=ApplicantDescription, TargetNullValue=Подробная информация: Отсутствует, UpdateSourceTrigger=PropertyChanged}"
-                                   Foreground="{StaticResource OnPrimary}"
-                                   FontSize="20"
-                                   TextWrapping="Wrap"/>
+                                       Foreground="{StaticResource OnPrimary}"
+                                       FontSize="25"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,10,0,10"/>
+                            <TextBlock Text="{Binding Profession.Name, UpdateSourceTrigger=PropertyChanged, TargetNullValue=null}"
+                                       Foreground="{StaticResource OnPrimary}"
+                                       HorizontalAlignment="Center"
+                                       FontSize="20"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,5"/>
+                            <TextBlock Text="{Binding Company.NameCompany, UpdateSourceTrigger=PropertyChanged}"
+                                       Foreground="{StaticResource OnPrimary}"
+                                       HorizontalAlignment="Center"
+                                       FontSize="20"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,10"/>
+                            <TextBlock Text="{Binding StringFormat=Доход от {0}, Path=Salary, UpdateSourceTrigger=PropertyChanged, ConverterCulture=RU-ru}"
+                                       Foreground="{StaticResource OnPrimary}"
+                                       FontSize="20"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,10"/>
+                            <TextBlock Text="{Binding StringFormat=Опыт работы от {0} лет, Path=DesiredExperience, UpdateSourceTrigger=PropertyChanged}"
+                                       Foreground="{StaticResource OnPrimary}"
+                                       FontSize="20"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,10"/>
+                            <TextBlock Text="{Binding StringFormat=Адрес: {0}, Path=Address, UpdateSourceTrigger=PropertyChanged}"
+                                       Foreground="{StaticResource OnPrimary}"
+                                       FontSize="20"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,10"/>
+                            <TextBlock Text="{Binding StringFormat=Электронная почта: {0}, Path=Company.Email, UpdateSourceTrigger=PropertyChanged}"
+                                       Foreground="{StaticResource OnPrimary}"
+                                       FontSize="20"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,10"/>
+                            <TextBlock Text="{Binding StringFormat=Подробная информация: {0}, Path=Information, TargetNullValue=Подробная информация: Отсутствует, UpdateSourceTrigger=PropertyChanged}"
+                                       Foreground="{StaticResource OnPrimary}"
+                                       FontSize="20"
+                                       TextWrapping="Wrap"/>
                         </StackPanel>
                     </ScrollViewer>
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Button Margin="5" 
-                            HorizontalAlignment="Stretch"
-                            Content="Печать" 
-                            Style="{StaticResource MaterialDesignRaisedButton}"
-                            materialDesign:ButtonAssist.CornerRadius="16"
-                            Background="{StaticResource Primary}"
-                            Foreground="{StaticResource OnSecondary}"
-                            BorderThickness="0"
-                            materialDesign:ElevationAssist.Elevation="Dp4"
-                            Command="{Binding PrintApplicant}"/>
+                                HorizontalAlignment="Stretch"
+                                Content="Печать" 
+                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                materialDesign:ButtonAssist.CornerRadius="16"
+                                Background="{StaticResource Primary}"
+                                Foreground="{StaticResource OnSecondary}"
+                                BorderThickness="0"
+                                materialDesign:ElevationAssist.Elevation="Dp4"
+                                Command="{Binding PrintApplicant}"/>
                         <Button Margin="5" 
-                            HorizontalAlignment="Stretch"
-                            Content="Откликнуться" 
-                            Style="{StaticResource MaterialDesignRaisedButton}"
-                            materialDesign:ButtonAssist.CornerRadius="16"
-                            Background="{StaticResource Primary}"
-                            Foreground="{StaticResource OnSecondary}"
-                            BorderThickness="0"
-                            materialDesign:ElevationAssist.Elevation="Dp4"
-                            Command="{Binding RespondApplicant}"/>
+                                HorizontalAlignment="Stretch"
+                                Content="Откликнуться" 
+                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                materialDesign:ButtonAssist.CornerRadius="16"
+                                Background="{StaticResource Primary}"
+                                Foreground="{StaticResource OnSecondary}"
+                                BorderThickness="0"
+                                materialDesign:ElevationAssist.Elevation="Dp4"
+                                Command="{Binding RespondApplicant}"/>
                     </StackPanel>
                 </Grid>
             </Border>
         </Border>
-        
+
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.25*"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
             <!--Название списка-->
             <TextBlock Text="Вакансии"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
-                       FontSize="85"/>
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           FontSize="85"/>
 
-            <ListView Grid.Row="1" 
-                      ItemsSource="{Binding Vacancies}"
-                      SelectedItem="{Binding SelectedVacancy}"
-                      Margin="15,0,5,0"
-                      HorizontalAlignment="Stretch"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0"
+                         Background="White"
+                         VerticalAlignment="Center"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         materialDesign:TextFieldAssist.HasClearButton="True"
+                         materialDesign:HintAssist.Hint="Поиск"
+                         materialDesign:HintAssist.Background="{StaticResource Background}"
+                         materialDesign:TextFieldAssist.LeadingIcon="Search"
+                         materialDesign:TextFieldAssist.HasLeadingIcon="True"
+                         Text="{Binding Search, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox Grid.Column="1"
+                      Background="White"
+                      VerticalAlignment="Center"
+                      materialDesign:HintAssist.Hint="Сортировка"
+                      materialDesign:HintAssist.Background="{StaticResource Background}"
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      ItemsSource="{Binding Sorts}"
+                      SelectedItem="{Binding SelectedSort}"
+                      SelectedIndex="0"
+                      BorderBrush="{StaticResource PrimaryGradient}"/>
+                <Slider Grid.Column="2"
+                        Style="{StaticResource MaterialDesignDiscreteHorizontalSlider}"
+                        Maximum="400000"
+                        Minimum="10000"
+                        TickFrequency="1000"
+                        TickPlacement="BottomRight"
+                        Value="{Binding SelectedSalary}"
+                        Foreground="{StaticResource PrimaryGradient}">
+                </Slider>
+            </Grid>
+            
+            <ListView Grid.Row="2" 
+                          ItemsSource="{Binding Vacancies}"
+                          SelectedItem="{Binding SelectedVacancy}"
+                          Margin="15,0,5,0"
+                          HorizontalAlignment="Stretch"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
 
                             <TextBlock Text="{Binding Path=Profession.Name}"
-                                           FontSize="30"
-                                           Margin="5"/>
+                                               FontSize="30"
+                                               Margin="5"/>
 
                             <TextBlock Grid.Row="1" 
-                                           Text="{Binding Path=Salary}"
-                                           FontSize="20"
-                                           Margin="5"/>
+                                               Text="{Binding Path=Salary}"
+                                               FontSize="20"
+                                               Margin="5"/>
 
                             <TextBlock Grid.Row="2"
-                                           Text="{Binding Path=Company.NameCompany}"
-                                           FontSize="20"
-                                           Margin="5"/>
+                                               Text="{Binding Path=Company.NameCompany}"
+                                               FontSize="20"
+                                               Margin="5"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

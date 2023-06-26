@@ -8,10 +8,15 @@ namespace Tonvo.ViewModels
     {
         #region Fields
         private readonly INavigationService _navigationService;
+        private Frame _mainFrame;
         #endregion Fields
 
         #region Properties
-        public UserControl? RootViewSource { get; set; }
+        public Frame MainFrame
+        {
+            get { return _mainFrame; }
+        }
+
         [Reactive] public WindowState winState { get;  set; } = WindowState.Normal;
 
         /// <summary>
@@ -39,14 +44,19 @@ namespace Tonvo.ViewModels
         /// Метод для нормальной работы на компьютерах с несколькими мониторами
         /// </summary>
         public ReactiveCommand<Unit, Unit> ControlBarMouseEnter { get; }
+
+        public ReactiveCommand<Unit, Unit> ShowVacanciesCommand { get; }
+        public ReactiveCommand<Unit, Unit> ShowApplicantsCommand { get; }
+        public ReactiveCommand<Unit, Unit> ShowPersonalAccountViewCommand { get; }
+        public ReactiveCommand<Unit, Unit> ShowSettingsViewCommand { get; }
         #endregion Properties
 
 
-        public ShellViewModel(INavigationService navigationService)
+        public ShellViewModel(INavigationService navigationService, Frame mainFrame)
         {
             _navigationService = navigationService;
-            _navigationService.onUserControlChanged += (usercontrol) => RootViewSource = usercontrol;
-            _navigationService.ChangePage(new ApplicantControlPanelView());
+            _mainFrame = mainFrame;
+            Task.Run(() => _navigationService.NavigateToPage(_mainFrame, "ApplicantControlPanelView"));
 
             this.WhenAnyValue(x => x.winState)
                 .Subscribe(winState =>
@@ -68,6 +78,11 @@ namespace Tonvo.ViewModels
             //string email = System.Configuration.ConfigurationManager.AppSettings["Email"];
 
             #region Commands
+            ShowVacanciesCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "ApplicantControlPanelView"); });
+            ShowApplicantsCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "CompanyControlPanelView"); });
+            ShowPersonalAccountViewCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "PersonalAccountView"); });
+            ShowSettingsViewCommand = ReactiveCommand.Create(() => { int a = 1; });
+
             MoveWindowCommand = ReactiveCommand.Create(() =>
             {
                 WindowInteropHelper helper = new(Application.Current.MainWindow);
@@ -89,6 +104,7 @@ namespace Tonvo.ViewModels
                     //ChangeWindowStateIcon = @"\Resources\Icons\decrease_window.png";
                 }
             });
+            _mainFrame = mainFrame;
             #endregion Commands
         }
     }

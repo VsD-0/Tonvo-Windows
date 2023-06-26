@@ -13,6 +13,12 @@
     <Color x:Key="winBorderColor2">#FFA82E</Color>
     <Color x:Key="winBorderColor3">#FF8215</Color>
 
+    <LinearGradientBrush x:Key="PrimaryGradient" StartPoint="0,0" EndPoint="1,0.7">
+        <GradientStop Color="{StaticResource winBorderColor1}" Offset="0"/>
+        <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
+        <GradientStop Color="{StaticResource winBorderColor3}" Offset="1"/>
+    </LinearGradientBrush>
+
     <SolidColorBrush x:Key="Background" Color="{StaticResource BackgroundColor}"/>
     <SolidColorBrush x:Key="Primary" Color="{StaticResource PrimaryColor}"/>
     <SolidColorBrush x:Key="PrimaryLight" Color="{StaticResource PrimaryLightColor}"/>

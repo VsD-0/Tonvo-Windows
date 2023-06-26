@@ -4,43 +4,89 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Tonvo.Views"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              DataContext="{Binding RootViewModel,
                     Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{StaticResource Primary}">
-    <!--Главный контейнер-->
-    <Grid Grid.Row="1">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="15*"/>
-            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Grid>
-            <!--Список-->
-            <ContentPresenter Content="{Binding BrowseListSource}"/>
-        </Grid>
+        <Border CornerRadius="0,0,0,10"
+                        Width="52"
+                        Margin="0 -1 0 0"
+                        HorizontalAlignment="Left">
+            <Border.Style>
+                <Style>
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="Border.MouseEnter">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.Width)"
+                                                                 To="250"
+                                                                 Duration="0:0:0.5"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
 
-        <!--Панель управления-->
-        <Border CornerRadius="10,0,10,10" 
-                Grid.Column="1" 
-                Background="{StaticResource Primary}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="10*"/>
-                    <RowDefinition Height="31*"/>
-                    <RowDefinition Height="9*"/>
-                </Grid.RowDefinitions>
-
-                <Image Source="pack://application:,,,/Resources/Pictures/FullLogo transparency2.png"/>
-
-                <!--Контейнер фильтра/информации элемента-->
-                <ContentPresenter Content="{Binding ControlPanelSource}" Grid.Row="1"/>
-            </Grid>
+                        <EventTrigger RoutedEvent="Border.MouseLeave">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="(Border.Width)"
+                                                                 To="52"
+                                                                 Duration="0:0:0.5"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0.7">
+                    <GradientStop Color="{StaticResource winBorderColor1}" Offset="0"/>
+                    <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.5"/>
+                    <GradientStop Color="{StaticResource winBorderColor3}" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <StackPanel>
+                <!--Кнопки меню-->
+                <RadioButton Style="{StaticResource menuButton}"
+                                     Tag="{StaticResource Secondary}"
+                                     IsChecked="True"
+                                     Command="{Binding ShowVacanciesCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="Home" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Вакансии" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton Style="{StaticResource menuButton}"
+                                     Tag="{StaticResource Secondary}"
+                                     Command="{Binding ShowPersonalAccountViewCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="UserAlt"  Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Личный кабинет" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton Style="{StaticResource menuButton}"
+                                     Tag="{StaticResource Secondary}"
+                                     Command="{Binding ShowSettingsViewCommand}"
+                                     VerticalAlignment="Bottom">
+                    <StackPanel Orientation="Horizontal">
+                        <fa:IconImage Icon="Gear" Style="{StaticResource menuButtonIcon}"/>
+                        <TextBlock Text="Настройки" Style="{StaticResource menuButtonText}"/>
+                    </StackPanel>
+                </RadioButton>
+            </StackPanel>
         </Border>
-        <!--Окно входа--><!--
-        <ContentPresenter Grid.RowSpan="3" Grid.ColumnSpan="2" Content="{Binding}"/>
-        --><!--Окно регистрации--><!--
-        <ContentPresenter Grid.RowSpan="3" Grid.ColumnSpan="2" Content="{Binding}"/>-->
+        <!--Основное содержимое-->
+        <ContentPresenter Grid.Row="1" Grid.Column="1" Content="{Binding CurrentSource}"/>
     </Grid>
 </UserControl>

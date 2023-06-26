@@ -7,8 +7,9 @@
              DataContext="{Binding PersonalAccountViewModel,
                     Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d" 
+             Background="Black"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Button>gfhfhdhdf</Button>
     </Grid>
 </UserControl>
