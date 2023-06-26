@@ -28,7 +28,6 @@ namespace Tonvo.Services
                     .Include(o => o.City)
                     .Include(o => o.Responders)
                     .Include(o => o.Favorites)
-                    .Include(o => o.Vacancies)
                     .ToListAsync();
                 return new ObservableCollection<Applicant> (dbApplicants);
             }
