@@ -38,7 +38,7 @@
             </Grid.RowDefinitions>
 
             <materialDesign:DialogHost DialogBackground="Transparent" Grid.Row="1"
-                                   CloseOnClickAway="True">
+                                       CloseOnClickAway="True">
                 <materialDesign:DialogHost.DialogContent>
                     <Border Background="{StaticResource PrimaryGradient}"
                                     BorderThickness="1" CornerRadius="10" Margin="4"
@@ -159,7 +159,7 @@
                                                  Command="{Binding ShowPersonalAccountViewCommand}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
+                                        <i:InvokeCommandAction Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" IsEnabled="{Binding IsNotLogin}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <StackPanel Orientation="Horizontal">

@@ -33,7 +33,7 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="1">
-                    <TextBlock Text="Приглашения"
+                    <TextBlock Text="{Binding userID}"
                            HorizontalAlignment="Center"
                            FontSize="25"/>
 

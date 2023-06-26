@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Configuration;
+using System.Windows.Controls;
 
 namespace Tonvo.ViewModels
 {
@@ -25,6 +26,7 @@ namespace Tonvo.ViewModels
         /// </summary>
         [Reactive] public string ChangeWindowStateIcon { get; set; } = @"\Resources\Icons\increase_window.png";
 
+        [Reactive] public bool IsNotLogin { get; set; }
         [Reactive] public string Email { get; set; }
         [Reactive] public string Password { get; set; }
         [Reactive] public string ErrorMessage { get; set; }
@@ -72,23 +74,12 @@ namespace Tonvo.ViewModels
                     else ChangeWindowStateIcon = @"\Resources\Icons\increase_window.png";
                 });
 
-            //// Сохранение данных пользователя в app.config
-            //Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            //config.AppSettings.Settings["UserID"].Value = "Иван";
-            //config.AppSettings.Settings["UserName"].Value = "Ivan";
-            //config.AppSettings.Settings["Email"].Value = "ivan@mail.com";
-            //// Другие свойства пользователя здесь
-            //config.Save(ConfigurationSaveMode.Modified);
-            //System.Configuration.ConfigurationManager.RefreshSection("appSettings");
-            //string userID = System.Configuration.ConfigurationManager.AppSettings["UserID"];
-            //string userName = System.Configuration.ConfigurationManager.AppSettings["UserName"];
-            //string email = System.Configuration.ConfigurationManager.AppSettings["Email"];
-
             #region Commands
             ShowVacanciesCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "ApplicantControlPanelView"); });
             ShowApplicantsCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "CompanyControlPanelView"); });
             ShowPersonalAccountViewCommand = ReactiveCommand.Create(() => {
-                if (false)
+                IsNotLogin = System.Configuration.ConfigurationManager.AppSettings["UserID"] == "" ? true : false;
+                if (IsNotLogin)
                     _navigationService.NavigateToPage(_mainFrame, "PersonalAccountView"); 
             });
             ShowSettingsViewCommand = ReactiveCommand.Create(() => { int a = 1; });

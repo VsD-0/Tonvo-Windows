@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -71,6 +72,11 @@ namespace Tonvo.Services
                 return false;
             if (user.Password.Equals(password))
             {
+                Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                config.AppSettings.Settings["UserID"].Value = user.Id.ToString();
+                config.AppSettings.Settings["UserType"].Value = user.Role.ToString();
+                config.Save(ConfigurationSaveMode.Modified);
+                System.Configuration.ConfigurationManager.RefreshSection("appSettings");
                 return true;
             }
             return false;
