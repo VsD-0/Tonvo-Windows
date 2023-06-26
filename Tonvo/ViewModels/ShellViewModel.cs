@@ -79,8 +79,8 @@ namespace Tonvo.ViewModels
             ShowApplicantsCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "CompanyControlPanelView"); });
             ShowPersonalAccountViewCommand = ReactiveCommand.Create(() => {
                 IsNotLogin = System.Configuration.ConfigurationManager.AppSettings["UserID"] == "" ? true : false;
-                if (IsNotLogin)
-                    _navigationService.NavigateToPage(_mainFrame, "PersonalAccountView"); 
+                if (!IsNotLogin)
+                    _navigationService.NavigateToPage(_mainFrame, "ApplicantAccountView"); 
             });
             ShowSettingsViewCommand = ReactiveCommand.Create(() => { int a = 1; });
 
@@ -91,7 +91,7 @@ namespace Tonvo.ViewModels
                 {
                     if (await _userService.AuthorizationAsync(Email, Password))
                     {
-                        _navigationService.NavigateToPage(_mainFrame, "PersonalAccountView");
+                        _navigationService.NavigateToPage(_mainFrame, "ApplicantAccountView");
                     }
                     else
                         ErrorMessage = "Неверный логин или пароль";

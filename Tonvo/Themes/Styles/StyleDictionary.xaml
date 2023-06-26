@@ -89,8 +89,7 @@
     <!--DataPicker в окне регистрации-->
     <Style x:Key="dpBirthdayStyle" TargetType="{x:Type DatePicker}"
            BasedOn="{StaticResource MaterialDesignOutlinedDatePicker}">
-        <Setter Property="Text"
-                Value="{Binding Birthday, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=True}"/>
+
         <Setter Property="Margin"
                 Value="5,0,5,25"/>
         <Setter Property="Height"
@@ -287,8 +286,7 @@
                 Value="Название профессии"/>
         <Setter Property="materialDesign:TextFieldAssist.LeadingIcon"
                 Value="ProfessionalHexagon"/>
-        <Setter Property="Text"
-                Value="{Binding ProfessionName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+        
     </Style>
 
     <!--Стиль для поля "Желаемая заработная плата"-->
@@ -302,8 +300,7 @@
                 Value="False"/>
         <Setter Property="materialDesign:TextFieldAssist.TrailingIcon"
                 Value="Ruble"/>
-        <Setter Property="Text"
-                Value="{Binding ApplicantSalary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+        
         <Style.Triggers>
             <Trigger Property="Text" Value="">
                 <Setter Property="materialDesign:TextFieldAssist.HasTrailingIcon" Value="True"/>
@@ -318,8 +315,7 @@
                 Value="Опыт работы"/>
         <Setter Property="materialDesign:TextFieldAssist.LeadingIcon"
                 Value="ClipboardTextDateOutline"/>
-        <Setter Property="Text"
-                Value="{Binding WorkExperience, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+        
     </Style>
 
     <!--Стиль для поля "Имя"-->
@@ -329,8 +325,6 @@
                 Value="Имя"/>
         <Setter Property="materialDesign:TextFieldAssist.LeadingIcon"
                 Value="Abc"/>
-        <Setter Property="Text"
-                Value="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
     </Style>
 
     <!--Стиль для поля "Фамилия"-->
@@ -340,8 +334,7 @@
                 Value="Фамилия"/>
         <Setter Property="materialDesign:TextFieldAssist.LeadingIcon"
                 Value="Abc"/>
-        <Setter Property="Text"
-                Value="{Binding SecondName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+
     </Style>
 
     <!--Стиль для поля "Email"-->

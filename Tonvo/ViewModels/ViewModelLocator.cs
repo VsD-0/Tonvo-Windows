@@ -18,7 +18,7 @@ namespace Tonvo.ViewModels
             services.AddTransient<CompanyControlPanelViewModel>();
             services.AddTransient<CompanyFieldsViewModel>();
             services.AddTransient<BrowseListViewModel>();
-            services.AddTransient<PersonalAccountViewModel>();
+            services.AddTransient<ApplicantAccountViewModel>();
             services.AddTransient<RootViewModel>();
             services.AddTransient<ShellViewModel>();
             services.AddTransient<SignInViewModel>();
@@ -37,7 +37,7 @@ namespace Tonvo.ViewModels
         public static CompanyControlPanelViewModel? CompanyControlPanelViewModel => _provider?.GetRequiredService<CompanyControlPanelViewModel>();
         public static CompanyFieldsViewModel? CompanyFieldsViewModel => _provider?.GetRequiredService<CompanyFieldsViewModel>();
         public static BrowseListViewModel? BrowseListViewModel => _provider?.GetRequiredService<BrowseListViewModel>();
-        public static PersonalAccountViewModel? PersonalAccountViewModel => _provider?.GetRequiredService<PersonalAccountViewModel>();
+        public static ApplicantAccountViewModel? ApplicantAccountViewModel => _provider?.GetRequiredService<ApplicantAccountViewModel>();
         public static RootViewModel? RootViewModel => _provider?.GetRequiredService<RootViewModel>();
         public static ShellViewModel? ShellViewModel => _provider?.GetRequiredService<ShellViewModel>();
         public static SignInViewModel? SignInViewModel => _provider?.GetRequiredService<SignInViewModel>();

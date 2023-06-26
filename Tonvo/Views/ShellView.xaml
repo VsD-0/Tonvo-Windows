@@ -159,7 +159,7 @@
                                                  Command="{Binding ShowPersonalAccountViewCommand}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" IsEnabled="{Binding IsNotLogin}"/>
+                                        <i:InvokeCommandAction Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" IsEnabled="{Binding IsNotLogin, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <StackPanel Orientation="Horizontal">

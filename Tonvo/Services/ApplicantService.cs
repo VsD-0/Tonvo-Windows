@@ -36,5 +36,25 @@ namespace Tonvo.Services
                 _semaphoreSlim.Release();
             }
         }
+        async public Task<Applicant> GetByIdAsync(int id)
+        {
+            await _semaphoreSlim.WaitAsync();
+            try
+            {
+                var applicant = await _context.Applicants
+                    .Include(o => o.Education)
+                    .Include(o => o.Status)
+                    .Include(o => o.DesiredProfession)
+                    .Include(o => o.City)
+                    .Include(o => o.Responders)
+                    .Include(o => o.Favorites)
+                    .FirstOrDefaultAsync(o => o.Id == id);
+                return applicant;
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
+        }
     }
 }

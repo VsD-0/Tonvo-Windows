@@ -29,7 +29,7 @@
                 { nameof(BrowseListView), typeof(BrowseListView) },
                 { nameof(CompanyControlPanelView), typeof(CompanyControlPanelView) },
                 { nameof(CompanyFieldsView), typeof(CompanyFieldsView) },
-                { nameof(PersonalAccountView), typeof(PersonalAccountView) },
+                { nameof(ApplicantAccountView), typeof(ApplicantAccountView) },
                 { nameof(RootView), typeof(RootView) },
                 { nameof(ShellView), typeof(ShellView) },
                 { nameof(SignInView), typeof(SignInView) },

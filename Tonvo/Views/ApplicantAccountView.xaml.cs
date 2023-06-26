@@ -3,9 +3,9 @@
     /// <summary>
     /// Interaction logic for PersonalAccountView.xaml
     /// </summary>
-    public partial class PersonalAccountView : UserControl
+    public partial class ApplicantAccountView : UserControl
     {
-        public PersonalAccountView()
+        public ApplicantAccountView()
         {
             InitializeComponent();
         }
