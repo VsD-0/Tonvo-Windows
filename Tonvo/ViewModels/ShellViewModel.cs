@@ -57,6 +57,8 @@ namespace Tonvo.ViewModels
         public ReactiveCommand<Unit, Unit> ShowPersonalAccountViewCommand { get; }
         public ReactiveCommand<Unit, Unit> ShowSettingsViewCommand { get; }
         public ReactiveCommand<Unit, Unit> SignInCommand { get; }
+        public ReactiveCommand<Unit, Unit> RegApplicantCommand { get; }
+        public ReactiveCommand<Unit, Unit> RegCompanyCommand { get; }
         #endregion Properties
 
 
@@ -75,12 +77,16 @@ namespace Tonvo.ViewModels
                 });
 
             #region Commands
+            RegApplicantCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "ApplicantAccountView"); }); 
+
             ShowVacanciesCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "ApplicantControlPanelView"); });
             ShowApplicantsCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "CompanyControlPanelView"); });
             ShowPersonalAccountViewCommand = ReactiveCommand.Create(() => {
                 IsNotLogin = System.Configuration.ConfigurationManager.AppSettings["UserID"] == "" ? true : false;
                 if (!IsNotLogin)
                 {
+                    Email = "";
+                    Password = "";
                     if (System.Configuration.ConfigurationManager.AppSettings["UserType"] == "0") _navigationService.NavigateToPage(_mainFrame, "ApplicantAccountView");
                     else _navigationService.NavigateToPage(_mainFrame, "CompanyAccountView");
                 }

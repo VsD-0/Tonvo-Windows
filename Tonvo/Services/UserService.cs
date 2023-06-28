@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tonvo.Models;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace Tonvo.Services
 {
@@ -78,6 +79,38 @@ namespace Tonvo.Services
         {
             var users = await GetList();
             return users.Any(u => u.Email == email);
+        }
+
+        public async Task AddNewApplicant(string Surname, string Name, string Patronymic, int CityId, DateTime BirthDate, int DesiredProfessionId, int EducationId, decimal DesiredSalary, string PhoneNumber, string Email, string Password, string Information, int StatusId, int Experience)
+        {
+            try
+            {
+                var applicant = new Applicant
+                {
+                    Surname = Surname,
+                    Name = Name,
+                    Patronymic = Patronymic,
+                    CityId = CityId,
+                    BirthDate = BirthDate,
+                    DesiredProfessionId = DesiredProfessionId,
+                    EducationId = EducationId,
+                    DesiredSalary = DesiredSalary,
+                    Email = Email,
+                    Experience = Experience,
+                    Information = Information,
+                    Password = Password,
+                    PhoneNumber = PhoneNumber,
+                    StatusId = StatusId
+                };
+                await _context.Applicants.AddAsync(applicant);
+                await _context.SaveChangesAsync();
+                AuthorizationAsync(Email, Password);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+            }
         }
     }
 }

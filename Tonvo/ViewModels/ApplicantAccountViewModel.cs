@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using Google.Protobuf;
+using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Globalization;
 using System.Windows.Controls;
 
 namespace Tonvo.ViewModels
@@ -8,6 +10,7 @@ namespace Tonvo.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly ApplicantService _applicantService;
+        private readonly UserService _userService;
         private readonly Frame _mainFrame;
         private readonly DbTonvoContext _context;
 
@@ -28,6 +31,9 @@ namespace Tonvo.ViewModels
         [Reactive] public string Phone { get; set; } = "";
         [Reactive] public string Email { get; set; } = "";
         [Reactive] public string Information { get; set; } = "";
+
+        private bool IsReg { get; set; }
+
         public string Password
         {
             get => _password;
@@ -54,10 +60,11 @@ namespace Tonvo.ViewModels
         public ReactiveCommand<Unit, Unit> ExitAccount { get; }
         public ReactiveCommand<Unit, Unit> CanselEditCommand { get; }
         public ReactiveCommand<Unit, Task> SaveEditCommand { get; }
-        public ApplicantAccountViewModel(INavigationService navigationService, ApplicantService applicantService, Frame mainFrame, DbTonvoContext context)
+        public ApplicantAccountViewModel(INavigationService navigationService, ApplicantService applicantService, Frame mainFrame, DbTonvoContext context, UserService userService)
         {
             _navigationService = navigationService;
             _applicantService = applicantService;
+            _userService = userService;
             _mainFrame = mainFrame;
             _context = context;
 
@@ -67,41 +74,45 @@ namespace Tonvo.ViewModels
             Statuses = new(Task.Run(async () => await _context.StatusApplicants.Select(p => p.Name).ToListAsync()).Result);
 
             string userID = System.Configuration.ConfigurationManager.AppSettings["UserID"];
-
-            Task.Run(async () => { 
-                CurrentApplicant = await _applicantService.GetByIdAsync(int.Parse(userID));
-                _initialApplicant = new ApplicantModel
+            if (userID != "")
+            {
+                Task.Run(async () =>
                 {
-                    Name = CurrentApplicant.Name,
-                    Surname = CurrentApplicant.Surname,
-                    Patronymic = CurrentApplicant.Patronymic,
-                    Email = CurrentApplicant.Email,
-                    BirthDate = CurrentApplicant.BirthDate,
-                    DesiredProfession = CurrentApplicant.DesiredProfession,
-                    DesiredSalary = CurrentApplicant.DesiredSalary,
-                    Experience = CurrentApplicant.Experience,
-                    PhoneNumber = CurrentApplicant.PhoneNumber,
-                    Information = CurrentApplicant.Information,
-                    Password = CurrentApplicant.Password,
-                    Status = CurrentApplicant.Status,
-                    Education = CurrentApplicant.Education,
-                    City = CurrentApplicant.City
-                };
-                Name = CurrentApplicant.Name;
-                Surname = CurrentApplicant.Surname;
-                Patronymic = CurrentApplicant.Patronymic;
-                Email = CurrentApplicant.Email;
-                BirthDate = CurrentApplicant.BirthDate.ToString();
-                DesiredSalary = ((int)CurrentApplicant.DesiredSalary).ToString();
-                Experience = CurrentApplicant.Experience.ToString();
-                Phone = CurrentApplicant.PhoneNumber;
-                Information = CurrentApplicant.Information;
-                Password = CurrentApplicant.Password;
-                SelectedStatus = CurrentApplicant.Status;
-                SelectedEducation = CurrentApplicant.Education;
-                SelectedCity = CurrentApplicant.City;
-                SelectedProfession = CurrentApplicant.DesiredProfession;
-            });
+                    CurrentApplicant = await _applicantService.GetByIdAsync(int.Parse(userID));
+                    _initialApplicant = new ApplicantModel
+                    {
+                        Name = CurrentApplicant.Name,
+                        Surname = CurrentApplicant.Surname,
+                        Patronymic = CurrentApplicant.Patronymic,
+                        Email = CurrentApplicant.Email,
+                        BirthDate = CurrentApplicant.BirthDate,
+                        DesiredProfession = CurrentApplicant.DesiredProfession,
+                        DesiredSalary = CurrentApplicant.DesiredSalary,
+                        Experience = CurrentApplicant.Experience,
+                        PhoneNumber = CurrentApplicant.PhoneNumber,
+                        Information = CurrentApplicant.Information,
+                        Password = CurrentApplicant.Password,
+                        Status = CurrentApplicant.Status,
+                        Education = CurrentApplicant.Education,
+                        City = CurrentApplicant.City
+                    };
+                    Name = CurrentApplicant.Name;
+                    Surname = CurrentApplicant.Surname;
+                    Patronymic = CurrentApplicant.Patronymic;
+                    Email = CurrentApplicant.Email;
+                    BirthDate = CurrentApplicant.BirthDate.ToString();
+                    DesiredSalary = ((int)CurrentApplicant.DesiredSalary).ToString();
+                    Experience = CurrentApplicant.Experience.ToString();
+                    Phone = CurrentApplicant.PhoneNumber;
+                    Information = CurrentApplicant.Information;
+                    Password = CurrentApplicant.Password;
+                    SelectedStatus = CurrentApplicant.Status;
+                    SelectedEducation = CurrentApplicant.Education;
+                    SelectedCity = CurrentApplicant.City;
+                    SelectedProfession = CurrentApplicant.DesiredProfession;
+                });
+            }
+            else IsReg = true;
 
             ExitAccount = ReactiveCommand.Create(() =>
             {
@@ -115,48 +126,80 @@ namespace Tonvo.ViewModels
 
             CanselEditCommand = ReactiveCommand.Create(() =>
             {
-                Name = _initialApplicant.Name;
-                Surname = _initialApplicant.Surname;
-                Patronymic = _initialApplicant.Patronymic;
-                Email = _initialApplicant.Email;
-                BirthDate = _initialApplicant.BirthDate.ToString();
-                DesiredSalary = ((int)_initialApplicant.DesiredSalary).ToString();
-                Experience = _initialApplicant.Experience.ToString();
-                Phone = _initialApplicant.PhoneNumber;
-                Information = _initialApplicant.Information;
-                Password = _initialApplicant.Password;
-                SelectedStatus = _initialApplicant.Status;
-                SelectedEducation = _initialApplicant.Education;
-                SelectedCity = _initialApplicant.City;
-                SelectedProfession = _initialApplicant.DesiredProfession;
+                if (!IsReg)
+                {
+                    Name = _initialApplicant.Name;
+                    Surname = _initialApplicant.Surname;
+                    Patronymic = _initialApplicant.Patronymic;
+                    Email = _initialApplicant.Email;
+                    BirthDate = _initialApplicant.BirthDate.ToString();
+                    DesiredSalary = ((int)_initialApplicant.DesiredSalary).ToString();
+                    Experience = _initialApplicant.Experience.ToString();
+                    Phone = _initialApplicant.PhoneNumber;
+                    Information = _initialApplicant.Information;
+                    Password = _initialApplicant.Password;
+                    SelectedStatus = _initialApplicant.Status;
+                    SelectedEducation = _initialApplicant.Education;
+                    SelectedCity = _initialApplicant.City;
+                    SelectedProfession = _initialApplicant.DesiredProfession;
+                } 
+                else _navigationService.NavigateToPage(_mainFrame, "ApplicantControlPanelView");
             });
 
             SaveEditCommand = ReactiveCommand.Create(async () =>
             {
-                CurrentApplicant.Name = Name;
-                CurrentApplicant.Surname = Surname;
-                CurrentApplicant.Patronymic = Patronymic;
-                CurrentApplicant.Email = Email;
-                CurrentApplicant.BirthDate = DateTime.Parse(BirthDate);
-                CurrentApplicant.DesiredSalary = decimal.Parse(DesiredSalary);
-                CurrentApplicant.Experience = int.Parse(Experience);
-                CurrentApplicant.PhoneNumber = Phone;
-                CurrentApplicant.Information = Information;
-                CurrentApplicant.Password = Password;
-                CurrentApplicant.StatusId = (await _context.StatusApplicants.FirstOrDefaultAsync(s => s.Name == SelectedStatus)).Id;
-                CurrentApplicant.EducationId = (await _context.LevelEducations.FirstOrDefaultAsync(e => e.Education == SelectedEducation)).Id;
-                CurrentApplicant.CityId = (await _context.Cities.FirstOrDefaultAsync(c => c.City1 == SelectedCity)).Id;
-                CurrentApplicant.DesiredProfessionId = (await _context.Professions.FirstOrDefaultAsync(p => p.Name == SelectedProfession)).Id;
+                if (!IsReg)
+                {
+                    CurrentApplicant.Name = Name;
+                    CurrentApplicant.Surname = Surname;
+                    CurrentApplicant.Patronymic = Patronymic;
+                    CurrentApplicant.Email = Email;
+                    CurrentApplicant.BirthDate = DateTime.Parse(BirthDate);
+                    CurrentApplicant.DesiredSalary = decimal.Parse(DesiredSalary);
+                    CurrentApplicant.Experience = int.Parse(Experience);
+                    CurrentApplicant.PhoneNumber = Phone;
+                    CurrentApplicant.Information = Information;
+                    CurrentApplicant.Password = Password;
+                    CurrentApplicant.StatusId = (await _context.StatusApplicants.FirstOrDefaultAsync(s => s.Name == SelectedStatus)).Id;
+                    CurrentApplicant.EducationId = (await _context.LevelEducations.FirstOrDefaultAsync(e => e.Education == SelectedEducation)).Id;
+                    CurrentApplicant.CityId = (await _context.Cities.FirstOrDefaultAsync(c => c.City1 == SelectedCity)).Id;
+                    CurrentApplicant.DesiredProfessionId = (await _context.Professions.FirstOrDefaultAsync(p => p.Name == SelectedProfession)).Id;
 
-                var applicants = await _applicantService.GetList();
-                var item = applicants.First(i => i.Id == CurrentApplicant.Id);
-                var index = applicants.IndexOf(item);
+                    var applicants = await _applicantService.GetList();
+                    var item = applicants.First(i => i.Id == CurrentApplicant.Id);
+                    var index = applicants.IndexOf(item);
 
-                applicants.RemoveAt(index);
-                applicants.Insert(index, item);
+                    applicants.RemoveAt(index);
+                    applicants.Insert(index, item);
 
-                // Сохранение изменений в базе данных
-                await _context.SaveChangesAsync();
+                    // Сохранение изменений в базе данных
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    var city = _context.Cities.SingleOrDefault(c => c.City1 == SelectedCity).Id;
+                    var birthdate = DateTime.ParseExact(BirthDate, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                    var profession = _context.Professions.SingleOrDefault(p => p.Name == SelectedProfession).Id;
+                    var education = _context.LevelEducations.SingleOrDefault(e => e.Education == SelectedEducation).Id;
+                    var status = _context.StatusApplicants.SingleOrDefault(s => s.Name == SelectedStatus).Id;
+                    await _userService.AddNewApplicant(
+                        Surname,
+                        Name,
+                        Patronymic,
+                        city,
+                        birthdate,
+                        profession,
+                        education,
+                        decimal.Parse(DesiredSalary),
+                        Phone,
+                        Email,
+                        Password,
+                        Information,
+                        status,
+                        int.Parse(Experience)
+                        );
+
+                }
             });
         }
     }

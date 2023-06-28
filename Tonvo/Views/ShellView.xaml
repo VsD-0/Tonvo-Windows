@@ -83,6 +83,14 @@
                                     BorderThickness="0"
                                     materialDesign:ElevationAssist.Elevation="Dp4"
                                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                            <Button Background="Transparent"
+                                    Content="Создать аккаунт соискателя"
+                                    BorderBrush="Transparent"
+                                    Command="{Binding RegApplicantCommand}"/>
+                            <Button Background="Transparent"
+                                    Content="Создать аккаунт компании"
+                                    BorderBrush="Transparent"
+                                    Command="{Binding RegCompanyCommand}"/>
                         </StackPanel>
                     </Border>
                 </materialDesign:DialogHost.DialogContent>
