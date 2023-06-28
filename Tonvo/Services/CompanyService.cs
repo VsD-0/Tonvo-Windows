@@ -25,5 +25,21 @@ namespace Tonvo.Services
                 _semaphoreSlim.Release();
             }
         }
+        async public Task<Company> GetByIdAsync(int id)
+        {
+            await _semaphoreSlim.WaitAsync();
+            try
+            {
+                var company = await _context.Companies
+                    .Include(o => o.Vacancies)
+                    .FirstOrDefaultAsync(o => o.Id == id);
+                return company;
+;
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
+        }
     }
 }

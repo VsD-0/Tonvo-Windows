@@ -32,7 +32,7 @@ namespace Tonvo.ViewModels
         async void ChangeList()
         {
             var actualApplicants = await _applicantService.GetList();
-            actualApplicants = new(actualApplicants.Where(a => a.Status.Id != 3).ToList());
+            actualApplicants = new(actualApplicants.Where(a => a.StatusId != 3).ToList());
 
             if (!string.IsNullOrEmpty(Search))
                 actualApplicants = new(actualApplicants.Where(a => a.DesiredProfession.Name.ToLower().Contains(Search.ToLower())).ToList());

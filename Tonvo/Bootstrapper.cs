@@ -47,7 +47,6 @@ namespace Tonvo
 
         private static void RegisterServices()
         {
-            Services.AddSingleton(Configuration);
             Services.AddSingleton<Frame>();
             Services.AddSingleton<ApplicantService>();
             Services.AddSingleton<CompanyService>();

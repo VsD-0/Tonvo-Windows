@@ -30,6 +30,7 @@
                 { nameof(CompanyControlPanelView), typeof(CompanyControlPanelView) },
                 { nameof(CompanyFieldsView), typeof(CompanyFieldsView) },
                 { nameof(ApplicantAccountView), typeof(ApplicantAccountView) },
+                { nameof(CompanyAccountView), typeof(CompanyAccountView) },
                 { nameof(RootView), typeof(RootView) },
                 { nameof(ShellView), typeof(ShellView) },
                 { nameof(SignInView), typeof(SignInView) },

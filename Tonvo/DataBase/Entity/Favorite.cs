@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Tonvo.DataBase.Entity
+namespace Tonvo.DataBase.Entity;
+public partial class Favorite
 {
-    public partial class Favorite
-    {
-        public int ApplicantId { get; set; }
+    public int ApplicantId { get; set; }
 
-        public int VacancyId { get; set; }
+    public int VacancyId { get; set; }
 
-        public virtual Applicant Applicant { get; set; } = null!;
+    public DateTime? Date { get; set; }
 
-        public virtual Vacancy Vacancy { get; set; } = null!;
-    }
+    public virtual Applicant Applicant { get; set; } = null!;
+
+    public virtual Vacancy Vacancy { get; set; } = null!;
 }

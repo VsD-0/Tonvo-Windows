@@ -29,7 +29,7 @@ public partial class Applicant
 
     public string Password { get; set; } = null!;
 
-    public string Information { get; set; } = null!;
+    public string? Information { get; set; }
 
     public int StatusId { get; set; }
 
@@ -41,10 +41,9 @@ public partial class Applicant
 
     public virtual LevelEducation Education { get; set; } = null!;
 
-    public virtual ICollection<Responder> Responders { get; set; } = new List<Responder>();
     public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
 
-    public virtual StatusApplicant Status { get; set; } = null!;
+    public virtual ICollection<Responder> Responders { get; set; } = new List<Responder>();
 
-    public virtual ICollection<Vacancy> Vacancies { get; set; } = new List<Vacancy>();
+    public virtual StatusApplicant Status { get; set; } = null!;
 }

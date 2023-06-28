@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 namespace Tonvo.DataBase.Entity;
-
 public partial class Company
 {
     public int Id { get; set; }

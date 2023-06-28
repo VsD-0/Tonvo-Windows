@@ -105,13 +105,12 @@ namespace Tonvo.ViewModels
 
             ExitAccount = ReactiveCommand.Create(() =>
             {
-                var applicants = Task.Run(async () => await _applicantService.GetList()).Result;
-                //Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                //config.AppSettings.Settings["UserID"].Value = "";
-                //config.AppSettings.Settings["UserType"].Value = "";
-                //config.Save(ConfigurationSaveMode.Modified);
-                //System.Configuration.ConfigurationManager.RefreshSection("appSettings");
-                //_navigationService.NavigateToPage(_mainFrame, "ApplicantControlPanelView");
+                Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                config.AppSettings.Settings["UserID"].Value = "";
+                config.AppSettings.Settings["UserType"].Value = "";
+                config.Save(ConfigurationSaveMode.Modified);
+                System.Configuration.ConfigurationManager.RefreshSection("appSettings");
+                _navigationService.NavigateToPage(_mainFrame, "ApplicantControlPanelView");
             });
 
             CanselEditCommand = ReactiveCommand.Create(() =>
@@ -144,10 +143,10 @@ namespace Tonvo.ViewModels
                 CurrentApplicant.PhoneNumber = Phone;
                 CurrentApplicant.Information = Information;
                 CurrentApplicant.Password = Password;
-                CurrentApplicant.Status = await _context.StatusApplicants.FirstOrDefaultAsync(s => s.Name == SelectedStatus);
-                CurrentApplicant.Education = await _context.LevelEducations.FirstOrDefaultAsync(e => e.Education == SelectedEducation);
-                CurrentApplicant.City = await _context.Cities.FirstOrDefaultAsync(c => c.City1 == SelectedCity);
-                CurrentApplicant.DesiredProfession = await _context.Professions.FirstOrDefaultAsync(p => p.Name == SelectedProfession);
+                CurrentApplicant.StatusId = (await _context.StatusApplicants.FirstOrDefaultAsync(s => s.Name == SelectedStatus)).Id;
+                CurrentApplicant.EducationId = (await _context.LevelEducations.FirstOrDefaultAsync(e => e.Education == SelectedEducation)).Id;
+                CurrentApplicant.CityId = (await _context.Cities.FirstOrDefaultAsync(c => c.City1 == SelectedCity)).Id;
+                CurrentApplicant.DesiredProfessionId = (await _context.Professions.FirstOrDefaultAsync(p => p.Name == SelectedProfession)).Id;
 
                 var applicants = await _applicantService.GetList();
                 var item = applicants.First(i => i.Id == CurrentApplicant.Id);
@@ -157,7 +156,7 @@ namespace Tonvo.ViewModels
                 applicants.Insert(index, item);
 
                 // Сохранение изменений в базе данных
-                _applicantService.SaveChanges();
+                await _context.SaveChangesAsync();
             });
         }
     }

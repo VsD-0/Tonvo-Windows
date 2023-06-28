@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace Tonvo.DataBase.Context;
-
 public partial class DbTonvoContext : DbContext
 {
     public DbTonvoContext()
@@ -150,6 +149,33 @@ public partial class DbTonvoContext : DbContext
                 .HasColumnName("phone_number");
         });
 
+        modelBuilder.Entity<Favorite>(entity =>
+        {
+            entity.HasKey(e => new { e.ApplicantId, e.VacancyId })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+
+            entity.ToTable("favorites");
+
+            entity.HasIndex(e => e.VacancyId, "fk_favorite_vacancy_id_idx");
+
+            entity.Property(e => e.ApplicantId).HasColumnName("applicant_id");
+            entity.Property(e => e.VacancyId).HasColumnName("vacancy_id");
+            entity.Property(e => e.Date)
+                .HasColumnType("datetime")
+                .HasColumnName("date");
+
+            entity.HasOne(d => d.Applicant).WithMany(p => p.Favorites)
+                .HasForeignKey(d => d.ApplicantId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_favorite_applicant_id");
+
+            entity.HasOne(d => d.Vacancy).WithMany(p => p.Favorites)
+                .HasForeignKey(d => d.VacancyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_favorite_vacancy_id");
+        });
+
         modelBuilder.Entity<LevelEducation>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
@@ -170,24 +196,6 @@ public partial class DbTonvoContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name).HasMaxLength(120);
-        });
-
-        modelBuilder.Entity<Favorite>(entity =>
-        {
-            entity.HasKey(e => new { e.ApplicantId, e.VacancyId })
-                .HasName("PRIMARY")
-                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
-            entity.ToTable("favorites");
-
-            entity.HasIndex(e => e.VacancyId, "fk_vacancy_id");
-
-            entity.Property(e => e.ApplicantId).HasColumnName("applicant_id");
-            entity.Property(e => e.VacancyId).HasColumnName("vacancy_id");
-
-            entity.HasOne(d => d.Applicant).WithMany(p => p.Favorites)
-                .HasForeignKey(d => d.ApplicantId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_applicant_id");
         });
 
         modelBuilder.Entity<Responder>(entity =>

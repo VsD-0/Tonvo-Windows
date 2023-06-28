@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 namespace Tonvo.DataBase.Entity;
-
 public partial class Vacancy
 {
     public int Id { get; set; }
@@ -27,9 +26,9 @@ public partial class Vacancy
 
     public virtual Company Company { get; set; } = null!;
 
+    public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
+
     public virtual Profession Profession { get; set; } = null!;
 
     public virtual ICollection<Responder> Responders { get; set; } = new List<Responder>();
-
-    public virtual ICollection<Applicant> Applicants { get; set; } = new List<Applicant>();
 }
