@@ -18,6 +18,7 @@ global using System.Windows.Interop;
 global using System.Windows.Controls;
 
 global using Tonvo.Views;
+global using Tonvo.Models;
 global using Tonvo.Services;
 global using Tonvo.ViewModels;
 global using Tonvo.ViewModels.MessageBus;

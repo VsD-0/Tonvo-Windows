@@ -10,8 +10,8 @@ namespace Tonvo.ViewModels
     {
         private readonly VacancyService _vacancyService;
 
-        [Reactive] public ObservableCollection<Vacancy> Vacancies { get; set; } = new();
-        [Reactive] public Vacancy SelectedVacancy { get; set; }
+        [Reactive] public ObservableCollection<VacancyModel> Vacancies { get; set; } = new();
+        [Reactive] public VacancyModel SelectedVacancy { get; set; }
         public List<string> Sorts { get; set; } = new() { "По умолчанию", "По возрастанию", "По убыванию" };
         [Reactive] public string SelectedSort { get; set; }
         [Reactive] public string SelectedSalary { get; set; } = "10000";
@@ -37,7 +37,7 @@ namespace Tonvo.ViewModels
             actualVacancies = new (actualVacancies.Where(v => v.Status == 1).ToList());
 
             if (!string.IsNullOrEmpty(Search))
-                actualVacancies = new (actualVacancies.Where(v => v.Profession.Name.ToLower().Contains(Search.ToLower())).ToList());
+                actualVacancies = new (actualVacancies.Where(v => v.Profession.ToLower().Contains(Search.ToLower())).ToList());
             if (!string.IsNullOrEmpty(SelectedSalary))
             {
                 actualVacancies = new (actualVacancies.Where(v => int.Parse(v.Salary) >= int.Parse(SelectedSalary)).ToList());

@@ -34,13 +34,13 @@
                                        FontSize="25"
                                        HorizontalAlignment="Center"
                                        Margin="0,10,0,10"/>
-                            <TextBlock Text="{Binding Profession.Name, UpdateSourceTrigger=PropertyChanged, TargetNullValue=null}"
+                            <TextBlock Text="{Binding Profession, UpdateSourceTrigger=PropertyChanged, TargetNullValue=null}"
                                        Foreground="{StaticResource OnPrimary}"
                                        HorizontalAlignment="Center"
                                        FontSize="20"
                                        TextWrapping="Wrap"
                                        Margin="0,0,0,5"/>
-                            <TextBlock Text="{Binding Company.NameCompany, UpdateSourceTrigger=PropertyChanged}"
+                            <TextBlock Text="{Binding Company, UpdateSourceTrigger=PropertyChanged}"
                                        Foreground="{StaticResource OnPrimary}"
                                        HorizontalAlignment="Center"
                                        FontSize="20"
@@ -61,7 +61,7 @@
                                        FontSize="20"
                                        TextWrapping="Wrap"
                                        Margin="0,0,0,10"/>
-                            <TextBlock Text="{Binding StringFormat=Электронная почта: {0}, Path=Company.Email, UpdateSourceTrigger=PropertyChanged}"
+                            <TextBlock Text="{Binding StringFormat=Телефон: {0}, Path=PhoneNumber, UpdateSourceTrigger=PropertyChanged}"
                                        Foreground="{StaticResource OnPrimary}"
                                        FontSize="20"
                                        TextWrapping="Wrap"
@@ -158,7 +158,7 @@
                     <DataTemplate>
                         <StackPanel>
 
-                            <TextBlock Text="{Binding Path=Profession.Name}"
+                            <TextBlock Text="{Binding Path=Profession}"
                                                FontSize="30"
                                                Margin="5"/>
 
@@ -168,7 +168,7 @@
                                                Margin="5"/>
 
                             <TextBlock Grid.Row="2"
-                                               Text="{Binding Path=Company.NameCompany}"
+                                               Text="{Binding Path=Company}"
                                                FontSize="20"
                                                Margin="5"/>
                         </StackPanel>

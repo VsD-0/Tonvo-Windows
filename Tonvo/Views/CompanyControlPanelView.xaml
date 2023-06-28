@@ -29,18 +29,18 @@
                     <ScrollViewer>
                         <StackPanel DataContext="{Binding SelectedApplicant}"
                                     Margin="10,0,10,0">
-                            <TextBlock Text="Вакансия"
+                            <TextBlock Text="Резюме"
                                        Foreground="{StaticResource OnPrimary}"
                                        FontSize="25"
                                        HorizontalAlignment="Center"
                                        Margin="0,10,0,10"/>
-                            <TextBlock Text="{Binding DesiredProfession.Name, UpdateSourceTrigger=PropertyChanged, TargetNullValue=null}"
+                            <TextBlock Text="{Binding DesiredProfession, UpdateSourceTrigger=PropertyChanged, TargetNullValue=null}"
                                        Foreground="{StaticResource OnPrimary}"
                                        HorizontalAlignment="Center"
                                        FontSize="20"
                                        TextWrapping="Wrap"
                                        Margin="0,0,0,5"/>
-                            <TextBlock Text="{Binding Status.Name, UpdateSourceTrigger=PropertyChanged}"
+                            <TextBlock Text="{Binding Status, UpdateSourceTrigger=PropertyChanged}"
                                        Foreground="{StaticResource OnPrimary}"
                                        HorizontalAlignment="Center"
                                        FontSize="20"
@@ -56,7 +56,7 @@
                                        FontSize="20"
                                        TextWrapping="Wrap"
                                        Margin="0,0,0,10"/>
-                            <TextBlock Text="{Binding StringFormat=Город: {0}, Path=City.City1, UpdateSourceTrigger=PropertyChanged}"
+                            <TextBlock Text="{Binding StringFormat=Город: {0}, Path=City, UpdateSourceTrigger=PropertyChanged}"
                                        Foreground="{StaticResource OnPrimary}"
                                        FontSize="20"
                                        TextWrapping="Wrap"
@@ -106,7 +106,7 @@
             </Grid.RowDefinitions>
 
             <!--Название списка-->
-            <TextBlock Text="Вакансии"
+            <TextBlock Text="Резюме"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"
                            FontSize="85"/>
@@ -158,7 +158,7 @@
                     <DataTemplate>
                         <StackPanel>
 
-                            <TextBlock Text="{Binding Path=DesiredProfession.Name}"
+                            <TextBlock Text="{Binding Path=DesiredProfession}"
                                                FontSize="30"
                                                Margin="5"/>
 
@@ -168,7 +168,7 @@
                                                Margin="5"/>
 
                             <TextBlock Grid.Row="2"
-                                               Text="{Binding Path=Status.Name}"
+                                               Text="{Binding Path=Status}"
                                                FontSize="20"
                                                Margin="5"/>
                         </StackPanel>

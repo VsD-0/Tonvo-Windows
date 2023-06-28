@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Tonvo.ViewModels
 {
     internal class CompanyAccountViewModel : ViewModelBase
@@ -17,7 +18,7 @@ namespace Tonvo.ViewModels
 
         private string _password;
         private Company _initialCompany;
-        [Reactive] public Company CurrentCompany { get; set; }
+        [Reactive] public CompanyModel CurrentCompany { get; set; }
 
         [Reactive] public string NameCompany { get; set; } = "";
         [Reactive] public string Phone { get; set; } = "";
@@ -41,8 +42,8 @@ namespace Tonvo.ViewModels
             }
         }
 
-        [Reactive] public ObservableCollection<Vacancy> Vacancies { get; set; }
-        [Reactive] public Vacancy SelectedVacancy { get; set; }
+        [Reactive] public ObservableCollection<VacancyModel> Vacancies { get; set; }
+        [Reactive] public VacancyModel SelectedVacancy { get; set; }
 
 
         public ReactiveCommand<Unit, Unit> ExitAccount { get; }
@@ -73,7 +74,7 @@ namespace Tonvo.ViewModels
                 Phone = CurrentCompany.PhoneNumber;
                 Information = CurrentCompany.Information;
                 Password = CurrentCompany.Password;
-                Vacancies = new(Task.Run(async () => await _context.Vacancies.Where(v => v.CompanyId == CurrentCompany.Id).ToListAsync()).Result);
+                Vacancies = CurrentCompany.Vacancies;
             });
 
             ExitAccount = ReactiveCommand.Create(() =>

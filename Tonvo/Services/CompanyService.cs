@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Tonvo.Models;
 
 namespace Tonvo.Services
 {
@@ -6,40 +7,55 @@ namespace Tonvo.Services
     {
         private static SemaphoreSlim _semaphoreSlim = new(1, 1);
         private readonly DbTonvoContext _context;
-        public CompanyService(DbTonvoContext context)
+        private readonly VacancyService _vacancyService;
+
+        private List<Company> _dbCompanies;
+        public CompanyService(DbTonvoContext context, VacancyService vacancyService)
         {
             _context = context;
+            _vacancyService = vacancyService;
         }
-        async public Task<ObservableCollection<Company>> GetList()
+        async public Task<ObservableCollection<CompanyModel>> GetList()
         {
-            await _semaphoreSlim.WaitAsync();
-            try
+            _dbCompanies = await _context.Companies.ToListAsync();
+            ObservableCollection<CompanyModel> _companies = new();
+
+            List<Vacancy> vacancies = await _context.Vacancies.ToListAsync();
+
+            foreach (var item in _dbCompanies)
             {
-                var dbCompanies = await _context.Companies
-                    .Include(o => o.Vacancies)
-                    .ToListAsync();
-                return new ObservableCollection<Company>(dbCompanies);
+                _companies.Add(new CompanyModel
+                {
+                    Id = item.Id,
+                    NameCompany = item.NameCompany,
+                    PhoneNumber = item.PhoneNumber,
+                    Email = item.Email,
+                    Password = item.Password,
+                    Information = item.Information,
+                    Vacancies = new((await _vacancyService.GetList())
+                                                        .Where(v => v.CompanyId == item.Id)
+                                                        .ToList())
+                });
             }
-            finally
-            {
-                _semaphoreSlim.Release();
-            }
+            return _companies;
         }
-        async public Task<Company> GetByIdAsync(int id)
+        async public Task<CompanyModel> GetByIdAsync(int id)
         {
-            await _semaphoreSlim.WaitAsync();
-            try
+            _dbCompanies = await _context.Companies.ToListAsync();
+            var vacancies = await _vacancyService.GetList();
+            var item = _dbCompanies.SingleOrDefault(c => c.Id == id);
+            var model = new CompanyModel
             {
-                var company = await _context.Companies
-                    .Include(o => o.Vacancies)
-                    .FirstOrDefaultAsync(o => o.Id == id);
-                return company;
-;
-            }
-            finally
-            {
-                _semaphoreSlim.Release();
-            }
+                Id = id,
+                NameCompany = item.NameCompany,
+                PhoneNumber = item.PhoneNumber,
+                Email = item.Email,
+                Password = item.Password,
+                Information = item.Information,
+                Vacancies = new(vacancies.Where(v => v.CompanyId == item.Id)
+                                         .ToList())
+            };
+            return model;
         }
     }
 }

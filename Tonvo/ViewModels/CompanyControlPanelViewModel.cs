@@ -7,8 +7,8 @@ namespace Tonvo.ViewModels
     {
         private readonly ApplicantService _applicantService;
 
-        [Reactive] public ObservableCollection<Applicant> Applicants { get; set; } = new();
-        [Reactive] public Applicant SelectedApplicant { get; set; }
+        [Reactive] public ObservableCollection<ApplicantModel> Applicants { get; set; } = new();
+        [Reactive] public ApplicantModel SelectedApplicant { get; set; }
         public List<string> Sorts { get; set; } = new() { "По умолчанию", "По возрастанию", "По убыванию" };
         [Reactive] public string SelectedSort { get; set; }
         [Reactive] public string SelectedSalary { get; set; } = "10000";
@@ -32,10 +32,10 @@ namespace Tonvo.ViewModels
         async void ChangeList()
         {
             var actualApplicants = await _applicantService.GetList();
-            actualApplicants = new(actualApplicants.Where(a => a.Status.Id != 3).ToList());
+            actualApplicants = new(actualApplicants.Where(a => a.Status != "Не ищу работу").ToList());
 
             if (!string.IsNullOrEmpty(Search))
-                actualApplicants = new(actualApplicants.Where(a => a.DesiredProfession.Name.ToLower().Contains(Search.ToLower())).ToList());
+                actualApplicants = new(actualApplicants.Where(a => a.DesiredProfession.ToLower().Contains(Search.ToLower())).ToList());
             if (!string.IsNullOrEmpty(SelectedSalary))
             {
                 actualApplicants = new(actualApplicants.Where(a => a.DesiredSalary >= decimal.Parse(SelectedSalary)).ToList());

@@ -55,13 +55,13 @@
 
                             <!--Электронная почта-->
                             <TextBox Style="{StaticResource tbEmailStyle}"
-                                     Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Text="{Binding Email, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                      materialDesign:HintAssist.Background="{StaticResource PrimaryGradient}"/>
 
                             <!--Пароль-->
                             <PasswordBox Style="{StaticResource pbPasswordStyle}"
                                      materialDesign:HintAssist.Background="{StaticResource PrimaryGradient}"
-                                     materialDesign:PasswordBoxAssist.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                     materialDesign:PasswordBoxAssist.Password="{Binding Password, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
                             <TextBlock Text="{Binding ErrorMessage, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                        Foreground="Red"/>
 

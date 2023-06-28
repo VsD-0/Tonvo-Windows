@@ -25,18 +25,19 @@ namespace Tonvo.Models
         public string Information { get; set; } = null!;
 
         public int? Experience { get; set; }
+        public int CityId { get; set; }
 
-        public City City { get; set; } = null!;
+        public string City { get; set; } = null!;
+        public int DesiredProfessionId { get; set; }
 
-        public Profession DesiredProfession { get; set; } = null!;
+        public string DesiredProfession { get; set; } = null!;
+        public int EducationId { get; set; }
 
-        public LevelEducation Education { get; set; } = null!;
+        public string Education { get; set; } = null!;
+        public ObservableCollection<VacancyModel> Favorites { get; set; } = new();
 
-        public ObservableCollection<Responder> Responders { get; set; } = new ObservableCollection<Responder>();
-
-        public StatusApplicant Status { get; set; } = null!;
-
-        public ObservableCollection<Vacancy> Vacancies { get; set; } = new ObservableCollection<Vacancy>();
+        public int StatusId { get; set; }
+        public string Status { get; set; } = null!;
         public ApplicantModel()
         {
 

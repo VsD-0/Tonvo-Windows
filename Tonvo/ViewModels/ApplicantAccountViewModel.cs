@@ -12,8 +12,8 @@ namespace Tonvo.ViewModels
         private readonly DbTonvoContext _context;
 
         private string _password;
-        private Applicant _initialApplicant;
-        [Reactive] public Applicant CurrentApplicant { get; set; }
+        private ApplicantModel _initialApplicant;
+        [Reactive] public ApplicantModel CurrentApplicant { get; set; }
         [Reactive] public string SelectedProfession { get; set; }
         [Reactive] public string SelectedCity { get; set; }
         [Reactive] public string SelectedEducation { get; set; }
@@ -70,7 +70,7 @@ namespace Tonvo.ViewModels
 
             Task.Run(async () => { 
                 CurrentApplicant = await _applicantService.GetByIdAsync(int.Parse(userID));
-                _initialApplicant = new Applicant
+                _initialApplicant = new ApplicantModel
                 {
                     Name = CurrentApplicant.Name,
                     Surname = CurrentApplicant.Surname,
@@ -97,10 +97,10 @@ namespace Tonvo.ViewModels
                 Phone = CurrentApplicant.PhoneNumber;
                 Information = CurrentApplicant.Information;
                 Password = CurrentApplicant.Password;
-                SelectedStatus = CurrentApplicant.Status.Name;
-                SelectedEducation = CurrentApplicant.Education.Education;
-                SelectedCity = CurrentApplicant.City.City1;
-                SelectedProfession = CurrentApplicant.DesiredProfession.Name;
+                SelectedStatus = CurrentApplicant.Status;
+                SelectedEducation = CurrentApplicant.Education;
+                SelectedCity = CurrentApplicant.City;
+                SelectedProfession = CurrentApplicant.DesiredProfession;
             });
 
             ExitAccount = ReactiveCommand.Create(() =>
@@ -125,10 +125,10 @@ namespace Tonvo.ViewModels
                 Phone = _initialApplicant.PhoneNumber;
                 Information = _initialApplicant.Information;
                 Password = _initialApplicant.Password;
-                SelectedStatus = _initialApplicant.Status.Name;
-                SelectedEducation = _initialApplicant.Education.Education;
-                SelectedCity = _initialApplicant.City.City1;
-                SelectedProfession = _initialApplicant.DesiredProfession.Name;
+                SelectedStatus = _initialApplicant.Status;
+                SelectedEducation = _initialApplicant.Education;
+                SelectedCity = _initialApplicant.City;
+                SelectedProfession = _initialApplicant.DesiredProfession;
             });
 
             SaveEditCommand = ReactiveCommand.Create(async () =>
