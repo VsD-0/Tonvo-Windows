@@ -112,5 +112,27 @@ namespace Tonvo.Services
                 Console.WriteLine($"Exception: {ex.Message}");
             }
         }
+        public async Task AddNewCompany(string NameCompany, string PhoneNumber, string Email, string Password,  string Information)
+        {
+            try
+            {
+                var company = new Company
+                {
+                    NameCompany = NameCompany,
+                    PhoneNumber = PhoneNumber,
+                    Email = Email,
+                    Password = Password,
+                    Information = Information
+                };
+                await _context.Companies.AddAsync(company);
+                await _context.SaveChangesAsync();
+                AuthorizationAsync(Email, Password);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+            }
+        }
     }
 }

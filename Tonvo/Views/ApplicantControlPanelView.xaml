@@ -46,7 +46,7 @@
                                        FontSize="20"
                                        TextWrapping="Wrap"
                                        Margin="0,0,0,10"/>
-                            <TextBlock Text="{Binding StringFormat=Доход от {0}, Path=Salary, UpdateSourceTrigger=PropertyChanged, ConverterCulture=RU-ru}"
+                            <TextBlock Text="{Binding StringFormat=Доход от {0} ₽, Path=Salary, UpdateSourceTrigger=PropertyChanged, ConverterCulture=RU-ru}"
                                        Foreground="{StaticResource OnPrimary}"
                                        FontSize="20"
                                        TextWrapping="Wrap"
@@ -84,6 +84,7 @@
                                 materialDesign:ElevationAssist.Elevation="Dp4"
                                 Command="{Binding PrintApplicant}"/>
                         <Button Margin="5" 
+                                IsEnabled="False"
                                 HorizontalAlignment="Stretch"
                                 Content="Откликнуться" 
                                 Style="{StaticResource MaterialDesignRaisedButton}"
@@ -111,7 +112,8 @@
                            HorizontalAlignment="Center"
                            FontSize="85"/>
 
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1"
+                  Margin="25 5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -119,6 +121,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0"
                          Background="White"
+                         Margin="5"
                          VerticalAlignment="Center"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          materialDesign:TextFieldAssist.HasClearButton="True"
@@ -129,6 +132,7 @@
                          Text="{Binding Search, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <ComboBox Grid.Column="1"
                       Background="White"
+                          Margin="5"
                       VerticalAlignment="Center"
                       materialDesign:HintAssist.Hint="Сортировка"
                       materialDesign:HintAssist.Background="{StaticResource Background}"
@@ -138,8 +142,9 @@
                       SelectedIndex="0"
                       BorderBrush="{StaticResource PrimaryGradient}"/>
                 <Slider Grid.Column="2"
+                        Margin="5"
                         Style="{StaticResource MaterialDesignDiscreteHorizontalSlider}"
-                        Maximum="400000"
+                        Maximum="150000"
                         Minimum="10000"
                         TickFrequency="1000"
                         TickPlacement="BottomRight"
@@ -152,26 +157,32 @@
                           ItemsSource="{Binding Vacancies}"
                           SelectedItem="{Binding SelectedVacancy}"
                           Margin="15,0,5,0"
+                      HorizontalContentAlignment="Stretch"
                           HorizontalAlignment="Stretch"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
+                        <Border Background="{StaticResource Secondary}"
+                                CornerRadius="10 10 10 10"
+                                BorderThickness="2"
+                                BorderBrush="{StaticResource PrimaryGradient}">
+                            <StackPanel>
 
-                            <TextBlock Text="{Binding Path=Profession}"
-                                               FontSize="30"
-                                               Margin="5"/>
+                                <TextBlock Text="{Binding Path=Profession}"
+                                                   FontSize="30"
+                                                   Margin="5"/>
 
-                            <TextBlock Grid.Row="1" 
-                                               Text="{Binding Path=Salary}"
-                                               FontSize="20"
-                                               Margin="5"/>
+                                <TextBlock Grid.Row="1" 
+                                                   Text="{Binding Salary, StringFormat={}От {0} ₽, ConverterCulture=ru-RU}"
+                                                   FontSize="20"
+                                                   Margin="5"/>
 
-                            <TextBlock Grid.Row="2"
-                                               Text="{Binding Path=Company}"
-                                               FontSize="20"
-                                               Margin="5"/>
-                        </StackPanel>
+                                <TextBlock Grid.Row="2"
+                                                   Text="{Binding Path=Company, StringFormat={}Компания: {0}}"
+                                                   FontSize="20"
+                                                   Margin="5"/>
+                            </StackPanel>
+                        </Border>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

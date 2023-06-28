@@ -20,7 +20,7 @@ namespace Tonvo.ViewModels
         {
             _applicantService = applicantService;
 
-            PrintApplicant = ReactiveCommand.Create(() => { int a = 1; });
+            PrintApplicant = ReactiveCommand.Create(() => { CreateDocument.Applicant(SelectedApplicant); });
             RespondApplicant = ReactiveCommand.Create(() => { int a = 1; });
             this.WhenAnyValue(
                 x => x.SelectedSort,

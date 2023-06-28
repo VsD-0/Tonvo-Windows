@@ -106,27 +106,33 @@
                         <ListView ItemsSource="{Binding Vacancies}"
                                   SelectedItem="{Binding SelectedVacancy}"
                                   Margin="15,0,5,0"
+                                  HorizontalContentAlignment="Stretch"
                                   HorizontalAlignment="Stretch"
                                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel>
+                                        <Border Background="{StaticResource Secondary}"
+                                CornerRadius="10 10 10 10"
+                                BorderThickness="2"
+                                BorderBrush="{StaticResource PrimaryGradient}">
+                                            <StackPanel>
 
-                                        <TextBlock Text="{Binding Path=Profession}"
+                                                <TextBlock Text="{Binding Path=Profession}"
                                                FontSize="30"
                                                Margin="5"/>
 
-                                        <TextBlock Grid.Row="1" 
-                                               Text="{Binding Path=Salary}"
+                                                <TextBlock Grid.Row="1" 
+                                               Text="{Binding Salary, StringFormat={}От {0} ₽, ConverterCulture=ru-RU}"
                                                FontSize="20"
                                                Margin="5"/>
 
-                                        <TextBlock Grid.Row="2"
+                                                <TextBlock Grid.Row="2"
                                                Text="{Binding Path=Address}"
                                                FontSize="20"
                                                Margin="5"/>
-                                    </StackPanel>
-                                </DataTemplate>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
                         </ScrollViewer>

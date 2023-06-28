@@ -46,7 +46,7 @@
                                        FontSize="20"
                                        TextWrapping="Wrap"
                                        Margin="0,0,0,10"/>
-                            <TextBlock Text="{Binding StringFormat=Доход от {0}, Path=DesiredSalary, UpdateSourceTrigger=PropertyChanged, ConverterCulture=RU-ru}"
+                            <TextBlock Text="{Binding StringFormat=Желаемый Доход от {0:C}, Path=DesiredSalary, UpdateSourceTrigger=PropertyChanged, ConverterCulture=RU-ru}"
                                        Foreground="{StaticResource OnPrimary}"
                                        FontSize="20"
                                        TextWrapping="Wrap"
@@ -84,6 +84,7 @@
                                 materialDesign:ElevationAssist.Elevation="Dp4"
                                 Command="{Binding PrintApplicant}"/>
                         <Button Margin="5" 
+                                IsEnabled="False"
                                 HorizontalAlignment="Stretch"
                                 Content="Откликнуться" 
                                 Style="{StaticResource MaterialDesignRaisedButton}"
@@ -111,7 +112,8 @@
                            HorizontalAlignment="Center"
                            FontSize="85"/>
 
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1"
+                  Margin="15 5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -152,26 +154,32 @@
                           ItemsSource="{Binding Applicants}"
                           SelectedItem="{Binding SelectedApplicant}"
                           Margin="15,0,5,0"
+                        HorizontalContentAlignment="Stretch"
                           HorizontalAlignment="Stretch"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
+                        <Border Background="{StaticResource Secondary}"
+                                CornerRadius="10 10 10 10"
+                                BorderThickness="2"
+                                BorderBrush="{StaticResource PrimaryGradient}">
+                            <StackPanel>
 
-                            <TextBlock Text="{Binding Path=DesiredProfession}"
+                                <TextBlock Text="{Binding Path=DesiredProfession}"
                                                FontSize="30"
                                                Margin="5"/>
 
-                            <TextBlock Grid.Row="1" 
-                                               Text="{Binding Path=DesiredSalary}"
+                                <TextBlock Grid.Row="1" 
+                                               Text="{Binding Path=DesiredSalary, StringFormat={}От {0:C}, ConverterCulture=RU-ru}"
                                                FontSize="20"
                                                Margin="5"/>
 
-                            <TextBlock Grid.Row="2"
+                                <TextBlock Grid.Row="2"
                                                Text="{Binding Path=Status}"
                                                FontSize="20"
                                                Margin="5"/>
-                        </StackPanel>
+                            </StackPanel>
+                        </Border>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

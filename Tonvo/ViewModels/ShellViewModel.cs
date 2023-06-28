@@ -77,7 +77,8 @@ namespace Tonvo.ViewModels
                 });
 
             #region Commands
-            RegApplicantCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "ApplicantAccountView"); }); 
+            RegApplicantCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "ApplicantAccountView"); });
+            RegCompanyCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "CompanyAccountView"); });
 
             ShowVacanciesCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "ApplicantControlPanelView"); });
             ShowApplicantsCommand = ReactiveCommand.Create(() => { _navigationService.NavigateToPage(_mainFrame, "CompanyControlPanelView"); });
@@ -85,8 +86,6 @@ namespace Tonvo.ViewModels
                 IsNotLogin = System.Configuration.ConfigurationManager.AppSettings["UserID"] == "" ? true : false;
                 if (!IsNotLogin)
                 {
-                    Email = "";
-                    Password = "";
                     if (System.Configuration.ConfigurationManager.AppSettings["UserType"] == "0") _navigationService.NavigateToPage(_mainFrame, "ApplicantAccountView");
                     else _navigationService.NavigateToPage(_mainFrame, "CompanyAccountView");
                 }
@@ -100,10 +99,11 @@ namespace Tonvo.ViewModels
                 {
                     if (await _userService.AuthorizationAsync(Email, Password))
                     {
-                        if (System.Configuration.ConfigurationManager.AppSettings["UserType"] == "0") _navigationService.NavigateToPage(_mainFrame, "ApplicantAccountView");
-                        else _navigationService.NavigateToPage(_mainFrame, "CompanyAccountView");
                         Email = "";
                         Password = "";
+                        IsNotLogin = false;
+                        if (System.Configuration.ConfigurationManager.AppSettings["UserType"] == "0") _navigationService.NavigateToPage(_mainFrame, "ApplicantAccountView");
+                        else _navigationService.NavigateToPage(_mainFrame, "CompanyAccountView");
                     }
                     else
                         ErrorMessage = "Неверный логин или пароль";

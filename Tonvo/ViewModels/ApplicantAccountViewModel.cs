@@ -198,7 +198,7 @@ namespace Tonvo.ViewModels
                         status,
                         int.Parse(Experience)
                         );
-
+                    IsReg = false;
                 }
             });
         }
