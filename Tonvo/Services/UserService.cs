@@ -81,5 +81,11 @@ namespace Tonvo.Services
             }
             return false;
         }
+
+        public async Task<bool> IsEmailExists(string email)
+        {
+            var users = await GetList();
+            return users.Any(u => u.Email == email);
+        }
     }
 }

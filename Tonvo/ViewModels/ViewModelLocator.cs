@@ -1,4 +1,5 @@
 ﻿using MySqlConnector;
+using Tonvo.Themes.Validation;
 
 namespace Tonvo.ViewModels
 {
@@ -24,6 +25,8 @@ namespace Tonvo.ViewModels
             services.AddTransient<SignInViewModel>();
             services.AddTransient<SignUpViewModel>();
             services.AddTransient<VacancyFieldsViewModel>();
+
+            services.AddTransient<EmailValidationRule>();
 
             _provider = services.BuildServiceProvider();
             foreach (var service in services)

@@ -175,8 +175,8 @@
                 Value="{StaticResource OnPrimary}"/>
         <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush"
                 Value="{StaticResource OnPrimary}"/>
-        <Setter Property="IsEnabled"
-                Value="{Binding ElementName=RevealPasswordDefaultEnabled, Path=IsChecked}"/>
+        <!--<Setter Property="IsEnabled"
+                Value="{Binding ElementName=RevealPasswordDefaultEnabled, Path=IsChecked}"/>-->
     </Style>
 
     <!--Стиль TextBlock (название отображаемого списка)-->

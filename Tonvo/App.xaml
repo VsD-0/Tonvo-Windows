@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:vm="clr-namespace:Tonvo.ViewModels"
+             xmlns:val="clr-namespace:Tonvo.Themes.Validation"
              xmlns:local="clr-namespace:Tonvo">
     <Application.Resources>
         <ResourceDictionary>

@@ -8,7 +8,7 @@ namespace Tonvo.Services
 {
     internal class ApplicantService : IEntityService
     {
-        private static SemaphoreSlim _semaphoreSlim = new(1, 1);
+        //private static SemaphoreSlim _semaphoreSlim = new(1, 1);
         private readonly DbTonvoContext _context;
 
         public ApplicantService(DbTonvoContext context)
@@ -18,9 +18,9 @@ namespace Tonvo.Services
 
         async public Task<ObservableCollection<Applicant>> GetList()
         {
-            await _semaphoreSlim.WaitAsync();
-            try
-            {
+            //await _semaphoreSlim.WaitAsync();
+            //try
+            //{
                 var dbApplicants = await _context.Applicants
                     .Include(o => o.Education)
                     .Include(o => o.Status)
@@ -30,17 +30,17 @@ namespace Tonvo.Services
                     .Include(o => o.Favorites)
                     .ToListAsync();
                 return new ObservableCollection<Applicant> (dbApplicants);
-            }
-            finally
-            {
-                _semaphoreSlim.Release();
-            }
+            //}
+            //finally
+            //{
+            //    _semaphoreSlim.Release();
+            //}
         }
         async public Task<Applicant> GetByIdAsync(int id)
         {
-            await _semaphoreSlim.WaitAsync();
-            try
-            {
+            //await _semaphoreSlim.WaitAsync();
+            //try
+            //{
                 var applicant = await _context.Applicants
                     .Include(o => o.Education)
                     .Include(o => o.Status)
@@ -50,11 +50,15 @@ namespace Tonvo.Services
                     .Include(o => o.Favorites)
                     .FirstOrDefaultAsync(o => o.Id == id);
                 return applicant;
-            }
-            finally
-            {
-                _semaphoreSlim.Release();
-            }
+            //}
+            //finally
+            //{
+            //    _semaphoreSlim.Release();
+            //}
+        }
+        public void SaveChanges()
+        { 
+             _context.SaveChanges();
         }
     }
 }
