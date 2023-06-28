@@ -102,6 +102,7 @@
                     </StackPanel>
 
                     <StackPanel Grid.Column="1">
+                        <ScrollViewer>
                         <ListView ItemsSource="{Binding Vacancies}"
                                   SelectedItem="{Binding SelectedVacancy}"
                                   Margin="15,0,5,0"
@@ -128,6 +129,7 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
+                        </ScrollViewer>
                     </StackPanel>
                     <TextBox Grid.Row="1"
                          Style="{StaticResource MaterialDesignOutlinedTextBox}" 

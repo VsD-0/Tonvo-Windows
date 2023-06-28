@@ -21,7 +21,14 @@ namespace Tonvo.Services
             await _semaphoreSlim.WaitAsync();
             try
             {
-                var dbApplicants = await _context.Applicants.ToListAsync();
+                var dbApplicants = await _context.Applicants
+                    .Include(o => o.Education)
+                    .Include(o => o.Status)
+                    .Include(o => o.DesiredProfession)
+                    .Include(o => o.City)
+                    .Include(o => o.Responders)
+                    .Include(o => o.Favorites)
+                    .ToListAsync();
                 return new ObservableCollection<Applicant> (dbApplicants);
             }
             finally
@@ -34,7 +41,14 @@ namespace Tonvo.Services
             await _semaphoreSlim.WaitAsync();
             try
             {
-                var applicant = await _context.Applicants.FirstOrDefaultAsync(o => o.Id == id);
+                var applicant = await _context.Applicants
+                    .Include(o => o.Education)
+                    .Include(o => o.Status)
+                    .Include(o => o.DesiredProfession)
+                    .Include(o => o.City)
+                    .Include(o => o.Responders)
+                    .Include(o => o.Favorites)
+                    .FirstOrDefaultAsync(o => o.Id == id);
                 return applicant;
                 //var dbApplicants = await _context.Applicants.ToListAsync();
                 //ObservableCollection<Applicant> applicants = new();

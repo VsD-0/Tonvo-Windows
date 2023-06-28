@@ -56,8 +56,6 @@ namespace Tonvo.ViewModels
             _mainFrame = mainFrame;
             _context = context;
 
-            //Vacancies = new(Task.Run(async () => await _context.Vacancies.Where(v => v.CompanyId == CurrentCompany.Id).ToListAsync()).Result);
-
             string userID = System.Configuration.ConfigurationManager.AppSettings["UserID"];
 
             Task.Run(async () => {
@@ -75,6 +73,7 @@ namespace Tonvo.ViewModels
                 Phone = CurrentCompany.PhoneNumber;
                 Information = CurrentCompany.Information;
                 Password = CurrentCompany.Password;
+                Vacancies = new(Task.Run(async () => await _context.Vacancies.Where(v => v.CompanyId == CurrentCompany.Id).ToListAsync()).Result);
             });
 
             ExitAccount = ReactiveCommand.Create(() =>
