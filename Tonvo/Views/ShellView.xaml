@@ -176,6 +176,7 @@
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton Grid.Row="4"
+                                         Visibility="Collapsed"
                                                  Style="{StaticResource menuButton}"
                                                  Tag="{StaticResource Secondary}"
                                                  Command="{Binding ShowSettingsViewCommand}"

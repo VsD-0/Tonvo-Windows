@@ -48,7 +48,6 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <StackPanel>
-
                         <!--Имя-->
                         <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                  materialDesign:HintAssist.Hint="Имя"

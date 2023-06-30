@@ -5,139 +5,267 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Tonvo.Views"
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:materialDesign = "http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:val="clr-namespace:Tonvo.Themes.Validation"
              DataContext="{Binding CompanyAccountViewModel,
                     Source={StaticResource ViewModelLocator}}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <materialDesign:DialogHost DialogBackground="Transparent" Grid.Row="1"
+                                       CloseOnClickAway="True">
+        <materialDesign:DialogHost.DialogContent>
+            <Border Background="{StaticResource PrimaryGradient}"
+                                    BorderThickness="1" CornerRadius="10" Margin="4"
+                            BorderBrush="{StaticResource PrimaryGradient}">
+                <!--Контейнер окна входа-->
+                <StackPanel Margin="16" Width="600" >
+                    <!--Название профессии-->
+                            <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                  materialDesign:HintAssist.Hint="Профессия"
+                                  Margin="10"
+                                  materialDesign:HintAssist.HintOpacity=".26"
+                                  IsEditable="True"
+                                  ItemsSource="{Binding Professions}">
+                                <ComboBox.SelectedItem>
+                                    <Binding Mode="TwoWay"
+                                         Path="SelectedProfession"
+                                         UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <val:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </ComboBox.SelectedItem>
+                            </ComboBox>
+                    <Grid  Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Background="{StaticResource PrimaryGradient}"
+                                 materialDesign:HintAssist.Hint="Заработныя плата"
+                                 Margin="10">
+                                <TextBox.Text>
+                                    <Binding Mode="TwoWay"
+                                         Path="Salary"
+                                         UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <val:DesiredSalaryValidationRule ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Background="{StaticResource PrimaryGradient}"
+                                 materialDesign:HintAssist.Hint="Номер телефона"
+                                 Margin="10">
+                                <TextBox.Text>
+                                    <Binding Mode="TwoWay"
+                                         Path="PhoneNumber"
+                                         UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <val:PhoneValidationRule ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Background="{StaticResource PrimaryGradient}"
+                                 materialDesign:HintAssist.Hint="Адрес"
+                                 Margin="10">
+                                <TextBox.Text>
+                                    <Binding Mode="TwoWay"
+                                         Path="Address"
+                                         UpdateSourceTrigger="PropertyChanged">
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <!--Опыт работы-->
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                     materialDesign:HintAssist.Background="{StaticResource PrimaryGradient}"
+                                 materialDesign:HintAssist.Hint="Опыт работы"
+                                 Margin="10">
+                                <TextBox.Text>
+                                    <Binding Mode="TwoWay"
+                                         Path="DesiredExperience"
+                                         UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <val:ExperienceValidationRule ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
+                        <TextBox Grid.Column="1"
+                                     VerticalAlignment="Stretch"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                                 Text="{Binding InformationVacancy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 materialDesign:HintAssist.Background="{StaticResource PrimaryGradient}"
+                                 Grid.ColumnSpan="2" 
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"
+                                 materialDesign:HintAssist.Hint="Информация о Вакансии"/>
+                    </Grid>
+                    <Button Margin="8" 
+                                    Content="Создать" 
+                                    Style="{StaticResource MaterialDesignRaisedButton}"
+                                    materialDesign:ButtonAssist.CornerRadius="16"
+                                    Background="{StaticResource Secondary}"
+                                    Foreground="{StaticResource OnSecondary}"
+                                    BorderThickness="0"
+                                    materialDesign:ElevationAssist.Elevation="Dp4"
+                                    Command="{Binding CreateVacancyCommand}"/>
+                    <Button Margin="8" 
+                                    Content="Отмена" 
+                                    Style="{StaticResource MaterialDesignRaisedButton}"
+                                    materialDesign:ButtonAssist.CornerRadius="16"
+                                    Background="{StaticResource Secondary}"
+                                    Foreground="{StaticResource OnSecondary}"
+                                    BorderThickness="0"
+                                    materialDesign:ElevationAssist.Elevation="Dp4"
+                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+                </StackPanel>
+            </Border>
+        </materialDesign:DialogHost.DialogContent>
+        <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.8*"/>
             <RowDefinition Height="0.2*"/>
         </Grid.RowDefinitions>
         <ScrollViewer>
-            <StackPanel>
-                <Grid>
-                    <TextBlock Text="Личный кабинет" 
+                <StackPanel>
+                    <Grid>
+                        <TextBlock Text="Личный кабинет" 
                            HorizontalAlignment="Center" 
                            FontSize="65" 
                            Foreground="{StaticResource OnBackground}"
                            Margin="10"/>
-                    <Button  Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                        <Button  Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                              ToolTip="Выйти из личного кабинета"
                              HorizontalAlignment="Right"
                              Background="{StaticResource Secondary}"
                              BorderBrush="{StaticResource Secondary}"
                              Margin="12"
                              Command="{Binding ExitAccount}">
-                        <materialDesign:PackIcon
+                            <materialDesign:PackIcon
                             Kind="ExitRun"
                             Foreground="{StaticResource OnSecondary}"/>
-                    </Button>
-                </Grid>
+                        </Button>
+                    </Grid>
 
-                <!--Контейнер текстовых полей-->
-                <Grid  Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <StackPanel>
+                    <!--Контейнер текстовых полей-->
+                    <Grid  Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <StackPanel>
 
-                        <!--Название компании-->
-                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            <!--Название компании-->
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                  materialDesign:HintAssist.Hint="Название компании"
                                  Margin="10">
-                            <TextBox.Text>
-                                <Binding Mode="TwoWay"
+                                <TextBox.Text>
+                                    <Binding Mode="TwoWay"
                                          Path="NameCompany"
                                          UpdateSourceTrigger="PropertyChanged">
-                                    <Binding.ValidationRules>
-                                        <val:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
-                                    </Binding.ValidationRules>
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
-                        <!--Номер телефона-->
-                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        <Binding.ValidationRules>
+                                            <val:NotEmptyValidationRule ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <!--Номер телефона-->
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                  materialDesign:HintAssist.Hint="Номер телефона"
                                  Margin="10">
-                            <TextBox.Text>
-                                <Binding Mode="TwoWay"
+                                <TextBox.Text>
+                                    <Binding Mode="TwoWay"
                                          Path="Phone"
                                          UpdateSourceTrigger="PropertyChanged">
-                                    <Binding.ValidationRules>
-                                        <val:PhoneValidationRule ValidatesOnTargetUpdated="True"/>
-                                    </Binding.ValidationRules>
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
-                        <!--Электронная почта-->
-                        <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        <Binding.ValidationRules>
+                                            <val:PhoneValidationRule ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <!--Электронная почта-->
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                  materialDesign:HintAssist.Hint="Электронная почта"
                                  Margin="10">
-                            <TextBox.Text>
-                                <Binding Mode="TwoWay"
+                                <TextBox.Text>
+                                    <Binding Mode="TwoWay"
                                          Path="Email"
                                          UpdateSourceTrigger="PropertyChanged">
-                                    <Binding.ValidationRules>
-                                        <val:EmailValidationRule ValidatesOnTargetUpdated="True"/>
-                                    </Binding.ValidationRules>
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
-                        <Separator Margin="15 20"
+                                        <Binding.ValidationRules>
+                                            <val:EmailValidationRule ValidatesOnTargetUpdated="True"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            <Separator Margin="15 20"
                                    Background="{StaticResource PrimaryGradient}"/>
-                        <!--Пароль-->
-                        <PasswordBox Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                            <!--Пароль-->
+                            <PasswordBox Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
                                      materialDesign:HintAssist.Hint="Пароль"
                                      Margin="10"
                                      materialDesign:PasswordBoxAssist.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}">
-                        </PasswordBox>
-                    </StackPanel>
+                            </PasswordBox>
+                        </StackPanel>
 
-                    <StackPanel Grid.Column="1">
-                        <ScrollViewer>
-                        <ListView ItemsSource="{Binding Vacancies}"
+                        <StackPanel Grid.Column="1">
+                            <ScrollViewer>
+                                <ListView ItemsSource="{Binding Vacancies}"
                                   SelectedItem="{Binding SelectedVacancy}"
                                   Margin="15,0,5,0"
                                   HorizontalContentAlignment="Stretch"
                                   HorizontalAlignment="Stretch"
                                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                        <Border Background="{StaticResource Secondary}"
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="{StaticResource Secondary}"
                                 CornerRadius="10 10 10 10"
                                 BorderThickness="2"
                                 BorderBrush="{StaticResource PrimaryGradient}">
-                                            <StackPanel>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="0.85*"/>
+                                                        <ColumnDefinition Width="0.15*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                
+                                                    <StackPanel>
 
-                                                <TextBlock Text="{Binding Path=Profession}"
-                                               FontSize="30"
-                                               Margin="5"/>
+                                                        <TextBlock Text="{Binding Path=Profession}"
+                                                   FontSize="30"
+                                                   Margin="5"/>
 
-                                                <TextBlock Grid.Row="1" 
-                                               Text="{Binding Salary, StringFormat={}От {0} ₽, ConverterCulture=ru-RU}"
-                                               FontSize="20"
-                                               Margin="5"/>
+                                                        <TextBlock Grid.Row="1" 
+                                                   Text="{Binding Salary, StringFormat={}От {0} ₽, ConverterCulture=ru-RU}"
+                                                   FontSize="20"
+                                                   Margin="5"/>
 
-                                                <TextBlock Grid.Row="2"
-                                               Text="{Binding Path=Address}"
-                                               FontSize="20"
-                                               Margin="5"/>
-                                            </StackPanel>
-                                        </Border>
-                                    </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                        </ScrollViewer>
-                    </StackPanel>
-                    <TextBox Grid.Row="1"
+                                                        <TextBlock Grid.Row="2"
+                                                   Text="{Binding Path=Address}"
+                                                   FontSize="20"
+                                                   Margin="5"/>
+                                                    </StackPanel>
+                                                    <ToggleButton Grid.Column="1"
+                                                                  IsChecked="{Binding Status}"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </ScrollViewer>
+                        </StackPanel>
+                        <TextBox Grid.Row="1"
                          Style="{StaticResource MaterialDesignOutlinedTextBox}" 
                          Text="{Binding Information, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Grid.ColumnSpan="2" 
@@ -148,11 +276,11 @@
                          VerticalScrollBarVisibility="Auto"
                          materialDesign:HintAssist.Hint="Информация о себе"
                          Height="160"/>
-                </Grid>
-            </StackPanel>
-        </ScrollViewer>
-        <StackPanel Grid.Row="1">
-            <Button Margin="8" 
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+            <StackPanel Grid.Row="1">
+                <Button Margin="8" 
                         Width="280"
                         Content="Сохранить" 
                         Style="{StaticResource MaterialDesignRaisedButton}"
@@ -163,7 +291,7 @@
                         materialDesign:ElevationAssist.Elevation="Dp4"
                         Command="{Binding SaveEditCommand}"/>
 
-            <Button Margin="8" 
+                <Button Margin="8" 
                         Width="230"
                         Content="Отмена" 
                         Style="{StaticResource MaterialDesignRaisedButton}"
@@ -173,6 +301,19 @@
                         BorderThickness="0"
                         materialDesign:ElevationAssist.Elevation="Dp4"
                         Command="{Binding CanselEditCommand}"/>
-        </StackPanel>
+            </StackPanel>
+            <Button Grid.Row="1" Margin="8" 
+                    HorizontalAlignment="Right"
+                        Width="230"
+                        Content="Создать вакансию" 
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        materialDesign:ButtonAssist.CornerRadius="16"
+                        Background="{StaticResource Secondary}"
+                        Foreground="{StaticResource OnSecondary}"
+                        BorderThickness="0"
+                        materialDesign:ElevationAssist.Elevation="Dp4"
+                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
     </Grid>
+    </materialDesign:DialogHost>
+
 </UserControl>

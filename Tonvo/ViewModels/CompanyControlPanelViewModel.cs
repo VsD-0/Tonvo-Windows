@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using Tonvo.DataBase.Context;
+using Tonvo.DataBase.Entity;
 using Tonvo.Services;
 
 namespace Tonvo.ViewModels
@@ -6,6 +8,8 @@ namespace Tonvo.ViewModels
     internal class CompanyControlPanelViewModel : ViewModelBase
     {
         private readonly ApplicantService _applicantService;
+        private readonly CompanyService _companyService;
+        private readonly DbTonvoContext _dbTonvoContext;
 
         [Reactive] public ObservableCollection<ApplicantModel> Applicants { get; set; } = new();
         [Reactive] public ApplicantModel SelectedApplicant { get; set; }
@@ -13,20 +17,44 @@ namespace Tonvo.ViewModels
         [Reactive] public string SelectedSort { get; set; }
         [Reactive] public string SelectedSalary { get; set; } = "10000";
         [Reactive] public string Search { get; set; }
+
+        [Reactive] public bool IsCompany { get; set; }
+
         public ReactiveCommand<Unit, Unit> PrintApplicant { get; }
         public ReactiveCommand<Unit, Unit> RespondApplicant { get; }
+        public ReactiveCommand<Unit,Task> BrowseRespondsCommand { get; }
 
-        public CompanyControlPanelViewModel(ApplicantService applicantService)
+        public CompanyControlPanelViewModel(DbTonvoContext dbTonvoContext, ApplicantService applicantService, CompanyService companyService)
         {
             _applicantService = applicantService;
+            _companyService = companyService;
+            _dbTonvoContext = dbTonvoContext;
+
+            IsCompany = System.Configuration.ConfigurationManager.AppSettings["UserType"] == "1";
 
             PrintApplicant = ReactiveCommand.Create(() => { CreateDocument.Applicant(SelectedApplicant); });
-            RespondApplicant = ReactiveCommand.Create(() => { int a = 1; });
+            RespondApplicant = ReactiveCommand.Create(() => { _companyService.RespondAddAsync(SelectedApplicant.Id); });
+            BrowseRespondsCommand = ReactiveCommand.Create(async () =>
+            {
+                ObservableCollection<int> responders = new(await _dbTonvoContext.Responders
+                    .Where(r => r.ApplicantId == int.Parse(System.Configuration.ConfigurationManager.AppSettings["UserId"]) && r.Status == System.Configuration.ConfigurationManager.AppSettings["UserType"])
+                    .Select(r => r.VacancyId)
+                    .ToListAsync());
+                ObservableCollection<CompanyModel> companies = new((await _companyService.GetList()).Where(c => responders.Contains(c.Id)).ToList());
+                string text = "";
+                foreach (CompanyModel company in companies)
+                {
+                    text += $"{company.NameCompany} - {company.Email}\n";
+                }
+                MessageBox.Show(text);
+            });
+
             this.WhenAnyValue(
                 x => x.SelectedSort,
                 x => x.SelectedSalary,
                 x => x.Search)
                 .Subscribe(_ => ChangeList());
+            _companyService = companyService;
         }
 
         async void ChangeList()

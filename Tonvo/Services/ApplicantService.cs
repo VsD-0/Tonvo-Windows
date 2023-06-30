@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Reactive.Linq;
 using System.Threading;
 using Tonvo.DataBase.Entity;
@@ -111,6 +112,19 @@ namespace Tonvo.Services
                 Status = statuses.FirstOrDefault(s => s.Id == item.StatusId).Name
             };
             return model;
+        }
+        public async Task RespondAddAsync(int vacancyId)
+        {
+            DateTime dt = DateTime.Now;
+            Responder responder = new Responder
+            {
+                ApplicantId = int.Parse(System.Configuration.ConfigurationManager.AppSettings["UserID"]),
+                VacancyId = vacancyId,
+                Status = "0",
+                RespondDate = dt
+            };
+            await _context.Responders.AddAsync(responder);
+            await _context.SaveChangesAsync();
         }
         public async Task SaveChangesAsync()
         { 

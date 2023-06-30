@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Tonvo.DataBase.Entity;
 using Tonvo.Services;
 
 
@@ -16,6 +17,7 @@ namespace Tonvo.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly CompanyService _companyService;
+        private readonly VacancyService _vacancyService;
         private readonly UserService _userService;
         private readonly Frame _mainFrame;
         private readonly DbTonvoContext _context;
@@ -46,23 +48,38 @@ namespace Tonvo.ViewModels
             }
         }
 
+        [Reactive] public string Salary { get; set; } = "";
+        [Reactive] public string PhoneNumber { get; set; } = "";
+        [Reactive] public string Address { get; set; } = "";
+        [Reactive] public string DesiredExperience { get; set; } = "";
+        [Reactive] public string InformationVacancy { get; set; } = "";
+
+
         private bool IsReg { get; set; }
 
         [Reactive] public ObservableCollection<VacancyModel> Vacancies { get; set; }
         [Reactive] public VacancyModel SelectedVacancy { get; set; }
+        [Reactive] public VacancyModel NewVacancy { get; set; }
 
+        [Reactive] public ObservableCollection<string> Professions { get; set; }
+        [Reactive] public string SelectedProfession { get; set; }
 
         public ReactiveCommand<Unit, Unit> ExitAccount { get; }
         public ReactiveCommand<Unit, Unit> CanselEditCommand { get; }
         public ReactiveCommand<Unit, Task> SaveEditCommand { get; }
+        public ReactiveCommand<Unit, Task> CreateVacancyCommand { get; }
+        public ReactiveCommand<Unit, Task> ChangeStatus { get; }
 
-        public CompanyAccountViewModel(INavigationService navigationService, CompanyService companyService, Frame mainFrame, DbTonvoContext context, UserService userService)
+        public CompanyAccountViewModel(INavigationService navigationService, CompanyService companyService, Frame mainFrame, DbTonvoContext context, UserService userService, VacancyService vacancyService)
         {
             _navigationService = navigationService;
             _companyService = companyService;
+            _vacancyService = vacancyService;
             _mainFrame = mainFrame;
             _context = context;
             _userService = userService;
+
+            Professions = new(Task.Run(async () => await _context.Professions.Select(p => p.Name).ToListAsync()).Result);
 
             string userID = System.Configuration.ConfigurationManager.AppSettings["UserID"];
             string userType = System.Configuration.ConfigurationManager.AppSettings["UserType"];
@@ -90,6 +107,23 @@ namespace Tonvo.ViewModels
             }
             else IsReg = true;
 
+            CreateVacancyCommand = ReactiveCommand.Create(async () =>
+            {
+                NewVacancy = new VacancyModel
+                {
+                    СreationDate = DateTime.Now,
+                    Status = 1,
+                    Salary = Salary,
+                    ProfessionId = _context.Professions.SingleOrDefault(p => p.Name == SelectedProfession).Id,
+                    DesiredExperience = int.Parse(DesiredExperience),
+                    Information = Information,
+                    Address = Address,
+                    CompanyId = CurrentCompany.Id,
+                    PhoneNumber = Phone,
+                };
+                await _vacancyService.AddVacancy(NewVacancy);
+            });
+
             ExitAccount = ReactiveCommand.Create(() =>
         {
             Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -104,6 +138,7 @@ namespace Tonvo.ViewModels
             {
                 if (!IsReg)
                 {
+                    
                     NameCompany = _initialCompany.NameCompany;
                     Email = _initialCompany.Email;
                     Phone = _initialCompany.PhoneNumber;
@@ -117,6 +152,7 @@ namespace Tonvo.ViewModels
             {
                 if (!IsReg)
                 {
+                    CurrentCompany = await _companyService.GetByIdAsync(int.Parse(System.Configuration.ConfigurationManager.AppSettings["UserID"]));
                     CurrentCompany.NameCompany = NameCompany;
                     CurrentCompany.Email = Email;
                     CurrentCompany.PhoneNumber = Phone;

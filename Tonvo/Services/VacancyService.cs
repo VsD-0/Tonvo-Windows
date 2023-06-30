@@ -53,5 +53,23 @@ namespace Tonvo.Services
                 _semaphoreSlim.Release();
             }
         }
+        async public Task AddVacancy(VacancyModel vacancyModel)
+        {
+            DateTime dt = DateTime.Now;
+            Vacancy vacancy = new Vacancy
+            {
+                Address = vacancyModel.Address,
+                CompanyId = vacancyModel.CompanyId,
+                DesiredExperience = vacancyModel.DesiredExperience,
+                Information = vacancyModel.Information,
+                PhoneNumber = vacancyModel.PhoneNumber,
+                ProfessionId = vacancyModel.ProfessionId,
+                Salary = vacancyModel.Salary,
+                Status = 1,
+                СreationDate = dt
+            };
+            await _context.Vacancies.AddAsync(vacancy);
+            await _context.SaveChangesAsync();
+        }
     }
 }

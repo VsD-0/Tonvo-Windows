@@ -39,7 +39,7 @@ namespace Tonvo.ViewModels
             get => _password;
             set
             {
-#if !DEBUG //TODO: Убрать "!" при демонстрации проекта в режиме DEBUG
+#if DEBUG //TODO: Убрать "!" при демонстрации проекта в режиме DEBUG
                 if (string.IsNullOrWhiteSpace(value)) throw new ArgumentException("Пароль не может быть пустым");
                 if (!value.Any(char.IsPunctuation)) throw new ArgumentException("Пароль должен содержать спецсимволы");
                 if (!value.Any(char.IsDigit)) throw new ArgumentException("Пароль должен содержать цифры");
@@ -150,6 +150,7 @@ namespace Tonvo.ViewModels
             {
                 if (!IsReg)
                 {
+                    CurrentApplicant = await _applicantService.GetByIdAsync(int.Parse(System.Configuration.ConfigurationManager.AppSettings["UserID"]));
                     CurrentApplicant.Name = Name;
                     CurrentApplicant.Surname = Surname;
                     CurrentApplicant.Patronymic = Patronymic;

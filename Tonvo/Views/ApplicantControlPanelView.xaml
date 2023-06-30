@@ -84,7 +84,7 @@
                                 materialDesign:ElevationAssist.Elevation="Dp4"
                                 Command="{Binding PrintApplicant}"/>
                         <Button Margin="5" 
-                                IsEnabled="False"
+                                IsEnabled="{Binding IsApplicant}"
                                 HorizontalAlignment="Stretch"
                                 Content="Откликнуться" 
                                 Style="{StaticResource MaterialDesignRaisedButton}"
@@ -94,6 +94,17 @@
                                 BorderThickness="0"
                                 materialDesign:ElevationAssist.Elevation="Dp4"
                                 Command="{Binding RespondApplicant}"/>
+                        <Button Margin="5" 
+                                IsEnabled="{Binding IsApplicant}"
+                                HorizontalAlignment="Stretch"
+                                Content="Отклики" 
+                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                materialDesign:ButtonAssist.CornerRadius="16"
+                                Background="{StaticResource Primary}"
+                                Foreground="{StaticResource OnSecondary}"
+                                BorderThickness="0"
+                                materialDesign:ElevationAssist.Elevation="Dp4"
+                                Command="{Binding BrowseRespondsCommand}"/>
                     </StackPanel>
                 </Grid>
             </Border>

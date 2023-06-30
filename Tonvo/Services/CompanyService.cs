@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using Tonvo.Models;
 
 namespace Tonvo.Services
@@ -35,6 +36,7 @@ namespace Tonvo.Services
                     Vacancies = new((await _vacancyService.GetList())
                                                         .Where(v => v.CompanyId == item.Id)
                                                         .ToList())
+                    
                 });
             }
             return _companies;
@@ -56,6 +58,19 @@ namespace Tonvo.Services
                                          .ToList())
             };
             return model;
+        }
+        public async Task RespondAddAsync(int applicantId)
+        {
+            DateTime dt = DateTime.Now;
+            Responder responder = new Responder
+            {
+                VacancyId = int.Parse(System.Configuration.ConfigurationManager.AppSettings["UserID"]),
+                ApplicantId = applicantId,
+                Status = "1",
+                RespondDate = dt
+            };
+            await _context.Responders.AddAsync(responder);
+            await _context.SaveChangesAsync();
         }
     }
 }
